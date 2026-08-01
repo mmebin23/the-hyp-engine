@@ -61,12 +61,18 @@
     flex-wrap:wrap; row-gap:6px;
     font-family:var(--mono);
     font-size:13px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
-    color:var(--off);
+    color:var(--off-dim);
     background:rgba(255,75,31,.08);
     border:1px solid var(--signal);
     padding:10px 18px;
     margin-bottom:24px;
   }
+  .hero-badge-main{
+    color:var(--signal);
+    font-size:15px;
+    letter-spacing:.04em;
+  }
+  .hero-badge-sub{ font-weight:500; }
   .hero-badge-dot{
     width:8px; height:8px; border-radius:50%;
     background:var(--signal); flex-shrink:0;
@@ -106,6 +112,7 @@
     padding-left:14px; margin-left:4px;
     white-space:nowrap;
   }
+  .logo-tag strong{ color:var(--signal); font-weight:700; }
   @keyframes pulse{ 0%,100%{ opacity:1; transform:scale(1);} 50%{ opacity:.4; transform:scale(.72);} }
 
   nav.links{ display:flex; gap:36px; }
@@ -257,6 +264,9 @@
     font-size:18px; line-height:1.6; color:var(--off-dim);
     max-width:520px; margin-bottom:36px;
   }
+  .hero p.lede .hl{
+    color:var(--off); font-weight:700;
+  }
   .hero-ctas{ display:flex; gap:16px; flex-wrap:wrap; align-items:center; }
 
   .channel-pills{
@@ -309,7 +319,17 @@
   .gauge-note{ font-family:var(--mono); font-size:11.5px; color:var(--off-dim); text-align:center; letter-spacing:.04em; }
   .gauge-hint{
     font-family:var(--mono); font-size:10.5px; color:var(--signal); text-align:center; letter-spacing:.06em;
-    text-transform:uppercase; opacity:.75;
+    text-transform:uppercase; opacity:.85;
+    display:flex; align-items:center; justify-content:center; gap:7px;
+  }
+  .hint-icon{
+    width:13px; height:13px; flex-shrink:0;
+    animation: spark-flicker 1.6s ease-in-out infinite;
+  }
+  @keyframes spark-flicker{
+    0%, 100%{ opacity:1; transform:scale(1); }
+    45%{ opacity:.55; transform:scale(.88); }
+    60%{ opacity:1; transform:scale(1.08); }
   }
 
   /* ---------- scroll reveal ---------- */
@@ -616,7 +636,7 @@
   <div class="wrap nav">
     <a href="#top" class="logo">
       <span class="dot"></span>THE HYP ENGINE
-      <span class="logo-tag">Media Agency · Performance Marketing</span>
+      <span class="logo-tag"><strong>Media Agency</strong> · Performance Marketing</span>
     </a>
     <nav class="links" id="navLinks">
       <a href="#services">Services</a>
@@ -659,10 +679,12 @@
       <div>
         <div class="hero-badge">
           <span class="hero-badge-dot"></span>
-          Media Agency <span class="hero-badge-sep">/</span> Performance Marketing
+          <span class="hero-badge-main">Media Agency</span>
+          <span class="hero-badge-sep">/</span>
+          <span class="hero-badge-sub">Performance Marketing</span>
         </div>
         <h1>Less <span class="strike">Hype.</span><br>All <span class="accent">Horsepower.</span></h1>
-        <p class="lede">The Hyp Engine is the media agency behind your SEO and paid campaigns across every platform that matters — Google, Meta, Apple, TikTok, Snapchat, LinkedIn — engineered around one output: pipeline. No 40-slide decks. No vanity dashboards. Just numbers that move.</p>
+        <p class="lede">The Hyp Engine is the <strong class="hl">media agency</strong> behind your SEO and paid campaigns across every platform that matters — Google, Meta, Apple, TikTok, Snapchat, LinkedIn — engineered around one output: pipeline. No 40-slide decks. No vanity dashboards. Just numbers that move.</p>
         <div class="hero-ctas">
           <a href="#contact" class="btn">Get A Free Audit</a>
           <a href="#services" class="btn ghost">See The Stack</a>
@@ -683,7 +705,12 @@
           </div>
         </div>
         <p class="gauge-note" id="gaugeNote">Measured across active accounts,<br>trailing 90 days</p>
-        <p class="gauge-hint">Tap the dial to rev it →</p>
+        <p class="gauge-hint">
+          <svg class="hint-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="13 2 3 14 11 14 9 22 21 9 13 9 13 2"></polygon>
+          </svg>
+          Tap the dial to rev it →
+        </p>
       </div>
     </div>
   </section>
@@ -959,11 +986,131 @@
   const gaugeNum = document.getElementById('gaugeNum');
   const gaugeNote = document.getElementById('gaugeNote');
   let reving = false;
+  let audioCtx = null;
+
+  function makeDistortionCurve(amount){
+    const k = amount;
+    const samples = 44100;
+    const curve = new Float32Array(samples);
+    const deg = Math.PI / 180;
+    for (let i = 0; i < samples; i++){
+      const x = (i * 2) / samples - 1;
+      curve[i] = ((3 + k) * x * 20 * deg) / (Math.PI + k * Math.abs(x));
+    }
+    return curve;
+  }
+
+  function makeNoiseBuffer(seconds){
+    const buffer = audioCtx.createBuffer(1, audioCtx.sampleRate * seconds, audioCtx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+    return buffer;
+  }
+
+  function playRevSound(){
+    try{
+      if (!audioCtx){
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      const now = audioCtx.currentTime;
+      const dur = 1.15;
+      const peakT = 0.42;
+
+      // master bus with growl distortion, feeding a moving low-pass for the "opening throttle" sweep
+      const master = audioCtx.createGain();
+      master.gain.setValueAtTime(0.0001, now);
+      master.gain.exponentialRampToValueAtTime(0.32, now + 0.12);
+      master.gain.exponentialRampToValueAtTime(0.26, now + peakT + 0.05);
+      master.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+      master.connect(audioCtx.destination);
+
+      const drive = audioCtx.createWaveShaper();
+      drive.curve = makeDistortionCurve(26);
+      drive.oversample = '2x';
+
+      const toneFilter = audioCtx.createBiquadFilter();
+      toneFilter.type = 'lowpass';
+      toneFilter.frequency.setValueAtTime(650, now);
+      toneFilter.frequency.linearRampToValueAtTime(3600, now + peakT);
+      toneFilter.frequency.linearRampToValueAtTime(850, now + dur);
+      toneFilter.Q.value = 0.9;
+
+      drive.connect(toneFilter);
+      toneFilter.connect(master);
+
+      // sub-bass rumble — the low-end thump of a V8 block
+      const sub = audioCtx.createOscillator();
+      sub.type = 'sine';
+      sub.frequency.setValueAtTime(42, now);
+      sub.frequency.linearRampToValueAtTime(145, now + peakT);
+      sub.frequency.linearRampToValueAtTime(55, now + dur);
+      const subGain = audioCtx.createGain();
+      subGain.gain.value = 0.55;
+      sub.connect(subGain);
+      subGain.connect(master);
+      sub.start(now);
+      sub.stop(now + dur + 0.05);
+
+      // four detuned "cylinder" oscillators through the growl distortion — gives the layered V8 roar
+      [-8, -3, 3, 8].forEach((det) => {
+        const osc = audioCtx.createOscillator();
+        osc.type = 'sawtooth';
+        osc.detune.value = det;
+        osc.frequency.setValueAtTime(58, now);
+        osc.frequency.linearRampToValueAtTime(232, now + peakT);
+        osc.frequency.linearRampToValueAtTime(92, now + dur);
+        osc.connect(drive);
+        osc.start(now);
+        osc.stop(now + dur + 0.05);
+      });
+
+      // spark/backfire crackle right as it hits redline
+      const noiseBuffer = makeNoiseBuffer(0.25);
+      const spark1 = audioCtx.createBufferSource();
+      spark1.buffer = noiseBuffer;
+      const sparkFilter1 = audioCtx.createBiquadFilter();
+      sparkFilter1.type = 'bandpass';
+      sparkFilter1.frequency.value = 4500;
+      sparkFilter1.Q.value = 1.1;
+      const sparkGain1 = audioCtx.createGain();
+      sparkGain1.gain.setValueAtTime(0.0001, now + peakT - 0.02);
+      sparkGain1.gain.exponentialRampToValueAtTime(0.3, now + peakT + 0.01);
+      sparkGain1.gain.exponentialRampToValueAtTime(0.0001, now + peakT + 0.2);
+      spark1.connect(sparkFilter1);
+      sparkFilter1.connect(sparkGain1);
+      sparkGain1.connect(master);
+      spark1.start(now + peakT - 0.02);
+      spark1.stop(now + peakT + 0.22);
+
+      // a second, smaller crackle as it settles — extra spark for flavor
+      const spark2 = audioCtx.createBufferSource();
+      spark2.buffer = noiseBuffer;
+      const sparkFilter2 = audioCtx.createBiquadFilter();
+      sparkFilter2.type = 'bandpass';
+      sparkFilter2.frequency.value = 6200;
+      sparkFilter2.Q.value = 1.4;
+      const sparkGain2 = audioCtx.createGain();
+      const crackleT = peakT + 0.3;
+      sparkGain2.gain.setValueAtTime(0.0001, now + crackleT - 0.01);
+      sparkGain2.gain.exponentialRampToValueAtTime(0.16, now + crackleT + 0.005);
+      sparkGain2.gain.exponentialRampToValueAtTime(0.0001, now + crackleT + 0.14);
+      spark2.connect(sparkFilter2);
+      sparkFilter2.connect(sparkGain2);
+      sparkGain2.connect(master);
+      spark2.start(now + crackleT - 0.01);
+      spark2.stop(now + crackleT + 0.16);
+    } catch(e){
+      /* Web Audio unavailable — fail silently, visual rev still works */
+    }
+  }
 
   function revGauge(){
     if (reving) return;
     reving = true;
     gaugeWrap.classList.add('revving');
+    playRevSound();
 
     const startVal = 4.8;
     const peakVal = 7.9 + Math.random() * 1.4;
