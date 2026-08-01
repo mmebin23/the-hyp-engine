@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Hyp Engine — Performance Marketing, No Bullshit</title>
+<title>The Hyp Engine — Media Agency for SEO, Google, Meta &amp; Social Ads</title>
+<meta name="description" content="The Hyp Engine is a performance media agency running SEO, Google Ads, Meta Ads, Apple Search Ads, TikTok, Snapchat and LinkedIn campaigns — built around revenue, not vanity metrics.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -143,6 +144,15 @@
     overflow:hidden;
     border-bottom:1px solid rgba(0,0,0,.15);
   }
+  .progress-track{
+    position:absolute; left:0; right:0; bottom:0; height:3px;
+    background:rgba(0,0,0,.25);
+  }
+  .progress-fill{
+    height:100%; width:0%;
+    background:var(--rev);
+    transition:width .1s linear;
+  }
   .ticker-track{
     display:flex; white-space:nowrap;
     animation: scroll-left 32s linear infinite;
@@ -221,6 +231,21 @@
     max-width:520px; margin-bottom:36px;
   }
   .hero-ctas{ display:flex; gap:16px; flex-wrap:wrap; align-items:center; }
+
+  .channel-pills{
+    display:flex; flex-wrap:wrap; gap:10px;
+    list-style:none; margin-top:32px;
+  }
+  .channel-pills li{
+    font-family:var(--mono); font-size:11px; letter-spacing:.05em; text-transform:uppercase;
+    color:var(--off-dim);
+    border:1px solid var(--steel-dim);
+    padding:8px 14px;
+    transition:border-color .2s, color .2s, transform .2s;
+  }
+  .channel-pills li:hover{
+    border-color:var(--signal); color:var(--off); transform:translateY(-2px);
+  }
 
   .hero-side{ display:flex; flex-direction:column; align-items:center; gap:18px; }
   .gauge-wrap{
@@ -335,6 +360,50 @@
   }
   .panel.more h3{ color:var(--off-dim); font-weight:500; font-size:14px; }
 
+  /* ================= CALCULATOR ================= */
+  .calculator{ padding:100px 0; border-bottom:1px solid var(--steel-dim); }
+  .calculator h2{ font-family:var(--display); font-size:clamp(32px,4vw,48px); text-transform:uppercase; margin-top:16px; }
+  .calculator .sub{ color:var(--off-dim); max-width:480px; font-size:14.5px; line-height:1.6; margin-top:14px; margin-bottom:48px; }
+
+  .calc-panel{
+    display:grid; grid-template-columns:1.2fr auto 1fr;
+    align-items:center; gap:48px;
+    background:var(--panel);
+    border:1px solid var(--steel-dim);
+    padding:48px;
+  }
+  .calc-divider{ width:1px; align-self:stretch; background:var(--steel-dim); }
+  .calc-input label{
+    font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--off-dim);
+    display:block; margin-bottom:20px;
+  }
+  .calc-input input[type="range"]{
+    -webkit-appearance:none; appearance:none;
+    width:100%; height:3px; background:var(--steel);
+    outline:none; margin-bottom:24px;
+  }
+  .calc-input input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none;
+    width:20px; height:20px; border-radius:50%;
+    background:var(--signal);
+    box-shadow:0 0 0 4px rgba(255,75,31,.2);
+    cursor:pointer;
+    transition:transform .15s ease;
+  }
+  .calc-input input[type="range"]::-webkit-slider-thumb:hover{ transform:scale(1.15); }
+  .calc-input input[type="range"]::-moz-range-thumb{
+    width:20px; height:20px; border-radius:50%; border:none;
+    background:var(--signal);
+    box-shadow:0 0 0 4px rgba(255,75,31,.2);
+    cursor:pointer;
+  }
+  .calc-value{ font-family:var(--display); font-size:36px; color:var(--off); }
+  .calc-output{ display:flex; flex-direction:column; }
+  .calc-output-label{ font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--off-dim); margin-bottom:14px; }
+  .calc-output-num{ font-family:var(--display); font-size:48px; color:var(--rev); text-shadow:0 0 24px rgba(255,199,0,.35); line-height:1; }
+  .calc-output-sub{ font-family:var(--mono); font-size:11.5px; color:var(--off-dim); margin-top:12px; }
+  .calc-disclaimer{ font-family:var(--mono); font-size:11px; color:var(--off-dim); opacity:.7; max-width:640px; margin:24px 0 32px; line-height:1.6; }
+
   /* ================= PROCESS ================= */
   .process{ padding:100px 0; border-bottom:1px solid var(--steel-dim); }
   .process-track{
@@ -371,6 +440,30 @@
   }
   .mini-gauge .lbl{ font-family:var(--mono); font-size:11px; color:var(--off-dim); letter-spacing:.06em; text-transform:uppercase; max-width:150px; }
 
+  /* ================= FAQ ================= */
+  .faq{ padding:100px 0; border-bottom:1px solid var(--steel-dim); }
+  .faq h2{ font-family:var(--display); font-size:clamp(32px,4vw,48px); text-transform:uppercase; margin-top:16px; margin-bottom:48px; }
+  .faq-list{ border-top:1px solid var(--steel-dim); }
+  .faq-item{ border-bottom:1px solid var(--steel-dim); }
+  .faq-q{
+    width:100%; display:flex; justify-content:space-between; align-items:center; gap:24px;
+    padding:26px 4px; text-align:left;
+    font-family:var(--body); font-weight:600; font-size:17px; color:var(--off);
+  }
+  .faq-q:hover{ color:var(--signal); }
+  .faq-icon{
+    font-family:var(--mono); font-size:20px; color:var(--signal); flex-shrink:0;
+    transition:transform .25s ease;
+  }
+  .faq-q[aria-expanded="true"] .faq-icon{ transform:rotate(45deg); }
+  .faq-a{
+    max-height:0; overflow:hidden;
+    transition:max-height .32s ease;
+  }
+  .faq-a p{
+    color:var(--off-dim); font-size:14.5px; line-height:1.7; padding:0 4px 26px; max-width:640px;
+  }
+
   /* ================= CTA ================= */
   .cta{ padding:130px 0; text-align:center; position:relative; overflow:hidden; }
   .cta-glow{
@@ -400,6 +493,36 @@
     border-top:1px solid var(--steel-dim); padding-top:24px;
   }
 
+  /* ================= FLOATING UI ================= */
+  .float-cta{
+    position:fixed; right:28px; bottom:28px; z-index:90;
+    display:flex; align-items:center; gap:10px;
+    background:var(--signal); color:var(--black);
+    font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+    padding:14px 20px;
+    box-shadow:0 8px 24px rgba(0,0,0,.4);
+    opacity:0; transform:translateY(16px); pointer-events:none;
+    transition:opacity .3s ease, transform .3s ease, background .2s;
+  }
+  .float-cta.visible{ opacity:1; transform:translateY(0); pointer-events:auto; }
+  .float-cta:hover{ background:var(--rev); }
+  .float-cta .dot{
+    width:7px; height:7px; border-radius:50%; background:var(--black);
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  .back-to-top{
+    position:fixed; right:28px; bottom:88px; z-index:90;
+    width:40px; height:40px;
+    border:1px solid var(--steel);
+    background:var(--black); color:var(--off);
+    font-size:16px;
+    display:flex; align-items:center; justify-content:center;
+    opacity:0; transform:translateY(16px); pointer-events:none;
+    transition:opacity .3s ease, transform .3s ease, border-color .2s;
+  }
+  .back-to-top.visible{ opacity:1; transform:translateY(0); pointer-events:auto; }
+  .back-to-top:hover{ border-color:var(--signal); color:var(--signal); }
+
   /* ================= RESPONSIVE ================= */
   @media (max-width:960px){
     .menu-toggle{ display:flex; }
@@ -412,9 +535,9 @@
       max-height:0; overflow:hidden;
       transition:max-height .32s ease;
     }
-    nav.links.open{ max-height:320px; }
+    nav.links.open{ max-height:420px; }
     nav.links a{
-      padding:18px 32px; border-top:1px solid var(--steel-dim);
+      padding:16px 32px; border-top:1px solid var(--steel-dim);
       font-size:13px;
     }
     .mobile-cta{
@@ -433,10 +556,12 @@
     .foot-grid{ grid-template-columns:1fr 1fr; }
 
     .hero{ padding:56px 0 64px; }
-    .manifesto, .services, .process, .results{ padding:64px 0; }
+    .manifesto, .services, .process, .results, .calculator, .faq{ padding:64px 0; }
     .cta{ padding:80px 0; }
     .section-head{ margin-bottom:32px; }
     .manifesto-head{ margin-bottom:36px; }
+    .calc-panel{ grid-template-columns:1fr; padding:32px 24px; gap:32px; }
+    .calc-divider{ width:100%; height:1px; }
   }
   @media (max-width:560px){
     .wrap{ padding:0 20px; }
@@ -448,6 +573,9 @@
     .gauge-wrap{ width:220px; height:220px; }
     .process-track{ row-gap:36px; }
     .foot-bottom{ flex-direction:column; align-items:flex-start; }
+    .calc-output-num{ font-size:36px; }
+    .float-cta{ right:16px; bottom:16px; padding:12px 16px; font-size:11px; }
+    .back-to-top{ right:16px; bottom:70px; width:36px; height:36px; }
   }
 </style>
 </head>
@@ -458,8 +586,10 @@
     <a href="#top" class="logo"><span class="dot"></span>THE HYP ENGINE</a>
     <nav class="links" id="navLinks">
       <a href="#services">Services</a>
+      <a href="#calculator">Calculator</a>
       <a href="#process">Process</a>
       <a href="#results">Results</a>
+      <a href="#faq">FAQ</a>
       <a href="#contact">Contact</a>
       <a href="#contact" class="mobile-cta">Start The Audit →</a>
     </nav>
@@ -483,6 +613,7 @@
     <span>Apple Search Ads · TikTok · Snapchat · LinkedIn</span>
     <span>Zero fluff reporting</span>
   </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
 </div>
 
 <main id="top">
@@ -492,13 +623,16 @@
     <div class="hero-grid-bg" aria-hidden="true"></div>
     <div class="wrap hero-inner">
       <div>
-        <p class="eyebrow">Performance Marketing Agency</p>
+        <p class="eyebrow">Media Agency · Performance Marketing</p>
         <h1>Less <span class="strike">Hype.</span><br>All <span class="accent">Horsepower.</span></h1>
-        <p class="lede">The Hyp Engine runs SEO and paid media across every platform that matters — Google, Meta, Apple, TikTok, Snapchat, LinkedIn — engineered around one output: pipeline. No 40-slide decks. No vanity dashboards. Just numbers that move.</p>
+        <p class="lede">The Hyp Engine is the media agency behind your SEO and paid campaigns across every platform that matters — Google, Meta, Apple, TikTok, Snapchat, LinkedIn — engineered around one output: pipeline. No 40-slide decks. No vanity dashboards. Just numbers that move.</p>
         <div class="hero-ctas">
           <a href="#contact" class="btn">Get A Free Audit</a>
           <a href="#services" class="btn ghost">See The Stack</a>
         </div>
+        <ul class="channel-pills" aria-label="Channels we run">
+          <li>SEO</li><li>Google Ads</li><li>Meta Ads</li><li>Apple Search Ads</li><li>TikTok Ads</li><li>Snapchat Ads</li><li>LinkedIn Ads</li>
+        </ul>
       </div>
       <div class="hero-side">
         <div class="gauge-wrap" id="gaugeWrap" role="button" tabindex="0" aria-label="Rev the engine">
@@ -564,6 +698,30 @@
         <div class="panel"><div><span class="idx">CH.07</span><div class="switch"></div></div><div><h3>LinkedIn Ads</h3><span class="tag">B2B &amp; Enterprise</span></div></div>
         <div class="panel more"><h3>+ Programmatic, CRO, Marketing Automation &amp; more — ask us.</h3></div>
       </div>
+    </div>
+  </section>
+
+  <!-- CALCULATOR -->
+  <section class="calculator" id="calculator">
+    <div class="wrap">
+      <p class="eyebrow">Try It Yourself</p>
+      <h2>What's your engine idling at?</h2>
+      <p class="sub">Drag the slider to your monthly ad spend and see what it could be producing when it's actually tuned.</p>
+      <div class="calc-panel">
+        <div class="calc-input">
+          <label for="spendSlider">Monthly ad spend</label>
+          <input type="range" id="spendSlider" min="1000" max="100000" step="500" value="10000" aria-describedby="spendValue">
+          <div class="calc-value" id="spendValue">$10,000</div>
+        </div>
+        <div class="calc-divider" aria-hidden="true"></div>
+        <div class="calc-output">
+          <span class="calc-output-label">Potential Monthly Revenue*</span>
+          <span class="calc-output-num" id="calcOutput">$48,000</span>
+          <span class="calc-output-sub">at our average 4.8x ROAS</span>
+        </div>
+      </div>
+      <p class="calc-disclaimer">*Illustrative estimate based on average client performance across active accounts. Actual results vary by industry, funnel and starting point — this isn't a guarantee, it's a reason to talk.</p>
+      <a href="#contact" class="btn">Get My Real Number →</a>
     </div>
   </section>
 
@@ -642,6 +800,51 @@
     </div>
   </section>
 
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+    <div class="wrap">
+      <p class="eyebrow">Questions, Answered</p>
+      <h2>Before you ask, we'll tell you.</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            <span>What exactly does a media agency do for my business?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-a"><p>We plan, launch and manage your paid advertising and organic search presence — the media budget you'd otherwise spend guessing on. That means writing the strategy, building the campaigns, managing the spend across platforms, and reporting back in numbers tied to revenue.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            <span>Which businesses do you work with?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-a"><p>Mostly growth-stage brands — D2C, SaaS, apps and B2B companies — that already have a working product and want acquisition run properly across search and social rather than in-house guesswork.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            <span>Do I need to use all seven ad channels?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-a"><p>No. The audit tells us where your buyers actually are. Some businesses run on two channels, some run on five. We'd rather run less, well, than spread you thin for the sake of a bigger invoice.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            <span>How fast will I see results?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-a"><p>Paid channels typically show early signal within the first two to four weeks as we test creative and targeting. SEO is slower by nature — expect meaningful movement in month two to three, compounding from there.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            <span>What's the minimum commitment?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-a"><p>We work month to month. No lock-in contracts. If the numbers stop working for you, you're free to walk — that's the whole point of being judged on results.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section class="cta" id="contact">
     <div class="cta-glow" aria-hidden="true"></div>
@@ -688,6 +891,11 @@
     </div>
   </div>
 </footer>
+
+<a href="#contact" class="float-cta" id="floatCta">
+  <span class="dot"></span> Free Audit
+</a>
+<button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
 <script>
   const menuToggle = document.getElementById('menuToggle');
@@ -787,7 +995,7 @@
   }
 
   /* ---- Scroll reveal ---- */
-  const revealTargets = document.querySelectorAll('.manifesto-card, .panel, .stage, .mini-gauge');
+  const revealTargets = document.querySelectorAll('.manifesto-card, .panel, .stage, .mini-gauge, .calc-panel, .faq-item');
   if (!reduceMotion && 'IntersectionObserver' in window){
     revealTargets.forEach(el => el.classList.add('reveal'));
     const io = new IntersectionObserver((entries) => {
@@ -800,6 +1008,69 @@
     }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
     revealTargets.forEach(el => io.observe(el));
   }
+
+  /* ---- Scroll progress bar + floating UI visibility ---- */
+  const progressFill = document.getElementById('progressFill');
+  const floatCta = document.getElementById('floatCta');
+  const backToTop = document.getElementById('backToTop');
+  const heroEl = document.querySelector('.hero');
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    if (progressFill) progressFill.style.width = pct + '%';
+
+    const heroBottom = heroEl ? heroEl.offsetTop + heroEl.offsetHeight : 400;
+    const pastHero = scrollTop > heroBottom;
+    if (floatCta) floatCta.classList.toggle('visible', pastHero);
+    if (backToTop) backToTop.classList.toggle('visible', scrollTop > 600);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+  });
+
+  /* ---- ROI calculator ---- */
+  const spendSlider = document.getElementById('spendSlider');
+  const spendValue = document.getElementById('spendValue');
+  const calcOutput = document.getElementById('calcOutput');
+  const ROAS = 4.8;
+
+  function formatMoney(n){
+    return '$' + Math.round(n).toLocaleString('en-US');
+  }
+
+  function updateCalc(){
+    const spend = Number(spendSlider.value);
+    spendValue.textContent = formatMoney(spend);
+    calcOutput.textContent = formatMoney(spend * ROAS);
+  }
+  if (spendSlider){
+    spendSlider.addEventListener('input', updateCalc);
+    updateCalc();
+  }
+
+  /* ---- FAQ accordion ---- */
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const answer = item.querySelector('.faq-a');
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+      document.querySelectorAll('.faq-q').forEach(other => {
+        if (other !== btn){
+          other.setAttribute('aria-expanded', 'false');
+          other.parentElement.querySelector('.faq-a').style.maxHeight = null;
+        }
+      });
+
+      btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+      answer.style.maxHeight = isOpen ? null : answer.scrollHeight + 'px';
+    });
+  });
 </script>
 </body>
 </html>
