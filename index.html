@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Hyp Engine — Media Agency for SEO, Google, Meta &amp; Social Ads</title>
 <meta name="description" content="The Hyp Engine is a performance media agency running SEO, Google Ads, Meta Ads, Apple Search Ads, TikTok, Snapchat and LinkedIn campaigns — built around revenue, not vanity metrics.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='19' fill='%230A0A0B'/%3E%3Ccircle cx='20' cy='20' r='15.5' fill='none' stroke='%233A3D42' stroke-width='3'/%3E%3Ccircle cx='20' cy='20' r='15.5' fill='none' stroke='%23FF4B1F' stroke-width='3' stroke-linecap='round' stroke-dasharray='97.4' stroke-dashoffset='20' transform='rotate(-90 20 20)'/%3E%3Cline x1='20' y1='20' x2='29' y2='11.5' stroke='%23FFC700' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='20' cy='20' r='3.4' fill='%23FF4B1F'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -104,6 +105,24 @@
     box-shadow:0 0 12px 2px var(--signal);
     animation: pulse 1.8s ease-in-out infinite;
   }
+  .logo-mark{
+    width:30px; height:30px; flex-shrink:0;
+    transition:transform .3s ease;
+  }
+  .logo-mark-track{ stroke:var(--steel); }
+  .logo-mark-arc{
+    stroke:var(--signal);
+    filter:drop-shadow(0 0 4px rgba(255,75,31,.5));
+  }
+  .logo-mark-needle{ stroke:var(--rev); transition:stroke .2s ease; }
+  .logo-mark-core{
+    fill:var(--signal);
+    animation: pulse 1.8s ease-in-out infinite;
+    transform-box:fill-box;
+    transform-origin:center;
+  }
+  .logo:hover .logo-mark{ transform:rotate(18deg) scale(1.06); }
+  .logo:hover .logo-mark-needle{ stroke:var(--signal); }
   .logo-tag{
     font-family:var(--mono);
     font-size:10.5px; font-weight:500; letter-spacing:.06em; text-transform:uppercase;
@@ -337,7 +356,7 @@
   .reveal-in{ opacity:1; transform:translateY(0); }
 
   @media (prefers-reduced-motion: reduce){
-    .logo .dot, .ticker-track, .gauge-fg{ animation:none !important; }
+    .logo .dot, .logo-mark-core, .ticker-track, .gauge-fg{ animation:none !important; }
     .gauge-fg{ stroke-dashoffset:150; }
   }
 
@@ -529,7 +548,10 @@
   /* ================= FOOTER ================= */
   footer{ border-top:1px solid var(--steel-dim); padding:56px 0 32px; }
   .foot-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; margin-bottom:56px; }
-  .foot-logo{ font-family:var(--display); font-size:18px; margin-bottom:14px; }
+  .foot-logo{
+    font-family:var(--display); font-size:18px; margin-bottom:14px;
+    display:flex; align-items:center; gap:10px;
+  }
   .foot-grid p{ color:var(--off-dim); font-size:13.5px; line-height:1.6; max-width:280px; }
   .foot-col h4{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--off-dim); margin-bottom:16px; }
   .foot-col a{ display:block; font-size:14px; color:var(--off); margin-bottom:10px; opacity:.85; transition:opacity .2s; }
@@ -616,6 +638,7 @@
   @media (max-width:560px){
     .wrap{ padding:0 20px; }
     .logo{ font-size:16px; }
+    .logo-mark{ width:24px; height:24px; }
     .ticker-track span{ font-size:11px; padding:0 16px; }
     .panel-grid{ grid-template-columns:1fr; }
     .results-grid{ grid-template-columns:1fr; }
@@ -635,7 +658,14 @@
 <header>
   <div class="wrap nav">
     <a href="#top" class="logo">
-      <span class="dot"></span>THE HYP ENGINE
+      <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true">
+        <circle class="logo-mark-track" cx="20" cy="20" r="15.5" fill="none" stroke-width="3"></circle>
+        <circle class="logo-mark-arc" cx="20" cy="20" r="15.5" fill="none" stroke-width="3" stroke-linecap="round"
+          stroke-dasharray="97.4" stroke-dashoffset="20" transform="rotate(-90 20 20)"></circle>
+        <line class="logo-mark-needle" x1="20" y1="20" x2="29" y2="11.5" stroke-width="2.4" stroke-linecap="round"></line>
+        <circle class="logo-mark-core" cx="20" cy="20" r="3.4"></circle>
+      </svg>
+      THE HYP ENGINE
       <span class="logo-tag"><strong>Media Agency</strong> · Performance Marketing</span>
     </a>
     <nav class="links" id="navLinks">
@@ -926,7 +956,16 @@
   <div class="wrap">
     <div class="foot-grid">
       <div>
-        <div class="foot-logo">THE HYP ENGINE</div>
+        <div class="foot-logo">
+          <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true">
+            <circle class="logo-mark-track" cx="20" cy="20" r="15.5" fill="none" stroke-width="3"></circle>
+            <circle class="logo-mark-arc" cx="20" cy="20" r="15.5" fill="none" stroke-width="3" stroke-linecap="round"
+              stroke-dasharray="97.4" stroke-dashoffset="20" transform="rotate(-90 20 20)"></circle>
+            <line class="logo-mark-needle" x1="20" y1="20" x2="29" y2="11.5" stroke-width="2.4" stroke-linecap="round"></line>
+            <circle class="logo-mark-core" cx="20" cy="20" r="3.4"></circle>
+          </svg>
+          THE HYP ENGINE
+        </div>
         <p>A performance marketing agency built for brands that want revenue, not applause. SEO and paid media, run like an engine — tuned, tested, and always accelerating.</p>
       </div>
       <div class="foot-col">
