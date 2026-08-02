@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Hyp Engine — Media Agency for SEO, Google, Meta &amp; Social Ads</title>
 <meta name="description" content="The Hyp Engine is a performance media agency running SEO, Google Ads, Meta Ads, Apple Search Ads, TikTok, Snapchat and LinkedIn campaigns — built around revenue, not vanity metrics.">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='19' fill='%230A0A0B'/%3E%3Ccircle cx='20' cy='20' r='15.5' fill='none' stroke='%233A3D42' stroke-width='3'/%3E%3Ccircle cx='20' cy='20' r='15.5' fill='none' stroke='%23FF4B1F' stroke-width='3' stroke-linecap='round' stroke-dasharray='97.4' stroke-dashoffset='20' transform='rotate(-90 20 20)'/%3E%3Cline x1='20' y1='20' x2='29' y2='11.5' stroke='%23FFC700' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='20' cy='20' r='3.4' fill='%23FF4B1F'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpolygon points='20 1 36.7 10.5 36.7 29.5 20 39 3.3 29.5 3.3 10.5' fill='%230A0A0B'/%3E%3Cpolygon points='23 6 11 21 18 21 15 34 29 17 21 17 23 6' fill='%23FFC700'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -36,6 +36,24 @@
   }
   ::selection{ background:var(--signal); color:var(--black); }
 
+  .cursor-spotlight{
+    position:fixed; inset:0; z-index:60;
+    pointer-events:none;
+    opacity:0;
+    background:radial-gradient(110px circle at var(--x,50%) var(--y,50%),
+      rgba(255,255,255,.4) 0%,
+      rgba(255,220,60,.55) 8%,
+      rgba(255,140,20,.36) 26%,
+      rgba(255,75,31,.14) 45%,
+      transparent 65%);
+    mix-blend-mode:screen;
+    transition:opacity .4s ease;
+  }
+  .cursor-spotlight.active{ opacity:1; }
+  @media (prefers-reduced-motion: reduce), (hover:none){
+    .cursor-spotlight{ display:none; }
+  }
+
   a{ color:inherit; text-decoration:none; }
   button{ font-family:inherit; cursor:pointer; border:none; background:none; color:inherit; }
 
@@ -55,6 +73,24 @@
   .eyebrow::before{
     content:"";
     width:18px; height:1px; background:var(--signal);
+  }
+
+  /* ---------- spotlight-hover utility ---------- */
+  .spot-hover{ position:relative; }
+  .spot-hover::before{
+    content:"";
+    position:absolute; inset:0;
+    background:radial-gradient(150px circle at var(--mx,50%) var(--my,50%),
+      rgba(255,199,0,.20), rgba(255,75,31,.12) 45%, transparent 70%);
+    opacity:0;
+    transition:opacity .3s ease;
+    pointer-events:none;
+    z-index:0;
+  }
+  .spot-hover:hover::before{ opacity:1; }
+  .spot-hover > *{ position:relative; z-index:1; }
+  @media (prefers-reduced-motion: reduce), (hover:none){
+    .spot-hover::before{ display:none; }
   }
 
   .hero-badge{
@@ -109,20 +145,65 @@
     width:30px; height:30px; flex-shrink:0;
     transition:transform .3s ease;
   }
-  .logo-mark-track{ stroke:var(--steel); }
-  .logo-mark-arc{
-    stroke:var(--signal);
-    filter:drop-shadow(0 0 4px rgba(255,75,31,.5));
+  .logo-mark-ring{
+    stroke:var(--rev);
+    opacity:.4;
+    transform-box:fill-box;
+    transform-origin:center;
+    animation: mark-spin 7s linear infinite;
   }
-  .logo-mark-needle{ stroke:var(--rev); transition:stroke .2s ease; }
-  .logo-mark-core{
-    fill:var(--signal);
-    animation: pulse 1.8s ease-in-out infinite;
+  .logo-mark-particles circle{
+    fill:var(--rev);
+    opacity:0;
     transform-box:fill-box;
     transform-origin:center;
   }
-  .logo:hover .logo-mark{ transform:rotate(18deg) scale(1.06); }
-  .logo:hover .logo-mark-needle{ stroke:var(--signal); }
+  .logo-mark-particles circle:nth-child(1){ animation:particle-idle 4s ease-in-out infinite; }
+  .logo-mark-particles circle:nth-child(3){ animation:particle-idle 4s ease-in-out infinite 2s; }
+  .logo-mark-bolt-shadow{
+    fill:var(--signal-dim);
+    opacity:.6;
+  }
+  .logo-mark-bolt{
+    transform-box:fill-box;
+    transform-origin:center;
+    animation: bolt-shimmer 4s ease-in-out infinite;
+  }
+  @keyframes mark-spin{
+    from{ transform:rotate(0deg); }
+    to{ transform:rotate(360deg); }
+  }
+  @keyframes particle-idle{
+    0%, 100%{ opacity:0; transform:scale(.4); }
+    50%{ opacity:.7; transform:scale(1); }
+  }
+  @keyframes bolt-shimmer{
+    0%, 100%{ filter:drop-shadow(0 0 6px rgba(255,199,0,.55)); transform:scale(1); }
+    50%{ filter:drop-shadow(0 0 11px rgba(255,120,30,.7)); transform:scale(1.045); }
+  }
+  .logo:hover .logo-mark{
+    transform:rotate(-12deg) scale(1.22);
+    transition:transform .45s cubic-bezier(.34,1.56,.64,1);
+  }
+  .logo:hover .logo-mark-ring{ opacity:.9; animation-duration:1.6s; stroke:var(--signal); }
+  .logo:hover .logo-mark-bolt{ animation:bolt-zap .6s ease-in-out; }
+  .logo:hover .logo-mark-particles circle{ animation:particle-burst .7s ease-out; }
+  .logo:hover .logo-mark-particles circle:nth-child(2){ animation-delay:.05s; }
+  .logo:hover .logo-mark-particles circle:nth-child(3){ animation-delay:.1s; }
+  .logo:hover .logo-mark-particles circle:nth-child(4){ animation-delay:.15s; }
+  .logo:hover .logo-mark-particles circle:nth-child(5){ animation-delay:.08s; }
+  .logo:hover .logo-mark-particles circle:nth-child(6){ animation-delay:.18s; }
+  @keyframes particle-burst{
+    0%{ opacity:0; transform:scale(.2); }
+    35%{ opacity:1; transform:scale(1.6); }
+    100%{ opacity:0; transform:scale(.5); }
+  }
+  @keyframes bolt-zap{
+    0%, 100%{ filter:drop-shadow(0 0 6px rgba(255,199,0,.55)); transform:scale(1); }
+    25%{ filter:drop-shadow(0 0 16px rgba(255,199,0,1)); transform:scale(1.16) rotate(4deg); }
+    50%{ filter:drop-shadow(0 0 3px rgba(255,199,0,.3)); transform:scale(.94) rotate(-3deg); }
+    75%{ filter:drop-shadow(0 0 16px rgba(255,199,0,1)); transform:scale(1.12) rotate(2deg); }
+  }
   .logo-tag{
     font-family:var(--mono);
     font-size:10.5px; font-weight:500; letter-spacing:.06em; text-transform:uppercase;
@@ -140,7 +221,15 @@
     color:var(--off-dim); transition:color .2s;
     position:relative;
   }
+  nav.links a::after{
+    content:"";
+    position:absolute; left:0; right:100%; bottom:-6px; height:2px;
+    background:var(--signal);
+    box-shadow:0 0 8px rgba(255,75,31,.7);
+    transition:right .25s ease;
+  }
   nav.links a:hover{ color:var(--off); }
+  nav.links a:hover::after{ right:0; }
 
   .menu-toggle{
     display:none;
@@ -171,7 +260,7 @@
     color:var(--off);
     position:relative;
     overflow:hidden;
-    transition:color .25s;
+    transition:color .25s, transform .25s ease, box-shadow .25s ease;
     display:inline-flex; align-items:center; gap:8px;
   }
   .btn::before{
@@ -183,9 +272,13 @@
     z-index:-1;
   }
   .btn:hover::before{ transform:translateX(0); }
-  .btn:hover{ color:var(--black); }
+  .btn:hover{
+    color:var(--black);
+    transform:translateY(-3px);
+    box-shadow:0 10px 24px rgba(255,75,31,.35);
+  }
   .btn.ghost{ border-color:var(--steel); }
-  .btn.ghost:hover{ color:var(--off); }
+  .btn.ghost:hover{ color:var(--off); box-shadow:0 10px 24px rgba(0,0,0,.4); }
   .btn.ghost::before{ background:var(--steel-dim); }
 
   /* ================= TICKER ================= */
@@ -297,10 +390,12 @@
     color:var(--off-dim);
     border:1px solid var(--steel-dim);
     padding:8px 14px;
-    transition:border-color .2s, color .2s, transform .2s;
+    transition:border-color .2s, color .2s, transform .2s, background .2s, box-shadow .2s;
   }
   .channel-pills li:hover{
-    border-color:var(--signal); color:var(--off); transform:translateY(-2px);
+    border-color:var(--signal); color:var(--off); transform:translateY(-3px) scale(1.05);
+    background:rgba(255,75,31,.1);
+    box-shadow:0 8px 18px rgba(255,75,31,.25);
   }
 
   .hero-side{ display:flex; flex-direction:column; align-items:center; gap:18px; }
@@ -311,7 +406,39 @@
   }
   .gauge-wrap:hover{ transform:scale(1.02); }
   .gauge-wrap:active{ transform:scale(.97); }
-  .gauge-wrap.revving .gauge-fg{ stroke:var(--rev); filter:drop-shadow(0 0 14px rgba(255,199,0,.7)); }
+  .gauge-blaze{
+    position:absolute; inset:-55px;
+    border-radius:50%;
+    background:radial-gradient(circle,
+      rgba(255,255,255,.5) 0%,
+      rgba(255,230,120,.6) 14%,
+      rgba(255,199,0,.45) 30%,
+      rgba(255,90,20,.32) 50%,
+      transparent 74%);
+    filter:blur(8px);
+    opacity:0;
+    pointer-events:none;
+  }
+  .gauge-wrap.revving .gauge-blaze{ animation: blaze-flare 2.4s ease-out; }
+  @keyframes blaze-flare{
+    0%{ opacity:0; transform:scale(.55); }
+    14%{ opacity:1; transform:scale(1.05); }
+    22%{ opacity:.7; transform:scale(.95); }
+    45%{ opacity:1; transform:scale(1.2); }
+    70%{ opacity:.85; transform:scale(1.15); }
+    100%{ opacity:0; transform:scale(1.35); }
+  }
+  .gauge-wrap.revving .gauge-fg{
+    animation: blaze-cycle 2.4s ease-in-out;
+  }
+  @keyframes blaze-cycle{
+    0%{ stroke:var(--signal); filter:drop-shadow(0 0 8px rgba(255,75,31,.5)); }
+    14%{ stroke:var(--rev); filter:drop-shadow(0 0 22px rgba(255,199,0,1)); }
+    22%{ stroke:#FF7A2E; filter:drop-shadow(0 0 10px rgba(255,122,46,.5)); }
+    45%{ stroke:#FFE066; filter:drop-shadow(0 0 30px rgba(255,224,102,1)); }
+    70%{ stroke:var(--rev); filter:drop-shadow(0 0 20px rgba(255,199,0,.85)); }
+    100%{ stroke:var(--signal); filter:drop-shadow(0 0 8px rgba(255,75,31,.5)); }
+  }
   .gauge-wrap.revving .gauge-center .num{ animation: rev-shake .5s ease; }
   @keyframes rev-shake{
     0%,100%{ transform:translateX(0); }
@@ -320,7 +447,7 @@
     60%{ transform:translateX(-1px); }
     80%{ transform:translateX(1px); }
   }
-  .gauge-wrap svg{ width:100%; height:100%; transform:rotate(-90deg); }
+  .gauge-wrap svg{ width:100%; height:100%; transform:rotate(-90deg); position:relative; z-index:1; }
   .gauge-bg{ fill:none; stroke:var(--steel-dim); stroke-width:10; }
   .gauge-fg{
     fill:none; stroke:var(--signal); stroke-width:10; stroke-linecap:round;
@@ -356,7 +483,7 @@
   .reveal-in{ opacity:1; transform:translateY(0); }
 
   @media (prefers-reduced-motion: reduce){
-    .logo .dot, .logo-mark-core, .ticker-track, .gauge-fg{ animation:none !important; }
+    .logo .dot, .logo-mark-bolt, .logo-mark-particles circle, .logo-mark-ring, .ticker-track, .gauge-fg, .gauge-blaze{ animation:none !important; }
     .gauge-fg{ stroke-dashoffset:150; }
   }
 
@@ -373,7 +500,22 @@
   }
   .manifesto-card{
     background:var(--black); padding:34px 30px;
+    position:relative;
+    transition:background .25s ease, transform .25s ease, box-shadow .25s ease;
   }
+  .manifesto-card::before{
+    content:"";
+    position:absolute; top:0; left:0; right:0; height:2px;
+    background:linear-gradient(90deg, var(--rev), var(--signal));
+    transform:scaleX(0); transform-origin:left;
+    transition:transform .3s ease;
+  }
+  .manifesto-card:hover{
+    background:var(--panel);
+    transform:translateY(-6px);
+    box-shadow:0 16px 32px rgba(0,0,0,.35);
+  }
+  .manifesto-card:hover::before{ transform:scaleX(1); }
   .manifesto-card .mk{
     font-family:var(--mono); font-size:11px; color:var(--signal); letter-spacing:.1em;
   }
@@ -402,11 +544,14 @@
     min-height:168px;
     display:flex; flex-direction:column; justify-content:space-between;
     position:relative;
-    transition:background .25s, transform .15s ease;
+    transition:background .25s, transform .15s ease, box-shadow .25s ease;
     transform-style:preserve-3d;
     will-change:transform;
   }
-  .panel:hover{ background:var(--panel-2); }
+  .panel:hover{
+    background:var(--panel-2);
+    box-shadow:inset 0 0 0 1px var(--signal), 0 12px 28px rgba(255,75,31,.15);
+  }
   .panel .idx{ font-family:var(--mono); font-size:11px; color:var(--steel); letter-spacing:.06em; }
   .panel .switch{
     width:34px; height:18px; border:1px solid var(--steel); border-radius:20px;
@@ -488,6 +633,12 @@
     width:30px; height:30px; border-radius:50%; background:var(--black);
     border:1px solid var(--signal); display:flex; align-items:center; justify-content:center;
     font-family:var(--mono); font-size:11px; color:var(--signal); margin-bottom:26px; position:relative; z-index:2;
+    transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+  }
+  .stage:hover .tick{
+    transform:scale(1.15);
+    background:var(--signal); color:var(--black);
+    box-shadow:0 0 18px rgba(255,75,31,.7);
   }
   .stage h3{ font-family:var(--display); font-size:24px; text-transform:uppercase; margin-bottom:12px; letter-spacing:.01em; }
   .stage p{ color:var(--off-dim); font-size:14.5px; line-height:1.65; max-width:320px; }
@@ -496,15 +647,25 @@
   .results{ padding:100px 0; border-bottom:1px solid var(--steel-dim); background:var(--panel); }
   .results-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:40px; margin-top:56px; }
   .mini-gauge{ display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; }
-  .mini-gauge .ring{ position:relative; width:118px; height:118px; }
+  .mini-gauge .ring{
+    position:relative; width:118px; height:118px;
+    transition:transform .3s ease;
+  }
   .mini-gauge svg{ width:100%; height:100%; transform:rotate(-90deg); }
   .mini-gauge .bg{ fill:none; stroke:var(--steel-dim); stroke-width:8; }
-  .mini-gauge .fg{ fill:none; stroke:var(--rev); stroke-width:8; stroke-linecap:round; }
+  .mini-gauge .fg{
+    fill:none; stroke:var(--rev); stroke-width:8; stroke-linecap:round;
+    transition:filter .3s ease;
+  }
   .mini-gauge .val{
     position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
     font-family:var(--display); font-size:22px;
+    transition:color .3s ease;
   }
   .mini-gauge .lbl{ font-family:var(--mono); font-size:11px; color:var(--off-dim); letter-spacing:.06em; text-transform:uppercase; max-width:150px; }
+  .mini-gauge:hover .ring{ transform:scale(1.08); }
+  .mini-gauge:hover .fg{ filter:drop-shadow(0 0 10px rgba(255,199,0,.7)); }
+  .mini-gauge:hover .val{ color:var(--rev); }
 
   /* ================= FAQ ================= */
   .faq{ padding:100px 0; border-bottom:1px solid var(--steel-dim); }
@@ -554,8 +715,19 @@
   }
   .foot-grid p{ color:var(--off-dim); font-size:13.5px; line-height:1.6; max-width:280px; }
   .foot-col h4{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--off-dim); margin-bottom:16px; }
-  .foot-col a{ display:block; font-size:14px; color:var(--off); margin-bottom:10px; opacity:.85; transition:opacity .2s; }
-  .foot-col a:hover{ opacity:1; color:var(--signal); }
+  .foot-col a{
+    display:block; width:fit-content; position:relative;
+    font-size:14px; color:var(--off); margin-bottom:10px; opacity:.85;
+    transition:opacity .2s, transform .2s;
+  }
+  .foot-col a::after{
+    content:"";
+    position:absolute; left:0; right:100%; bottom:-2px; height:1px;
+    background:var(--signal);
+    transition:right .25s ease;
+  }
+  .foot-col a:hover{ opacity:1; color:var(--signal); transform:translateX(3px); }
+  .foot-col a:hover::after{ right:0; }
   .foot-bottom{
     display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;
     font-family:var(--mono); font-size:11.5px; color:var(--off-dim); letter-spacing:.04em;
@@ -655,15 +827,30 @@
 </head>
 <body>
 
+<div class="cursor-spotlight" id="cursorSpotlight" aria-hidden="true"></div>
+
 <header>
   <div class="wrap nav">
     <a href="#top" class="logo">
       <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true">
-        <circle class="logo-mark-track" cx="20" cy="20" r="15.5" fill="none" stroke-width="3"></circle>
-        <circle class="logo-mark-arc" cx="20" cy="20" r="15.5" fill="none" stroke-width="3" stroke-linecap="round"
-          stroke-dasharray="97.4" stroke-dashoffset="20" transform="rotate(-90 20 20)"></circle>
-        <line class="logo-mark-needle" x1="20" y1="20" x2="29" y2="11.5" stroke-width="2.4" stroke-linecap="round"></line>
-        <circle class="logo-mark-core" cx="20" cy="20" r="3.4"></circle>
+        <defs>
+          <linearGradient id="boltGradHeader" x1="10" y1="4" x2="30" y2="36" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="var(--rev)"></stop>
+            <stop offset=".55" stop-color="var(--signal)"></stop>
+            <stop offset="1" stop-color="#B8280E"></stop>
+          </linearGradient>
+        </defs>
+        <circle class="logo-mark-ring" cx="20" cy="20" r="18" fill="none" stroke-width="1.4" stroke-dasharray="1.5 5.5"></circle>
+        <g class="logo-mark-particles">
+          <circle cx="20" cy="2.5" r="1.7"></circle>
+          <circle cx="37.5" cy="20" r="1.7"></circle>
+          <circle cx="20" cy="37.5" r="1.7"></circle>
+          <circle cx="2.5" cy="20" r="1.7"></circle>
+          <circle cx="32" cy="8" r="1.3"></circle>
+          <circle cx="8" cy="32" r="1.3"></circle>
+        </g>
+        <polygon class="logo-mark-bolt-shadow" points="23 6 11 21 18 21 15 34 29 17 21 17 23 6" transform="translate(1.6 1.8)"></polygon>
+        <polygon class="logo-mark-bolt" points="23 6 11 21 18 21 15 34 29 17 21 17 23 6" fill="url(#boltGradHeader)"></polygon>
       </svg>
       THE HYP ENGINE
       <span class="logo-tag"><strong>Media Agency</strong> · Performance Marketing</span>
@@ -725,6 +912,7 @@
       </div>
       <div class="hero-side">
         <div class="gauge-wrap" id="gaugeWrap" role="button" tabindex="0" aria-label="Rev the engine">
+          <div class="gauge-blaze" aria-hidden="true"></div>
           <svg viewBox="0 0 260 260">
             <circle class="gauge-bg" cx="130" cy="130" r="120"></circle>
             <circle class="gauge-fg" id="gaugeFg" cx="130" cy="130" r="120"></circle>
@@ -868,7 +1056,7 @@
             </svg>
             <div class="val">95%</div>
           </div>
-          <span class="lbl">Client Retention Past Year One</span>
+          <span class="lbl">Avg. Client Retention Past Year One</span>
         </div>
         <div class="mini-gauge">
           <div class="ring">
@@ -888,9 +1076,10 @@
             </svg>
             <div class="val">70%</div>
           </div>
-          <span class="lbl">Faster Campaign Launch Speed</span>
+          <span class="lbl">Avg. Faster Campaign Launch Speed</span>
         </div>
       </div>
+      <p class="calc-disclaimer" style="margin-top:32px;">Averages across active client accounts over the trailing 12 months. Your results depend on your market, funnel and starting point.</p>
     </div>
   </section>
 
@@ -958,15 +1147,28 @@
       <div>
         <div class="foot-logo">
           <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true">
-            <circle class="logo-mark-track" cx="20" cy="20" r="15.5" fill="none" stroke-width="3"></circle>
-            <circle class="logo-mark-arc" cx="20" cy="20" r="15.5" fill="none" stroke-width="3" stroke-linecap="round"
-              stroke-dasharray="97.4" stroke-dashoffset="20" transform="rotate(-90 20 20)"></circle>
-            <line class="logo-mark-needle" x1="20" y1="20" x2="29" y2="11.5" stroke-width="2.4" stroke-linecap="round"></line>
-            <circle class="logo-mark-core" cx="20" cy="20" r="3.4"></circle>
+            <defs>
+              <linearGradient id="boltGradFooter" x1="10" y1="4" x2="30" y2="36" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="var(--rev)"></stop>
+                <stop offset=".55" stop-color="var(--signal)"></stop>
+                <stop offset="1" stop-color="#B8280E"></stop>
+              </linearGradient>
+            </defs>
+            <circle class="logo-mark-ring" cx="20" cy="20" r="18" fill="none" stroke-width="1.4" stroke-dasharray="1.5 5.5"></circle>
+            <g class="logo-mark-particles">
+              <circle cx="20" cy="2.5" r="1.7"></circle>
+              <circle cx="37.5" cy="20" r="1.7"></circle>
+              <circle cx="20" cy="37.5" r="1.7"></circle>
+              <circle cx="2.5" cy="20" r="1.7"></circle>
+              <circle cx="32" cy="8" r="1.3"></circle>
+              <circle cx="8" cy="32" r="1.3"></circle>
+            </g>
+            <polygon class="logo-mark-bolt-shadow" points="23 6 11 21 18 21 15 34 29 17 21 17 23 6" transform="translate(1.6 1.8)"></polygon>
+            <polygon class="logo-mark-bolt" points="23 6 11 21 18 21 15 34 29 17 21 17 23 6" fill="url(#boltGradFooter)"></polygon>
           </svg>
           THE HYP ENGINE
         </div>
-        <p>A performance marketing agency built for brands that want revenue, not applause. SEO and paid media, run like an engine — tuned, tested, and always accelerating.</p>
+        <p>A performance marketing agency built for brands that want revenue, not applause. SEO and paid media, run like an engine — tuned, tested, and built to accelerate.</p>
       </div>
       <div class="foot-col">
         <h4>Channels</h4>
@@ -1054,16 +1256,34 @@
       if (audioCtx.state === 'suspended') audioCtx.resume();
 
       const now = audioCtx.currentTime;
-      const dur = 1.15;
-      const peakT = 0.42;
+      const dur = 2.3;
+      const blip1 = 0.3;
+      const dip = 0.5;
+      const peak = 1.05;
+      const holdEnd = 1.4;
 
-      // master bus with growl distortion, feeding a moving low-pass for the "opening throttle" sweep
+      // master bus with growl distortion, feeding a moving low-pass for the throttle sweep
       const master = audioCtx.createGain();
       master.gain.setValueAtTime(0.0001, now);
-      master.gain.exponentialRampToValueAtTime(0.32, now + 0.12);
-      master.gain.exponentialRampToValueAtTime(0.26, now + peakT + 0.05);
+      master.gain.exponentialRampToValueAtTime(0.26, now + 0.1);
+      master.gain.exponentialRampToValueAtTime(0.13, now + dip);
+      master.gain.exponentialRampToValueAtTime(0.36, now + peak);
+      master.gain.exponentialRampToValueAtTime(0.3, now + holdEnd);
       master.gain.exponentialRampToValueAtTime(0.0001, now + dur);
       master.connect(audioCtx.destination);
+
+      // short echo layer feeding off the master bus, for a wider, cooler "in a garage" feel
+      const delay = audioCtx.createDelay();
+      delay.delayTime.value = 0.16;
+      const feedback = audioCtx.createGain();
+      feedback.gain.value = 0.22;
+      const delayWet = audioCtx.createGain();
+      delayWet.gain.value = 0.22;
+      master.connect(delay);
+      delay.connect(feedback);
+      feedback.connect(delay);
+      delay.connect(delayWet);
+      delayWet.connect(audioCtx.destination);
 
       const drive = audioCtx.createWaveShaper();
       drive.curve = makeDistortionCurve(26);
@@ -1072,18 +1292,24 @@
       const toneFilter = audioCtx.createBiquadFilter();
       toneFilter.type = 'lowpass';
       toneFilter.frequency.setValueAtTime(650, now);
-      toneFilter.frequency.linearRampToValueAtTime(3600, now + peakT);
+      toneFilter.frequency.linearRampToValueAtTime(2600, now + blip1);
+      toneFilter.frequency.linearRampToValueAtTime(1100, now + dip);
+      toneFilter.frequency.linearRampToValueAtTime(4200, now + peak);
+      toneFilter.frequency.linearRampToValueAtTime(4500, now + holdEnd);
       toneFilter.frequency.linearRampToValueAtTime(850, now + dur);
       toneFilter.Q.value = 0.9;
 
       drive.connect(toneFilter);
       toneFilter.connect(master);
 
-      // sub-bass rumble — the low-end thump of a V8 block
+      // sub-bass rumble — the low-end thump of a V8 block, double-blipped before settling
       const sub = audioCtx.createOscillator();
       sub.type = 'sine';
       sub.frequency.setValueAtTime(42, now);
-      sub.frequency.linearRampToValueAtTime(145, now + peakT);
+      sub.frequency.linearRampToValueAtTime(165, now + blip1);
+      sub.frequency.linearRampToValueAtTime(72, now + dip);
+      sub.frequency.linearRampToValueAtTime(225, now + peak);
+      sub.frequency.linearRampToValueAtTime(240, now + holdEnd);
       sub.frequency.linearRampToValueAtTime(55, now + dur);
       const subGain = audioCtx.createGain();
       subGain.gain.value = 0.55;
@@ -1092,21 +1318,41 @@
       sub.start(now);
       sub.stop(now + dur + 0.05);
 
-      // four detuned "cylinder" oscillators through the growl distortion — gives the layered V8 roar
+      // four detuned "cylinder" oscillators through the growl distortion — the layered V8 roar
       [-8, -3, 3, 8].forEach((det) => {
         const osc = audioCtx.createOscillator();
         osc.type = 'sawtooth';
         osc.detune.value = det;
         osc.frequency.setValueAtTime(58, now);
-        osc.frequency.linearRampToValueAtTime(232, now + peakT);
+        osc.frequency.linearRampToValueAtTime(205, now + blip1);
+        osc.frequency.linearRampToValueAtTime(88, now + dip);
+        osc.frequency.linearRampToValueAtTime(295, now + peak);
+        osc.frequency.linearRampToValueAtTime(315, now + holdEnd);
         osc.frequency.linearRampToValueAtTime(92, now + dur);
         osc.connect(drive);
         osc.start(now);
         osc.stop(now + dur + 0.05);
       });
 
-      // spark/backfire crackle right as it hits redline
+      // spark crackle on the first blip
       const noiseBuffer = makeNoiseBuffer(0.25);
+      const spark0 = audioCtx.createBufferSource();
+      spark0.buffer = noiseBuffer;
+      const sparkFilter0 = audioCtx.createBiquadFilter();
+      sparkFilter0.type = 'bandpass';
+      sparkFilter0.frequency.value = 4000;
+      sparkFilter0.Q.value = 1.1;
+      const sparkGain0 = audioCtx.createGain();
+      sparkGain0.gain.setValueAtTime(0.0001, now + blip1 - 0.02);
+      sparkGain0.gain.exponentialRampToValueAtTime(0.18, now + blip1 + 0.01);
+      sparkGain0.gain.exponentialRampToValueAtTime(0.0001, now + blip1 + 0.16);
+      spark0.connect(sparkFilter0);
+      sparkFilter0.connect(sparkGain0);
+      sparkGain0.connect(master);
+      spark0.start(now + blip1 - 0.02);
+      spark0.stop(now + blip1 + 0.18);
+
+      // bigger spark/backfire crackle right as it hits redline
       const spark1 = audioCtx.createBufferSource();
       spark1.buffer = noiseBuffer;
       const sparkFilter1 = audioCtx.createBiquadFilter();
@@ -1114,32 +1360,33 @@
       sparkFilter1.frequency.value = 4500;
       sparkFilter1.Q.value = 1.1;
       const sparkGain1 = audioCtx.createGain();
-      sparkGain1.gain.setValueAtTime(0.0001, now + peakT - 0.02);
-      sparkGain1.gain.exponentialRampToValueAtTime(0.3, now + peakT + 0.01);
-      sparkGain1.gain.exponentialRampToValueAtTime(0.0001, now + peakT + 0.2);
+      sparkGain1.gain.setValueAtTime(0.0001, now + peak - 0.02);
+      sparkGain1.gain.exponentialRampToValueAtTime(0.32, now + peak + 0.01);
+      sparkGain1.gain.exponentialRampToValueAtTime(0.0001, now + peak + 0.22);
       spark1.connect(sparkFilter1);
       sparkFilter1.connect(sparkGain1);
       sparkGain1.connect(master);
-      spark1.start(now + peakT - 0.02);
-      spark1.stop(now + peakT + 0.22);
+      spark1.start(now + peak - 0.02);
+      spark1.stop(now + peak + 0.24);
 
-      // a second, smaller crackle as it settles — extra spark for flavor
-      const spark2 = audioCtx.createBufferSource();
-      spark2.buffer = noiseBuffer;
-      const sparkFilter2 = audioCtx.createBiquadFilter();
-      sparkFilter2.type = 'bandpass';
-      sparkFilter2.frequency.value = 6200;
-      sparkFilter2.Q.value = 1.4;
-      const sparkGain2 = audioCtx.createGain();
-      const crackleT = peakT + 0.3;
-      sparkGain2.gain.setValueAtTime(0.0001, now + crackleT - 0.01);
-      sparkGain2.gain.exponentialRampToValueAtTime(0.16, now + crackleT + 0.005);
-      sparkGain2.gain.exponentialRampToValueAtTime(0.0001, now + crackleT + 0.14);
-      spark2.connect(sparkFilter2);
-      sparkFilter2.connect(sparkGain2);
-      sparkGain2.connect(master);
-      spark2.start(now + crackleT - 0.01);
-      spark2.stop(now + crackleT + 0.16);
+      // a couple of extra crackles through the hold — sustained sparks at redline
+      [holdEnd - 0.15, holdEnd + 0.1].forEach((t, i) => {
+        const spark = audioCtx.createBufferSource();
+        spark.buffer = noiseBuffer;
+        const sf = audioCtx.createBiquadFilter();
+        sf.type = 'bandpass';
+        sf.frequency.value = 5800 + i * 700;
+        sf.Q.value = 1.4;
+        const sg = audioCtx.createGain();
+        sg.gain.setValueAtTime(0.0001, now + t - 0.01);
+        sg.gain.exponentialRampToValueAtTime(0.15, now + t + 0.005);
+        sg.gain.exponentialRampToValueAtTime(0.0001, now + t + 0.13);
+        spark.connect(sf);
+        sf.connect(sg);
+        sg.connect(master);
+        spark.start(now + t - 0.01);
+        spark.stop(now + t + 0.15);
+      });
     } catch(e){
       /* Web Audio unavailable — fail silently, visual rev still works */
     }
@@ -1164,7 +1411,7 @@
       gaugeNum.textContent = val.toFixed(1) + 'x';
       if (step >= steps){
         clearInterval(tickUp);
-        gaugeNote.innerHTML = 'Redlined. That\'s the ceiling — for now.';
+        gaugeNote.innerHTML = 'Redlined. That\'s the fun part.';
         setTimeout(() => {
           const tickDown = setInterval(() => {
             step--;
@@ -1178,10 +1425,10 @@
               gaugeWrap.classList.remove('revving');
               reving = false;
             }
-          }, 40);
-        }, 700);
+          }, 60);
+        }, 900);
       }
-    }, 45);
+    }, 80);
   }
 
   gaugeWrap.addEventListener('click', revGauge);
@@ -1214,6 +1461,24 @@
       const y = ((e.clientY - r.top) / r.height) * 100;
       heroBg.style.maskImage = `radial-gradient(ellipse 60% 50% at ${x}% ${y}%, black 10%, transparent 70%)`;
       heroBg.style.webkitMaskImage = heroBg.style.maskImage;
+    });
+  }
+
+  /* ---- Page-wide cursor spotlight ---- */
+  const cursorSpotlight = document.getElementById('cursorSpotlight');
+  if (!reduceMotion && cursorSpotlight && window.matchMedia('(hover: hover)').matches){
+    let spotlightRaf = null;
+    document.addEventListener('mousemove', (e) => {
+      cursorSpotlight.classList.add('active');
+      if (spotlightRaf) return;
+      spotlightRaf = requestAnimationFrame(() => {
+        cursorSpotlight.style.setProperty('--x', e.clientX + 'px');
+        cursorSpotlight.style.setProperty('--y', e.clientY + 'px');
+        spotlightRaf = null;
+      });
+    }, { passive: true });
+    document.addEventListener('mouseleave', () => {
+      cursorSpotlight.classList.remove('active');
     });
   }
 
