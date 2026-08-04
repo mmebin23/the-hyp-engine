@@ -109,14 +109,12 @@
     font-size:15px;
     letter-spacing:.04em;
   }
-  .hero-badge-sub{ font-weight:500; }
   .hero-badge-dot{
     width:8px; height:8px; border-radius:50%;
     background:var(--signal); flex-shrink:0;
     box-shadow:0 0 10px 2px rgba(255,75,31,.6);
     animation: pulse 1.8s ease-in-out infinite;
   }
-  .hero-badge-sep{ color:var(--signal); opacity:.6; }
 
   /* ================= NAV ================= */
   header{
@@ -135,6 +133,7 @@
     letter-spacing:.02em;
     display:flex; align-items:center; gap:10px;
   }
+  .logo-text{ white-space:nowrap; flex-shrink:0; }
   .logo .dot{
     width:9px; height:9px; border-radius:50%;
     background:var(--signal);
@@ -1013,8 +1012,8 @@
         <polygon class="logo-mark-bolt-shadow" points="23 6 11 21 18 21 15 34 29 17 21 17 23 6" transform="translate(1.6 1.8)"></polygon>
         <polygon class="logo-mark-bolt" points="23 6 11 21 18 21 15 34 29 17 21 17 23 6" fill="url(#boltGradHeader)"></polygon>
       </svg>
-      THE HYP ENGINE
-      <span class="logo-tag"><strong>Media Agency</strong> · Performance Marketing</span>
+      <span class="logo-text">THE HYP ENGINE</span>
+      <span class="logo-tag"><strong>Media Agency</strong></span>
     </a>
     <nav class="links" id="navLinks">
       <a href="#services">Services</a>
@@ -1059,8 +1058,6 @@
         <div class="hero-badge">
           <span class="hero-badge-dot"></span>
           <span class="hero-badge-main">Media Agency</span>
-          <span class="hero-badge-sep">/</span>
-          <span class="hero-badge-sub">Performance Marketing</span>
         </div>
         <h1>Less <span class="strike">Hype.</span><br>All <span class="accent">Horsepower.</span></h1>
         <p class="lede">We're the <strong class="hl">media agency</strong> that actually runs your SEO and paid ads - Google, Meta, Apple, TikTok, Snapchat, LinkedIn, all of it - and reports back in dollars, not decks. If a campaign isn't pulling its weight by week three, we already know. So will you.</p>
@@ -1455,7 +1452,7 @@
             <polygon class="logo-mark-bolt-shadow" points="23 6 11 21 18 21 15 34 29 17 21 17 23 6" transform="translate(1.6 1.8)"></polygon>
             <polygon class="logo-mark-bolt" points="23 6 11 21 18 21 15 34 29 17 21 17 23 6" fill="url(#boltGradFooter)"></polygon>
           </svg>
-          THE HYP ENGINE
+          <span class="logo-text">THE HYP ENGINE</span>
         </div>
         <p>We run SEO and paid media for brands who'd rather see revenue than a highlight reel. Built by people who've actually managed the ad accounts, not just talked about them.</p>
       </div>
