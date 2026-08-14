@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>
+  (function(){
+    try{
+      var saved = localStorage.getItem('hyp-theme');
+      var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    } catch(e){}
+  })();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Hyp Engine - Media Agency for SEO, Google, Meta &amp; Social Ads</title>
@@ -11,32 +20,63 @@
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --black: #F1F3F6;
-    --panel: #EAECF1;
-    --panel-2: #E2E5EB;
-    --steel: #B8C0CC;
-    --steel-dim: #DCE1E7;
-    --signal: #FF4B1F;
+    --black: #F7F5F0;
+    --panel: #F0EDE5;
+    --panel-2: #E7E3D8;
+    --steel: #C4BEB0;
+    --steel-dim: #E3DFD4;
+    --signal: #E8410E;
     --signal-dim: #7a2610;
-    --rev: #E8A800;
-    --off: #14151A;
-    --off-dim: #5B6270;
+    --rev: #9C6500;
+    --off: #211F1A;
+    --off-dim: #57514A;
     --ink: #0A0A0B;
     --display: 'Anton', sans-serif;
     --body: 'Space Grotesk', sans-serif;
     --mono: 'JetBrains Mono', monospace;
 
     /* neumorphic surface tokens */
-    --neu-bg: #F1F3F6;
+    --neu-bg: #F7F5F0;
     --neu-radius: 22px;
     --neu-radius-sm: 14px;
-    --neu-light: rgba(255,255,255,.9);
-    --neu-dark: rgba(163,177,198,.55);
+    --neu-light: rgba(255,255,255,.95);
+    --neu-dark: rgba(148,138,116,.38);
     --neu-raised: 8px 8px 18px var(--neu-dark), -6px -6px 16px var(--neu-light);
     --neu-raised-sm: 5px 5px 10px var(--neu-dark), -4px -4px 9px var(--neu-light);
     --neu-pressed: inset 5px 5px 11px var(--neu-dark), inset -4px -4px 9px var(--neu-light);
     --neu-pressed-lg: inset 8px 8px 18px var(--neu-dark), inset -6px -6px 16px var(--neu-light);
+    --header-bg: rgba(247,245,240,.86);
+    --grid-line-opacity: .35;
   }
+
+  html[data-theme="dark"]{
+    --black: #0A0A0B;
+    --panel: #141416;
+    --panel-2: #1B1B1E;
+    --steel: #3A3D42;
+    --steel-dim: #232427;
+    --signal: #FF4B1F;
+    --rev: #FFC700;
+    --off: #F5F3EE;
+    --off-dim: #9A9994;
+    --neu-bg: #141416;
+    --neu-light: rgba(255,255,255,.05);
+    --neu-dark: rgba(0,0,0,.65);
+    --header-bg: rgba(10,10,11,.86);
+    --grid-line-opacity: .6;
+  }
+
+  html{ transition:background-color .4s ease; }
+  body{ transition:background-color .4s ease, color .4s ease; }
+
+  .grain-overlay{
+    position:fixed; inset:0; z-index:2;
+    pointer-events:none;
+    filter:url(#grainFilter);
+    opacity:.025;
+    mix-blend-mode:multiply;
+  }
+  html[data-theme="dark"] .grain-overlay{ opacity:.05; mix-blend-mode:screen; }
 
   *{ margin:0; padding:0; box-sizing:border-box; }
   html{ scroll-behavior:smooth; }
@@ -44,7 +84,13 @@
     background:var(--black);
     color:var(--off);
     font-family:var(--body);
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    text-rendering:optimizeLegibility;
     overflow-x:hidden;
+    transition:background .4s ease, color .4s ease;
   }
   ::selection{ background:var(--signal); color:var(--ink); }
 
@@ -115,7 +161,7 @@
   /* ================= NAV ================= */
   header{
     position:fixed; top:0; left:0; right:0; z-index:100;
-    background:rgba(241,243,246,.86);
+    background:var(--header-bg);
     backdrop-filter:blur(10px);
     border-bottom:none;
     box-shadow:0 8px 20px rgba(0,0,0,.4);
@@ -124,6 +170,7 @@
     display:flex; align-items:center; justify-content:space-between;
     height:74px;
   }
+  .nav-actions{ display:flex; align-items:center; gap:16px; }
   .logo{
     font-family:var(--display);
     font-size:20px;
@@ -249,6 +296,27 @@
   .menu-toggle.open .bars span:nth-child(2){ opacity:0; }
   .menu-toggle.open .bars span:nth-child(3){ top:5px; transform:rotate(-45deg); }
 
+  .theme-toggle{
+    width:38px; height:38px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--neu-bg);
+    border:none; border-radius:50%;
+    box-shadow:var(--neu-raised-sm);
+    position:relative;
+    color:var(--signal);
+    transition:transform .3s ease, box-shadow .15s ease;
+  }
+  .theme-toggle:hover{ transform:rotate(-12deg) scale(1.08); }
+  .theme-toggle:active{ box-shadow:var(--neu-pressed); }
+  .theme-icon{
+    position:absolute; width:18px; height:18px;
+    transition:opacity .3s ease, transform .4s ease;
+  }
+  .theme-icon-sun{ opacity:1; transform:rotate(0deg) scale(1); }
+  .theme-icon-moon{ opacity:0; transform:rotate(-90deg) scale(.5); color:var(--rev); }
+  html[data-theme="dark"] .theme-icon-sun{ opacity:0; transform:rotate(90deg) scale(.5); }
+  html[data-theme="dark"] .theme-icon-moon{ opacity:1; transform:rotate(0deg) scale(1); }
+
   .mobile-cta{ display:none; }
 
   .btn{
@@ -330,7 +398,50 @@
     background-size:64px 64px;
     -webkit-mask-image: radial-gradient(ellipse 70% 55% at 60% 30%, black 10%, transparent 70%);
             mask-image: radial-gradient(ellipse 70% 55% at 60% 30%, black 10%, transparent 70%);
+    opacity:var(--grid-line-opacity);
+  }
+  .hero-blobs{
+    position:absolute; inset:0; overflow:hidden;
+    pointer-events:none;
+  }
+  .blob{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(60px);
     opacity:.35;
+    mix-blend-mode:multiply;
+  }
+  html[data-theme="dark"] .blob{ opacity:.28; mix-blend-mode:screen; }
+  .blob-1{
+    width:420px; height:420px; top:-120px; right:-60px;
+    background:radial-gradient(circle, var(--rev), transparent 70%);
+    animation:drift-1 22s ease-in-out infinite;
+  }
+  .blob-2{
+    width:340px; height:340px; bottom:-100px; left:5%;
+    background:radial-gradient(circle, var(--signal), transparent 70%);
+    animation:drift-2 26s ease-in-out infinite;
+  }
+  .blob-3{
+    width:260px; height:260px; top:15%; left:62%;
+    background:radial-gradient(circle, var(--rev), transparent 70%);
+    animation:drift-3 19s ease-in-out infinite;
+    opacity:.2;
+  }
+  @keyframes drift-1{
+    0%, 100%{ transform:translate(0,0) scale(1); }
+    50%{ transform:translate(-40px, 30px) scale(1.1); }
+  }
+  @keyframes drift-2{
+    0%, 100%{ transform:translate(0,0) scale(1); }
+    50%{ transform:translate(30px, -25px) scale(1.08); }
+  }
+  @keyframes drift-3{
+    0%, 100%{ transform:translate(0,0) scale(1); }
+    50%{ transform:translate(-20px, -30px) scale(.95); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .blob{ animation:none !important; }
   }
   .hero-inner{
     position:relative; z-index:2;
@@ -487,13 +598,20 @@
   }
 
   /* ================= MANIFESTO ================= */
-  .manifesto{ padding:100px 0; border-bottom:1px solid var(--steel-dim); }
-  .manifesto-head{ max-width:680px; margin-bottom:56px; }
+  .manifesto{ padding:100px 0; border-bottom:1px solid var(--steel-dim); position:relative; overflow:hidden; }
+  .circuit-art{
+    position:absolute; inset:0; width:100%; height:100%;
+    color:var(--steel);
+    opacity:.4;
+    pointer-events:none;
+  }
+  .manifesto-head{ max-width:680px; margin-bottom:56px; position:relative; z-index:2; }
   .manifesto-head h2{
     font-family:var(--display); font-size:clamp(32px,4vw,48px); text-transform:uppercase; line-height:1.05; margin-top:16px;
   }
   .manifesto-grid{
     display:grid; grid-template-columns:repeat(2,1fr); gap:22px;
+    position:relative; z-index:2;
   }
   .manifesto-card{
     background:var(--neu-bg);
@@ -872,6 +990,21 @@
     background:radial-gradient(circle, rgba(255,75,31,.14) 0%, transparent 60%);
     pointer-events:none;
   }
+  .ignition-art{
+    position:absolute; top:50%; left:50%; width:600px; height:600px;
+    transform:translate(-50%,-50%);
+    color:var(--steel);
+    opacity:.5;
+    pointer-events:none;
+    animation:ignition-spin 60s linear infinite;
+  }
+  @keyframes ignition-spin{
+    from{ transform:translate(-50%,-50%) rotate(0deg); }
+    to{ transform:translate(-50%,-50%) rotate(360deg); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .ignition-art{ animation:none; }
+  }
   .cta h2{
     font-family:var(--display); font-size:clamp(38px,6vw,84px); text-transform:uppercase; line-height:.98;
     position:relative; z-index:2;
@@ -1038,6 +1171,13 @@
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="grainFilter">
+    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"></feTurbulence>
+    <feColorMatrix type="saturate" values="0"></feColorMatrix>
+  </filter>
+</svg>
+<div class="grain-overlay" aria-hidden="true"></div>
 
 <header>
   <div class="wrap nav">
@@ -1075,10 +1215,28 @@
       <a href="#contact">Contact</a>
       <a href="#contact" class="mobile-cta">Start The Audit →</a>
     </nav>
-    <a href="#contact" class="btn desktop-cta">Start The Audit</a>
-    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
-      <span class="bars"><span></span><span></span><span></span></span>
-    </button>
+    <div class="nav-actions">
+      <a href="#contact" class="btn desktop-cta">Start The Audit</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.5"></circle>
+          <line x1="12" y1="2" x2="12" y2="4.5"></line>
+          <line x1="12" y1="19.5" x2="12" y2="22"></line>
+          <line x1="2" y1="12" x2="4.5" y2="12"></line>
+          <line x1="19.5" y1="12" x2="22" y2="12"></line>
+          <line x1="4.9" y1="4.9" x2="6.6" y2="6.6"></line>
+          <line x1="17.4" y1="17.4" x2="19.1" y2="19.1"></line>
+          <line x1="4.9" y1="19.1" x2="6.6" y2="17.4"></line>
+          <line x1="17.4" y1="6.6" x2="19.1" y2="4.9"></line>
+        </svg>
+        <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5z"></path>
+        </svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+        <span class="bars"><span></span><span></span><span></span></span>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -1103,6 +1261,11 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-grid-bg" aria-hidden="true"></div>
+    <div class="hero-blobs" aria-hidden="true">
+      <span class="blob blob-1"></span>
+      <span class="blob blob-2"></span>
+      <span class="blob blob-3"></span>
+    </div>
     <div class="wrap hero-inner">
       <div>
         <div class="hero-badge">
@@ -1144,6 +1307,17 @@
 
   <!-- MANIFESTO -->
   <section class="manifesto">
+    <svg class="circuit-art" viewBox="0 0 800 400" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+      <path d="M0 60 H180 V160 H340 V40 H520 V220 H800" fill="none" stroke="currentColor" stroke-width="1.5"></path>
+      <path d="M0 340 H120 V260 H300 V380 H460 V180 H700 V340 H800" fill="none" stroke="currentColor" stroke-width="1.5"></path>
+      <circle cx="180" cy="60" r="4" fill="currentColor"></circle>
+      <circle cx="340" cy="160" r="4" fill="currentColor"></circle>
+      <circle cx="520" cy="40" r="4" fill="currentColor"></circle>
+      <circle cx="120" cy="340" r="4" fill="currentColor"></circle>
+      <circle cx="300" cy="260" r="4" fill="currentColor"></circle>
+      <circle cx="460" cy="380" r="4" fill="currentColor"></circle>
+      <circle cx="700" cy="180" r="4" fill="currentColor"></circle>
+    </svg>
     <div class="wrap">
       <div class="manifesto-head">
         <p class="eyebrow">The Manifesto</p>
@@ -1467,6 +1641,21 @@
   <!-- CTA -->
   <section class="cta" id="contact">
     <div class="cta-glow" aria-hidden="true"></div>
+    <svg class="ignition-art" viewBox="0 0 600 600" aria-hidden="true">
+      <circle cx="300" cy="300" r="280" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 10"></circle>
+      <circle cx="300" cy="300" r="220" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="1 8"></circle>
+      <circle cx="300" cy="300" r="160" fill="none" stroke="currentColor" stroke-width="1"></circle>
+      <g stroke="currentColor" stroke-width="1">
+        <line x1="300" y1="10" x2="300" y2="50"></line>
+        <line x1="300" y1="550" x2="300" y2="590"></line>
+        <line x1="10" y1="300" x2="50" y2="300"></line>
+        <line x1="550" y1="300" x2="590" y2="300"></line>
+        <line x1="90" y1="90" x2="120" y2="120"></line>
+        <line x1="480" y1="480" x2="510" y2="510"></line>
+        <line x1="90" y1="510" x2="120" y2="480"></line>
+        <line x1="480" y1="120" x2="510" y2="90"></line>
+      </g>
+    </svg>
     <div class="wrap">
       <p class="eyebrow" style="justify-content:center;">Ignition</p>
       <h2 style="margin-top:16px;">Turn the key.<br>See what <span>it does.</span></h2>
@@ -1539,6 +1728,19 @@
 <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
 <script>
+  /* ---- Theme toggle ---- */
+  const themeToggle = document.getElementById('themeToggle');
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    if (isDark){
+      document.documentElement.removeAttribute('data-theme');
+      try{ localStorage.setItem('hyp-theme', 'light'); } catch(e){}
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      try{ localStorage.setItem('hyp-theme', 'dark'); } catch(e){}
+    }
+  });
+
   const menuToggle = document.getElementById('menuToggle');
   const navLinks = document.getElementById('navLinks');
 
@@ -1823,6 +2025,54 @@
       });
     }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
     revealTargets.forEach(el => io.observe(el));
+  }
+
+  /* ---- Results: ring fill + count-up on scroll into view ---- */
+  function animateCountUp(el, duration){
+    const finalText = el.textContent;
+    const numbers = finalText.match(/[\d.]+/g);
+    if (!numbers) return;
+    const start = performance.now();
+    function tick(now){
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      let i = 0;
+      el.textContent = finalText.replace(/[\d.]+/g, (match) => {
+        const target = parseFloat(numbers[i++]);
+        const decimals = match.includes('.') ? match.split('.')[1].length : 0;
+        return (target * eased).toFixed(decimals);
+      });
+      if (t < 1) requestAnimationFrame(tick);
+      else el.textContent = finalText;
+    }
+    requestAnimationFrame(tick);
+  }
+
+  const miniGauges = document.querySelectorAll('.mini-gauge');
+  if (miniGauges.length && 'IntersectionObserver' in window){
+    const gaugeIo = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const gauge = entry.target;
+        const fg = gauge.querySelector('.fg');
+        const val = gauge.querySelector('.val');
+        if (fg){
+          const target = fg.getAttribute('stroke-dashoffset');
+          if (reduceMotion){
+            fg.style.strokeDashoffset = target;
+          } else {
+            fg.style.strokeDashoffset = fg.getAttribute('stroke-dasharray');
+            fg.style.transition = 'stroke-dashoffset 1.3s cubic-bezier(.2,.8,.2,1), filter .3s ease';
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => { fg.style.strokeDashoffset = target; });
+            });
+          }
+        }
+        if (val && !reduceMotion) animateCountUp(val, 1300);
+        gaugeIo.unobserve(gauge);
+      });
+    }, { threshold: 0.4 });
+    miniGauges.forEach(g => gaugeIo.observe(g));
   }
 
   /* ---- Scroll progress bar + floating UI visibility ---- */
