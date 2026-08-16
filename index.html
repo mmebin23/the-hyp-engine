@@ -77,8 +77,44 @@
   }
   html[data-theme="dark"] .grain-overlay{ opacity:.05; mix-blend-mode:screen; }
 
+  .custom-cursor{
+    position:fixed; top:0; left:0; z-index:200;
+    pointer-events:none;
+    opacity:0;
+    transition:opacity .3s ease;
+  }
+  .custom-cursor.active{ opacity:1; }
+  .cursor-dot{
+    position:fixed; top:0; left:0;
+    width:6px; height:6px; margin:-3px 0 0 -3px;
+    border-radius:50%;
+    background:var(--signal);
+  }
+  .cursor-ring{
+    position:fixed; top:0; left:0;
+    width:34px; height:34px; margin:-17px 0 0 -17px;
+    border-radius:50%;
+    border:1px solid var(--signal);
+    opacity:.6;
+    transition:width .25s ease, height .25s ease, margin .25s ease, opacity .25s ease, border-color .25s ease, background .25s ease;
+  }
+  .custom-cursor.hover .cursor-ring{
+    width:56px; height:56px; margin:-28px 0 0 -28px;
+    background:rgba(232,65,14,.08);
+    opacity:1;
+  }
+  .custom-cursor.hover .cursor-dot{ opacity:0; }
+  @media (hover:none), (pointer:coarse){
+    .custom-cursor{ display:none; }
+  }
+  body.custom-cursor-active, body.custom-cursor-active a, body.custom-cursor-active button{
+    cursor:none;
+  }
+
   *{ margin:0; padding:0; box-sizing:border-box; }
-  html{ scroll-behavior:smooth; }
+  html.lenis, html.lenis body{ height:auto; }
+  .lenis.lenis-smooth{ scroll-behavior:auto; }
+  .lenis.lenis-stopped{ overflow:hidden; }
   body{
     background:var(--black);
     color:var(--off);
@@ -1038,6 +1074,10 @@
   </filter>
 </svg>
 <div class="grain-overlay" aria-hidden="true"></div>
+<div class="custom-cursor" id="customCursor" aria-hidden="true">
+  <span class="cursor-dot"></span>
+  <span class="cursor-ring"></span>
+</div>
 
 <header>
   <div class="wrap nav">
@@ -1511,7 +1551,40 @@
 </a>
 <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
+<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.26/dist/lenis.css">
+<script src="https://unpkg.com/lenis@1.3.26/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/SplitText.min.js"></script>
+
 <script>
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- Lenis smooth scroll + GSAP ScrollTrigger sync ---- */
+  let lenis = null;
+  const hasGsap = typeof gsap !== 'undefined';
+  const hasLenis = typeof Lenis !== 'undefined';
+
+  if (hasGsap && typeof ScrollTrigger !== 'undefined') gsap.registerPlugin(ScrollTrigger);
+  if (hasGsap && typeof SplitText !== 'undefined') gsap.registerPlugin(SplitText);
+
+  if (hasLenis && !reduceMotion && window.matchMedia('(hover: hover)').matches){
+    lenis = new Lenis({
+      duration: 1.1,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      anchors: true
+    });
+    if (hasGsap){
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+      gsap.ticker.lagSmoothing(0);
+    } else {
+      const raf = (time) => { lenis.raf(time); requestAnimationFrame(raf); };
+      requestAnimationFrame(raf);
+    }
+  }
+
   /* ---- Theme toggle ---- */
   const themeToggle = document.getElementById('themeToggle');
   themeToggle.addEventListener('click', () => {
@@ -1523,6 +1596,7 @@
       document.documentElement.setAttribute('data-theme', 'dark');
       try{ localStorage.setItem('hyp-theme', 'dark'); } catch(e){}
     }
+    if (hasGsap && typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
   });
 
   const menuToggle = document.getElementById('menuToggle');
@@ -1541,8 +1615,6 @@
       menuToggle.setAttribute('aria-expanded', 'false');
     });
   });
-
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---- Parallax layers: background art drifts at different speeds on scroll ---- */
   const parallaxLayers = Array.from(document.querySelectorAll('.parallax-layer')).map(el => ({
@@ -1948,6 +2020,95 @@
       answer.style.maxHeight = isOpen ? null : answer.scrollHeight + 'px';
     });
   });
+
+  /* ---- Custom cursor ---- */
+  const cursorEl = document.getElementById('customCursor');
+  const cursorDot = cursorEl ? cursorEl.querySelector('.cursor-dot') : null;
+  const cursorRing = cursorEl ? cursorEl.querySelector('.cursor-ring') : null;
+  const cursorCapable = window.matchMedia('(hover: hover)').matches && window.matchMedia('(pointer: fine)').matches;
+
+  if (cursorEl && cursorCapable && !reduceMotion){
+    document.body.classList.add('custom-cursor-active');
+    let dotX = window.innerWidth / 2, dotY = window.innerHeight / 2;
+    let ringX = dotX, ringY = dotY;
+
+    const setDot = hasGsap ? gsap.quickTo(cursorDot, 'x', { duration: 0, ease: 'none' }) : null;
+    const setDotY = hasGsap ? gsap.quickTo(cursorDot, 'y', { duration: 0, ease: 'none' }) : null;
+    const setRingX = hasGsap ? gsap.quickTo(cursorRing, 'x', { duration: 0.45, ease: 'power3.out' }) : null;
+    const setRingY = hasGsap ? gsap.quickTo(cursorRing, 'y', { duration: 0.45, ease: 'power3.out' }) : null;
+
+    window.addEventListener('mousemove', (e) => {
+      cursorEl.classList.add('active');
+      dotX = e.clientX; dotY = e.clientY;
+      if (hasGsap){
+        setDot(dotX); setDotY(dotY);
+        setRingX(dotX); setRingY(dotY);
+      } else {
+        cursorDot.style.transform = 'translate(' + dotX + 'px,' + dotY + 'px)';
+        cursorRing.style.transform = 'translate(' + dotX + 'px,' + dotY + 'px)';
+      }
+    }, { passive: true });
+
+    document.addEventListener('mouseleave', () => cursorEl.classList.remove('active'));
+
+    const hoverTargets = 'a, button, .gauge-wrap, .panel, .manifesto-card, .faq-q, input[type="range"]';
+    document.querySelectorAll(hoverTargets).forEach(target => {
+      target.addEventListener('mouseenter', () => cursorEl.classList.add('hover'));
+      target.addEventListener('mouseleave', () => cursorEl.classList.remove('hover'));
+    });
+  }
+
+  /* ---- Magnetic buttons ---- */
+  if (hasGsap && cursorCapable && !reduceMotion){
+    document.querySelectorAll('.btn').forEach(btn => {
+      const moveX = gsap.quickTo(btn, 'x', { duration: 0.4, ease: 'power3.out' });
+      const moveY = gsap.quickTo(btn, 'y', { duration: 0.4, ease: 'power3.out' });
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const relX = e.clientX - rect.left - rect.width / 2;
+        const relY = e.clientY - rect.top - rect.height / 2;
+        moveX(relX * 0.35);
+        moveY(relY * 0.35);
+      });
+      btn.addEventListener('mouseleave', () => { moveX(0); moveY(0); });
+    });
+  }
+
+  /* ---- Kinetic typography: hero headline reveal on load, section headings on scroll ---- */
+  if (hasGsap && typeof SplitText !== 'undefined' && !reduceMotion){
+    const heroH1 = document.querySelector('.hero h1');
+    if (heroH1){
+      const split = new SplitText(heroH1, { type: 'words,lines', mask: 'lines', linesClass: 'split-line' });
+      gsap.from(split.words, {
+        yPercent: 120,
+        rotate: 4,
+        opacity: 0,
+        duration: 0.9,
+        ease: 'power4.out',
+        stagger: 0.05,
+        delay: 0.15
+      });
+    }
+
+    if (typeof ScrollTrigger !== 'undefined'){
+      const sectionHeads = document.querySelectorAll('.section-head h2, .manifesto-head h2, .faq h2, .cta h2, .process .wrap > h2, .results .wrap > h2');
+      sectionHeads.forEach(h2 => {
+        const split2 = new SplitText(h2, { type: 'lines', mask: 'lines', linesClass: 'split-line' });
+        gsap.from(split2.lines, {
+          yPercent: 110,
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power4.out',
+          stagger: 0.08,
+          scrollTrigger: {
+            trigger: h2,
+            start: 'top 85%',
+            once: true
+          }
+        });
+      });
+    }
+  }
 </script>
 </body>
 </html>
