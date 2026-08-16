@@ -5,8 +5,7 @@
   (function(){
     try{
       var saved = localStorage.getItem('hyp-theme');
-      var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      if (saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
     } catch(e){}
   })();
 </script>
@@ -37,14 +36,14 @@
 
     /* neumorphic surface tokens */
     --neu-bg: #F7F5F0;
-    --neu-radius: 22px;
-    --neu-radius-sm: 14px;
+    --neu-radius: 26px;
+    --neu-radius-sm: 16px;
     --neu-light: rgba(255,255,255,.95);
-    --neu-dark: rgba(148,138,116,.38);
-    --neu-raised: 8px 8px 18px var(--neu-dark), -6px -6px 16px var(--neu-light);
-    --neu-raised-sm: 5px 5px 10px var(--neu-dark), -4px -4px 9px var(--neu-light);
-    --neu-pressed: inset 5px 5px 11px var(--neu-dark), inset -4px -4px 9px var(--neu-light);
-    --neu-pressed-lg: inset 8px 8px 18px var(--neu-dark), inset -6px -6px 16px var(--neu-light);
+    --neu-dark: rgba(148,138,116,.3);
+    --neu-raised: 6px 6px 14px var(--neu-dark), -5px -5px 12px var(--neu-light);
+    --neu-raised-sm: 4px 4px 8px var(--neu-dark), -3px -3px 7px var(--neu-light);
+    --neu-pressed: inset 4px 4px 9px var(--neu-dark), inset -3px -3px 7px var(--neu-light);
+    --neu-pressed-lg: inset 6px 6px 14px var(--neu-dark), inset -5px -5px 12px var(--neu-light);
     --header-bg: rgba(247,245,240,.86);
     --grid-line-opacity: .35;
   }
@@ -61,7 +60,7 @@
     --off-dim: #9A9994;
     --neu-bg: #141416;
     --neu-light: rgba(255,255,255,.05);
-    --neu-dark: rgba(0,0,0,.65);
+    --neu-dark: rgba(0,0,0,.48);
     --header-bg: rgba(10,10,11,.86);
     --grid-line-opacity: .6;
   }
@@ -322,9 +321,9 @@
   .btn{
     font-family:var(--mono);
     font-size:12.5px; letter-spacing:.08em; text-transform:uppercase;
-    padding:14px 26px;
+    padding:14px 28px;
     border:none;
-    border-radius:var(--neu-radius-sm);
+    border-radius:999px;
     background:var(--neu-bg);
     color:var(--signal);
     position:relative;
@@ -404,6 +403,10 @@
     position:absolute; inset:0; overflow:hidden;
     pointer-events:none;
   }
+  .parallax-layer{
+    position:absolute; inset:0;
+    will-change:transform;
+  }
   .blob{
     position:absolute;
     border-radius:50%;
@@ -449,9 +452,9 @@
   }
   .hero h1{
     font-family:var(--display);
-    font-size:clamp(48px, 6.4vw, 92px);
-    line-height:.97;
-    letter-spacing:-.01em;
+    font-size:clamp(50px, 6.8vw, 100px);
+    line-height:.94;
+    letter-spacing:-.02em;
     text-transform:uppercase;
     margin:20px 0 26px;
   }
@@ -598,7 +601,7 @@
   }
 
   /* ================= MANIFESTO ================= */
-  .manifesto{ padding:100px 0; border-bottom:1px solid var(--steel-dim); position:relative; overflow:hidden; }
+  .manifesto{ padding:128px 0; border-bottom:1px solid var(--steel-dim); position:relative; overflow:hidden; }
   .circuit-art{
     position:absolute; inset:0; width:100%; height:100%;
     color:var(--steel);
@@ -643,7 +646,7 @@
   .manifesto-card p{ color:var(--off-dim); font-size:14.5px; line-height:1.6; }
 
   /* ================= SERVICES ================= */
-  .services{ padding:100px 0; border-bottom:1px solid var(--steel-dim); position:relative; overflow:hidden; }
+  .services{ padding:128px 0; border-bottom:1px solid var(--steel-dim); position:relative; overflow:hidden; }
   .network-art{
     position:absolute; inset:0; width:100%; height:100%;
     color:var(--steel);
@@ -698,7 +701,7 @@
   .panel.more h3{ color:var(--off-dim); font-weight:500; font-size:14px; }
 
   /* ================= CALCULATOR ================= */
-  .calculator{ padding:100px 0; border-bottom:1px solid var(--steel-dim); }
+  .calculator{ padding:128px 0; border-bottom:1px solid var(--steel-dim); }
   .calculator h2{ font-family:var(--display); font-size:clamp(32px,4vw,48px); text-transform:uppercase; margin-top:16px; }
   .calculator .sub{ color:var(--off-dim); max-width:480px; font-size:14.5px; line-height:1.6; margin-top:14px; margin-bottom:48px; }
 
@@ -744,7 +747,7 @@
   .calc-disclaimer{ font-family:var(--mono); font-size:11px; color:var(--off-dim); opacity:.7; max-width:640px; margin:24px 0 32px; line-height:1.6; }
 
   /* ================= PROCESS ================= */
-  .process{ padding:100px 0; border-bottom:1px solid var(--steel-dim); position:relative; overflow:hidden; }
+  .process{ padding:128px 0; border-bottom:1px solid var(--steel-dim); position:relative; overflow:hidden; }
   .blueprint-art{
     position:absolute; inset:0; width:100%; height:100%;
     color:var(--steel);
@@ -780,7 +783,7 @@
   .stage p{ color:var(--off-dim); font-size:14.5px; line-height:1.65; max-width:320px; }
 
   /* ================= RESULTS ================= */
-  .results{ padding:100px 0; border-bottom:1px solid var(--steel-dim); background:var(--neu-bg); position:relative; overflow:hidden; }
+  .results{ padding:128px 0; border-bottom:1px solid var(--steel-dim); background:var(--neu-bg); position:relative; overflow:hidden; }
   .growth-art{
     position:absolute; inset:0; width:100%; height:100%;
     color:var(--signal);
@@ -812,7 +815,7 @@
   .mini-gauge:hover .val{ color:var(--rev); }
 
   /* ================= FAQ ================= */
-  .faq{ padding:100px 0; border-bottom:1px solid var(--steel-dim); }
+  .faq{ padding:128px 0; border-bottom:1px solid var(--steel-dim); }
   .faq h2{ font-family:var(--display); font-size:clamp(32px,4vw,48px); text-transform:uppercase; margin-top:16px; margin-bottom:48px; }
   .faq-list{ display:flex; flex-direction:column; gap:14px; }
   .faq-item{
@@ -1116,11 +1119,11 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-grid-bg" aria-hidden="true"></div>
+    <div class="hero-grid-bg parallax-layer" data-parallax="0.06" aria-hidden="true"></div>
     <div class="hero-blobs" aria-hidden="true">
-      <span class="blob blob-1"></span>
-      <span class="blob blob-2"></span>
-      <span class="blob blob-3"></span>
+      <span class="parallax-layer" data-parallax="0.14"><span class="blob blob-1"></span></span>
+      <span class="parallax-layer" data-parallax="-0.18"><span class="blob blob-2"></span></span>
+      <span class="parallax-layer" data-parallax="0.24"><span class="blob blob-3"></span></span>
     </div>
     <div class="wrap hero-inner">
       <div>
@@ -1163,7 +1166,7 @@
 
   <!-- MANIFESTO -->
   <section class="manifesto">
-    <svg class="circuit-art" viewBox="0 0 800 400" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+    <svg class="circuit-art parallax-layer" data-parallax="0.12" viewBox="0 0 800 400" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
       <path d="M0 60 H180 V160 H340 V40 H520 V220 H800" fill="none" stroke="currentColor" stroke-width="1.5"></path>
       <path d="M0 340 H120 V260 H300 V380 H460 V180 H700 V340 H800" fill="none" stroke="currentColor" stroke-width="1.5"></path>
       <circle cx="180" cy="60" r="4" fill="currentColor"></circle>
@@ -1206,7 +1209,7 @@
 
   <!-- SERVICES -->
   <section class="services" id="services">
-    <svg class="network-art" viewBox="0 0 900 500" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+    <svg class="network-art parallax-layer" data-parallax="-0.14" viewBox="0 0 900 500" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
       <g stroke="currentColor" stroke-width="1" fill="none">
         <line x1="80" y1="420" x2="240" y2="300"></line>
         <line x1="240" y1="300" x2="420" y2="380"></line>
@@ -1277,7 +1280,7 @@
 
   <!-- PROCESS -->
   <section class="process" id="process">
-    <svg class="blueprint-art" viewBox="0 0 900 400" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+    <svg class="blueprint-art parallax-layer" data-parallax="0.13" viewBox="0 0 900 400" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
       <g fill="none" stroke="currentColor" stroke-width="1">
         <path d="M50 350 Q 250 200 450 320 T 850 280"></path>
         <path d="M20 250 Q 220 100 480 220 T 880 150"></path>
@@ -1314,7 +1317,7 @@
 
   <!-- RESULTS -->
   <section class="results" id="results">
-    <svg class="growth-art" viewBox="0 0 900 300" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+    <svg class="growth-art parallax-layer" data-parallax="-0.16" viewBox="0 0 900 300" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
       <polyline points="0,260 100,230 180,245 260,170 340,190 420,110 500,140 580,70 660,95 740,40 820,60 900,10"
         fill="none" stroke="currentColor" stroke-width="2"></polyline>
       <g fill="currentColor">
@@ -1540,6 +1543,32 @@
   });
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- Parallax layers: background art drifts at different speeds on scroll ---- */
+  const parallaxLayers = Array.from(document.querySelectorAll('.parallax-layer')).map(el => ({
+    el,
+    speed: parseFloat(el.getAttribute('data-parallax')) || 0.1,
+    section: el.closest('section') || el.parentElement
+  }));
+
+  if (parallaxLayers.length && !reduceMotion && window.matchMedia('(hover: hover)').matches){
+    let parallaxRaf = null;
+    function updateParallax(){
+      parallaxLayers.forEach(layer => {
+        const rect = layer.section.getBoundingClientRect();
+        const offset = rect.top * layer.speed;
+        layer.el.style.transform = 'translateY(' + offset.toFixed(1) + 'px)';
+      });
+      parallaxRaf = null;
+    }
+    function onParallaxScroll(){
+      if (parallaxRaf) return;
+      parallaxRaf = requestAnimationFrame(updateParallax);
+    }
+    window.addEventListener('scroll', onParallaxScroll, { passive: true });
+    window.addEventListener('resize', onParallaxScroll, { passive: true });
+    updateParallax();
+  }
 
   // ROAS range varies slightly per visit rather than showing one fixed number -
   // bounded to a realistic band so it stays credible.
