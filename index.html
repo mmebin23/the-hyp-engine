@@ -424,6 +424,16 @@
     padding:96px 0 120px;
     border-bottom:1px solid var(--steel-dim);
     overflow:hidden;
+    transition:background-color .4s ease;
+  }
+  html[data-theme="dark"] .hero{
+    background-image:
+      linear-gradient(100deg, rgba(10,10,11,.97) 0%, rgba(10,10,11,.86) 32%, rgba(10,10,11,.55) 58%, rgba(10,10,11,.4) 100%),
+      linear-gradient(to top, rgba(10,10,11,1) 0%, rgba(10,10,11,0) 22%),
+      url('./assets/neon-network-mesh.jpg');
+    background-size:cover, cover, cover;
+    background-position:center, center, 70% center;
+    background-repeat:no-repeat;
   }
   .hero-grid-bg{
     position:absolute; inset:0;
@@ -435,10 +445,12 @@
             mask-image: radial-gradient(ellipse 70% 55% at 60% 30%, black 10%, transparent 70%);
     opacity:var(--grid-line-opacity);
   }
+  html[data-theme="dark"] .hero-grid-bg{ opacity:.18; }
   .hero-blobs{
     position:absolute; inset:0; overflow:hidden;
     pointer-events:none;
   }
+  html[data-theme="dark"] .hero-blobs{ opacity:.5; }
   .parallax-layer{
     position:absolute; inset:0;
     will-change:transform;
@@ -530,6 +542,10 @@
   .channel-pills{
     display:flex; flex-wrap:wrap; gap:10px;
     list-style:none; margin-top:32px;
+  }
+  .hero-fit{
+    font-family:var(--mono); font-size:12px; color:var(--off-dim);
+    margin-top:22px; letter-spacing:.01em;
   }
   .channel-pills li{
     font-family:var(--mono); font-size:11px; letter-spacing:.05em; text-transform:uppercase;
@@ -851,6 +867,14 @@
   .mini-gauge:hover .val{ color:var(--rev); }
 
   /* ================= FAQ ================= */
+  .deliverables{ padding:128px 0; border-bottom:1px solid var(--steel-dim); }
+  .deliverables .sub{ color:var(--off-dim); max-width:480px; font-size:14.5px; line-height:1.6; margin-top:14px; margin-bottom:8px; }
+  .deliverables-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:22px;
+    margin-top:40px;
+  }
+  .deliverables-grid .manifesto-card{ padding:28px 26px; }
+
   .faq{ padding:128px 0; border-bottom:1px solid var(--steel-dim); }
   .faq h2{ font-family:var(--display); font-size:clamp(32px,4vw,48px); text-transform:uppercase; margin-top:16px; margin-bottom:48px; }
   .faq-list{ display:flex; flex-direction:column; gap:14px; }
@@ -881,16 +905,23 @@
   }
 
   /* ================= CTA ================= */
-  .cta{ padding:130px 0; text-align:center; position:relative; overflow:hidden; }
+  .cta{
+    padding:130px 0; text-align:center; position:relative; overflow:hidden;
+    background-image:
+      linear-gradient(180deg, rgba(8,6,14,.6), rgba(8,6,14,.82)),
+      url('assets/neon-network-mesh.jpg');
+    background-size:cover;
+    background-position:center;
+  }
   .cta-glow{
     position:absolute; top:50%; left:50%; width:900px; height:900px; transform:translate(-50%,-50%);
-    background:radial-gradient(circle, rgba(255,75,31,.14) 0%, transparent 60%);
+    background:radial-gradient(circle, rgba(255,75,31,.22) 0%, transparent 60%);
     pointer-events:none;
   }
   .ignition-art{
     position:absolute; top:50%; left:50%; width:600px; height:600px;
     transform:translate(-50%,-50%);
-    color:var(--steel);
+    color:rgba(245,243,238,.35);
     opacity:.5;
     pointer-events:none;
     animation:ignition-spin 60s linear infinite;
@@ -905,10 +936,15 @@
   .cta h2{
     font-family:var(--display); font-size:clamp(38px,6vw,84px); text-transform:uppercase; line-height:.98;
     position:relative; z-index:2;
+    color:#F5F3EE;
   }
-  .cta h2 span{ color:var(--signal); }
-  .cta p{ color:var(--off-dim); max-width:480px; margin:22px auto 40px; font-size:16px; line-height:1.6; position:relative; z-index:2; }
-  .cta .btn{ font-size:14px; padding:16px 34px; position:relative; z-index:2; }
+  .cta h2 span{ color:var(--rev); }
+  .cta p{ color:rgba(245,243,238,.72); max-width:480px; margin:22px auto 40px; font-size:16px; line-height:1.6; position:relative; z-index:2; }
+  .cta .btn{
+    font-size:14px; padding:16px 34px; position:relative; z-index:2;
+    background:var(--signal); color:#0A0A0B; box-shadow:0 10px 30px rgba(232,65,14,.4);
+  }
+  .cta .btn:hover{ background:var(--rev); color:#0A0A0B; box-shadow:0 12px 34px rgba(156,101,0,.45); }
 
   /* ================= FOOTER ================= */
   footer{ border-top:1px solid var(--steel-dim); padding:56px 0 32px; }
@@ -1020,6 +1056,7 @@
     .hero-inner{ grid-template-columns:1fr; }
     .hero-side{ order:-1; }
     .manifesto-grid{ grid-template-columns:1fr; }
+    .deliverables-grid{ grid-template-columns:1fr; }
     .panel-grid{ grid-template-columns:repeat(2,1fr); }
     .process-track{ grid-template-columns:1fr; gap:8px; }
     .process-track::before{ display:none; }
@@ -1036,7 +1073,7 @@
     .foot-grid{ grid-template-columns:1fr 1fr; }
 
     .hero{ padding:56px 0 64px; }
-    .manifesto, .services, .process, .results, .calculator, .faq{ padding:64px 0; }
+    .manifesto, .services, .process, .results, .calculator, .faq, .deliverables{ padding:64px 0; }
     .cta{ padding:80px 0; }
     .section-head{ margin-bottom:32px; }
     .manifesto-head{ margin-bottom:36px; }
@@ -1180,6 +1217,7 @@
         <ul class="channel-pills" aria-label="Channels we run">
           <li>SEO</li><li>Google Ads</li><li>Meta Ads</li><li>Apple Search Ads</li><li>TikTok Ads</li><li>Snapchat Ads</li><li>LinkedIn Ads</li>
         </ul>
+        <p class="hero-fit">Built for D2C, SaaS, apps, and B2B teams with a working product - not pre-launch pitches.</p>
       </div>
       <div class="hero-side">
         <div class="gauge-wrap" id="gaugeWrap" role="button" tabindex="0" aria-label="Rev the engine">
@@ -1417,6 +1455,47 @@
     </div>
   </section>
 
+  <!-- DELIVERABLES -->
+  <section class="deliverables" id="deliverables">
+    <div class="wrap">
+      <p class="eyebrow">No Surprises</p>
+      <h2 style="font-family:var(--display); font-size:clamp(32px,4vw,48px); text-transform:uppercase; margin-top:16px;">What you actually get.</h2>
+      <p class="sub">Not vague promises. Here's exactly what lands in your inbox and your calendar.</p>
+      <div class="deliverables-grid">
+        <div class="manifesto-card">
+          <span class="mk">A LIVE DASHBOARD</span>
+          <h3>Not a slide deck once a month.</h3>
+          <p>Spend, CPA, and revenue update in real time. You're never waiting on a call to find out how things are going.</p>
+        </div>
+        <div class="manifesto-card">
+          <span class="mk">A DIRECT LINE</span>
+          <h3>To the person actually running your account.</h3>
+          <p>A shared Slack channel with your strategist, not a rotating account manager reading a report someone else built.</p>
+        </div>
+        <div class="manifesto-card">
+          <span class="mk">A WEEKLY RECAP</span>
+          <h3>Every week. No exceptions.</h3>
+          <p>Short, specific, and sent whether the news is good or not. Silence isn't a reporting strategy.</p>
+        </div>
+        <div class="manifesto-card">
+          <span class="mk">MONTH-TO-MONTH</span>
+          <h3>Always. No lock-in contracts.</h3>
+          <p>If the numbers stop working for you, you're free to walk. That's the whole point of being judged on results.</p>
+        </div>
+        <div class="manifesto-card">
+          <span class="mk">A REAL AUDIT FIRST</span>
+          <h3>Before we touch a dollar of your budget.</h3>
+          <p>We map your funnel, competitors, and current spend before recommending anything. The first move isn't a guess.</p>
+        </div>
+        <div class="manifesto-card">
+          <span class="mk">PLAIN ENGLISH</span>
+          <h3>No agency-speak in your reports.</h3>
+          <p>If a channel isn't working, we say so directly - not "directionally positive engagement signals."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- FAQ -->
   <section class="faq" id="faq">
     <div class="wrap">
@@ -1457,6 +1536,13 @@
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-a"><p>We work month to month. No lock-in contracts. If the numbers stop working for you, you're free to walk - that's the whole point of being judged on results.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            <span>Who should skip this?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-a"><p>If you don't have a working product yet, or you're not ready to spend real money on media, we're the wrong call this quarter - come back once you are. Same if you need a full brand overhaul before you touch a single ad; that's not what we do. We're built for teams with something worth selling who want it sold faster.</p></div>
         </div>
       </div>
     </div>
@@ -2091,7 +2177,7 @@
     }
 
     if (typeof ScrollTrigger !== 'undefined'){
-      const sectionHeads = document.querySelectorAll('.section-head h2, .manifesto-head h2, .faq h2, .cta h2, .process .wrap > h2, .results .wrap > h2');
+      const sectionHeads = document.querySelectorAll('.section-head h2, .manifesto-head h2, .faq h2, .cta h2, .process .wrap > h2, .results .wrap > h2, .deliverables .wrap > h2');
       sectionHeads.forEach(h2 => {
         const split2 = new SplitText(h2, { type: 'lines', mask: 'lines', linesClass: 'split-line' });
         gsap.from(split2.lines, {
