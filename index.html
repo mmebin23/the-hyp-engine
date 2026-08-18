@@ -475,107 +475,14 @@
     background-position:center;
     background-repeat:no-repeat;
   }
-  .hero-grid-bg{
-    position:absolute; inset:0;
-    background-image:
-      linear-gradient(var(--steel) 1px, transparent 1px),
-      linear-gradient(90deg, var(--steel) 1px, transparent 1px);
-    background-size:64px 64px;
-    -webkit-mask-image: radial-gradient(ellipse 70% 55% at 60% 30%, black 10%, transparent 70%);
-            mask-image: radial-gradient(ellipse 70% 55% at 60% 30%, black 10%, transparent 70%);
-    opacity:var(--grid-line-opacity);
-  }
-  html[data-theme="dark"] .hero-grid-bg{ opacity:.18; }
-  .hero-blobs{
-    position:absolute; inset:0; overflow:hidden;
-    pointer-events:none;
-  }
-  html[data-theme="dark"] .hero-blobs{ opacity:.5; }
   .parallax-layer{
     position:absolute; inset:0;
     will-change:transform;
   }
-  .blob{
-    position:absolute;
-    border-radius:50%;
-    filter:blur(60px);
-    opacity:.48;
-    mix-blend-mode:multiply;
-  }
-  html[data-theme="dark"] .blob{ opacity:.28; mix-blend-mode:screen; }
-  .blob-1{
-    width:420px; height:420px; top:-120px; right:-60px;
-    background:radial-gradient(circle, var(--rev), transparent 70%);
-    animation:drift-1 22s ease-in-out infinite;
-  }
-  .blob-2{
-    width:340px; height:340px; bottom:-100px; left:5%;
-    background:radial-gradient(circle, var(--signal), transparent 70%);
-    animation:drift-2 26s ease-in-out infinite;
-  }
-  .blob-3{
-    width:260px; height:260px; top:15%; left:62%;
-    background:radial-gradient(circle, var(--rev), transparent 70%);
-    animation:drift-3 19s ease-in-out infinite;
-    opacity:.2;
-  }
-  @keyframes drift-1{
-    0%, 100%{ transform:translate(0,0) scale(1); }
-    50%{ transform:translate(-40px, 30px) scale(1.1); }
-  }
-  @keyframes drift-2{
-    0%, 100%{ transform:translate(0,0) scale(1); }
-    50%{ transform:translate(30px, -25px) scale(1.08); }
-  }
-  @keyframes drift-3{
-    0%, 100%{ transform:translate(0,0) scale(1); }
-    50%{ transform:translate(-20px, -30px) scale(.95); }
-  }
-  @media (prefers-reduced-motion: reduce){
-    .blob{ animation:none !important; }
-  }
-
-  .hero-particles{
-    position:absolute; inset:0; width:100%; height:100%;
-    pointer-events:none;
-    color:var(--steel);
-  }
-  .hp-dot{
-    fill:var(--signal);
-    animation:hp-twinkle 3.2s ease-in-out infinite;
-    transform-box:fill-box; transform-origin:center;
-  }
-  .hp-dot:nth-child(2n){ fill:var(--rev); animation-delay:.7s; }
-  .hp-dot:nth-child(3n){ animation-delay:1.4s; }
-  .hp-dot:nth-child(4n){ animation-delay:2.1s; }
-  .hp-dot:nth-child(5n){ animation-delay:.35s; }
-  @keyframes hp-twinkle{
-    0%, 100%{ opacity:.25; transform:scale(.7); }
-    50%{ opacity:.9; transform:scale(1.15); }
-  }
-  .hp-ring{
-    opacity:.3;
-    animation:hp-spin 26s linear infinite;
-    transform-box:fill-box; transform-origin:center;
-  }
-  .hp-ring-2{ animation-duration:34s; animation-direction:reverse; }
-  @keyframes hp-spin{
-    from{ transform:rotate(0deg); }
-    to{ transform:rotate(360deg); }
-  }
-  .hp-cross{ color:var(--rev); opacity:.4; animation:hp-fade 4s ease-in-out infinite; }
-  .hp-cross-2{ color:var(--signal); animation-delay:2s; }
-  @keyframes hp-fade{
-    0%, 100%{ opacity:.2; }
-    50%{ opacity:.6; }
-  }
-  @media (prefers-reduced-motion: reduce){
-    .hp-dot, .hp-ring, .hp-cross{ animation:none !important; opacity:.4; }
-  }
 
   .hero-inner{
     position:relative; z-index:2;
-    display:grid; grid-template-columns:1.15fr .85fr; gap:40px; align-items:center;
+    display:grid; grid-template-columns:minmax(0, 1.15fr); gap:40px; align-items:center;
   }
   .hero h1{
     font-family:var(--display);
@@ -626,13 +533,12 @@
     box-shadow:6px 6px 12px var(--neu-dark), -4px -4px 10px var(--neu-light), 0 0 14px rgba(255,75,31,.2);
   }
 
-  .hero-side{ display:flex; flex-direction:column; align-items:center; gap:18px; }
   .hero-video-scrim{
     position:absolute; inset:0; z-index:1; pointer-events:none;
-    background:linear-gradient(100deg, rgba(250,249,246,.94) 0%, rgba(250,249,246,.82) 34%, rgba(250,249,246,.5) 62%, rgba(250,249,246,.3) 100%);
+    background:linear-gradient(100deg, rgba(250,249,246,.72) 0%, rgba(250,249,246,.55) 34%, rgba(250,249,246,.24) 62%, rgba(250,249,246,.06) 100%);
   }
   html[data-theme="dark"] .hero-video-scrim{
-    background:linear-gradient(100deg, rgba(10,10,11,.95) 0%, rgba(10,10,11,.86) 34%, rgba(10,10,11,.58) 62%, rgba(10,10,11,.4) 100%);
+    background:linear-gradient(100deg, rgba(10,10,11,.78) 0%, rgba(10,10,11,.6) 34%, rgba(10,10,11,.3) 62%, rgba(10,10,11,.1) 100%);
   }
   @media (max-width:960px){
     .hero-video-bg, .hero-video-scrim{ display:none; }
@@ -641,94 +547,13 @@
     position:absolute; inset:0; width:100%; height:100%;
     object-fit:cover; object-position:70% center; z-index:0; pointer-events:none;
   }
-  .gauge-wrap{
-    position:relative; width:280px; height:280px;
-    cursor:pointer;
-    border-radius:50%;
-    box-shadow:var(--neu-pressed-lg);
-    transition:transform .15s ease;
-  }
-  .gauge-wrap:hover{ transform:scale(1.02); }
-  .gauge-wrap:active{ transform:scale(.97); }
-  .gauge-blaze{
-    position:absolute; inset:-55px;
-    border-radius:50%;
-    background:radial-gradient(circle,
-      rgba(255,255,255,.5) 0%,
-      rgba(150,180,255,.55) 14%,
-      rgba(76,125,255,.4) 30%,
-      rgba(255,90,20,.32) 50%,
-      transparent 74%);
-    filter:blur(8px);
-    opacity:0;
-    pointer-events:none;
-  }
-  .gauge-wrap.revving .gauge-blaze{ animation: blaze-flare 2.4s ease-out; }
-  @keyframes blaze-flare{
-    0%{ opacity:0; transform:scale(.55); }
-    14%{ opacity:1; transform:scale(1.05); }
-    22%{ opacity:.7; transform:scale(.95); }
-    45%{ opacity:1; transform:scale(1.2); }
-    70%{ opacity:.85; transform:scale(1.15); }
-    100%{ opacity:0; transform:scale(1.35); }
-  }
-  .gauge-wrap.revving .gauge-fg{
-    animation: blaze-cycle 2.4s ease-in-out;
-  }
-  @keyframes blaze-cycle{
-    0%{ stroke:var(--signal); filter:drop-shadow(0 0 8px rgba(255,75,31,.5)); }
-    14%{ stroke:var(--rev); filter:drop-shadow(0 0 22px rgba(76,125,255,1)); }
-    22%{ stroke:#FF7A2E; filter:drop-shadow(0 0 10px rgba(255,122,46,.5)); }
-    45%{ stroke:#6E9BFF; filter:drop-shadow(0 0 30px rgba(110,155,255,1)); }
-    70%{ stroke:var(--rev); filter:drop-shadow(0 0 20px rgba(76,125,255,.85)); }
-    100%{ stroke:var(--signal); filter:drop-shadow(0 0 8px rgba(255,75,31,.5)); }
-  }
-  .gauge-wrap.revving .gauge-center .num{ animation: rev-shake .5s ease; }
-  @keyframes rev-shake{
-    0%,100%{ transform:translateX(0); }
-    20%{ transform:translateX(-2px); }
-    40%{ transform:translateX(2px); }
-    60%{ transform:translateX(-1px); }
-    80%{ transform:translateX(1px); }
-  }
-  .gauge-wrap svg{ width:100%; height:100%; transform:rotate(-90deg); position:relative; z-index:1; }
-  .gauge-bg{ fill:none; stroke:var(--steel-dim); stroke-width:10; }
-  .gauge-fg{
-    fill:none; stroke:var(--signal); stroke-width:10; stroke-linecap:round;
-    stroke-dasharray:754; stroke-dashoffset:754;
-    animation: gaugefill 2s 0.4s cubic-bezier(.2,.8,.2,1) forwards;
-    filter:drop-shadow(0 0 8px rgba(255,75,31,.5));
-    transition:stroke .2s ease, filter .2s ease;
-  }
-  @keyframes gaugefill{ to{ stroke-dashoffset:150; } }
-  .gauge-center{
-    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
-  }
-  .gauge-center .num{ font-family:var(--display); font-size:38px; letter-spacing:.01em; white-space:nowrap; }
-  .gauge-center .label{ font-family:var(--mono); font-size:11px; color:var(--off-dim); letter-spacing:.1em; text-transform:uppercase; margin-top:4px; }
-  .gauge-note{ font-family:var(--mono); font-size:11.5px; color:var(--off-dim); text-align:center; letter-spacing:.04em; }
-  .gauge-hint{
-    font-family:var(--mono); font-size:10.5px; color:var(--signal); text-align:center; letter-spacing:.06em;
-    text-transform:uppercase; opacity:.85;
-    display:flex; align-items:center; justify-content:center; gap:7px;
-  }
-  .hint-icon{
-    width:13px; height:13px; flex-shrink:0;
-    animation: spark-flicker 1.6s ease-in-out infinite;
-  }
-  @keyframes spark-flicker{
-    0%, 100%{ opacity:1; transform:scale(1); }
-    45%{ opacity:.55; transform:scale(.88); }
-    60%{ opacity:1; transform:scale(1.08); }
-  }
 
   /* ---------- scroll reveal ---------- */
   .reveal{ opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; }
   .reveal-in{ opacity:1; transform:translateY(0); }
 
   @media (prefers-reduced-motion: reduce){
-    .logo .dot, .logo-mark-wrap::before, .ticker-track, .gauge-fg, .gauge-blaze{ animation:none !important; }
-    .gauge-fg{ stroke-dashoffset:150; }
+    .logo .dot, .logo-mark-wrap::before, .ticker-track{ animation:none !important; }
   }
 
   /* ================= MANIFESTO ================= */
@@ -1175,8 +1000,6 @@
     .desktop-cta{ display:none; }
     .ticker-band{ top:66px; }
     main{ padding-top:100px; }
-    .hero-inner{ grid-template-columns:1fr; }
-    .hero-side{ order:-1; }
     .manifesto-grid{ grid-template-columns:1fr; }
     .deliverables-grid{ grid-template-columns:1fr; }
     .panel-grid{ grid-template-columns:repeat(2,1fr); }
@@ -1210,8 +1033,6 @@
     .panel-grid{ grid-template-columns:1fr; }
     .results-grid{ grid-template-columns:1fr; }
     .foot-grid{ grid-template-columns:1fr; }
-    .gauge-wrap{ width:220px; height:220px; }
-    .gauge-center .num{ font-size:28px; }
     .process-track{ row-gap:36px; }
     .foot-bottom{ flex-direction:column; align-items:flex-start; }
     .calc-output-num{ font-size:26px; }
@@ -1302,39 +1123,9 @@
   <!-- HERO -->
   <section class="hero">
     <video class="hero-video-bg" id="heroScrubVideo"
-      src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260530_042513_df96a13b-6155-4f6e-8b93-c9dee66fba08.mp4"
-      muted playsinline preload="auto" aria-hidden="true"></video>
+      data-src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260530_042513_df96a13b-6155-4f6e-8b93-c9dee66fba08.mp4"
+      muted playsinline preload="auto" disablepictureinpicture aria-hidden="true"></video>
     <div class="hero-video-scrim" aria-hidden="true"></div>
-    <div class="hero-grid-bg parallax-layer" data-parallax="0.06" aria-hidden="true"></div>
-    <div class="hero-blobs" aria-hidden="true">
-      <span class="parallax-layer" data-parallax="0.14"><span class="blob blob-1"></span></span>
-      <span class="parallax-layer" data-parallax="-0.18"><span class="blob blob-2"></span></span>
-      <span class="parallax-layer" data-parallax="0.24"><span class="blob blob-3"></span></span>
-    </div>
-    <svg class="hero-particles" viewBox="0 0 1200 700" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
-      <circle class="hp-dot" cx="120" cy="120" r="3.5"></circle>
-      <circle class="hp-dot" cx="1080" cy="90" r="3"></circle>
-      <circle class="hp-dot" cx="980" cy="480" r="4"></circle>
-      <circle class="hp-dot" cx="60" cy="500" r="3"></circle>
-      <circle class="hp-dot" cx="1140" cy="330" r="3.2"></circle>
-      <circle class="hp-dot" cx="220" cy="600" r="2.6"></circle>
-      <circle class="hp-dot" cx="760" cy="60" r="2.8"></circle>
-      <circle class="hp-dot" cx="900" cy="620" r="3.4"></circle>
-      <g class="hp-ring" stroke="currentColor" fill="none" stroke-width="1">
-        <circle cx="1050" cy="180" r="46"></circle>
-      </g>
-      <g class="hp-ring hp-ring-2" stroke="currentColor" fill="none" stroke-width="1">
-        <circle cx="90" cy="340" r="30"></circle>
-      </g>
-      <g class="hp-cross" stroke="currentColor" stroke-width="1.4">
-        <line x1="1000" y1="560" x2="1000" y2="584"></line>
-        <line x1="988" y1="572" x2="1012" y2="572"></line>
-      </g>
-      <g class="hp-cross hp-cross-2" stroke="currentColor" stroke-width="1.4">
-        <line x1="150" y1="80" x2="150" y2="100"></line>
-        <line x1="140" y1="90" x2="160" y2="90"></line>
-      </g>
-    </svg>
     <div class="wrap hero-inner">
       <div>
         <div class="hero-badge">
@@ -1351,8 +1142,6 @@
           <li>SEO</li><li>Google Ads</li><li>Meta Ads</li><li>Apple Search Ads</li><li>TikTok Ads</li><li>Snapchat Ads</li><li>LinkedIn Ads</li>
         </ul>
         <p class="hero-fit">Built for D2C, SaaS, apps, and B2B teams with a working product - not pre-launch pitches.</p>
-      </div>
-      <div class="hero-side">
       </div>
     </div>
   </section>
@@ -1885,234 +1674,36 @@
   const ROAS_HIGH = Math.round((ROAS_LOW + roasSpread) * 10) / 10;
   const roasRangeText = ROAS_LOW.toFixed(1) + '-' + ROAS_HIGH.toFixed(1) + 'x';
 
-  /* ---- Rev the gauge ---- */
-  const gaugeWrap = document.getElementById('gaugeWrap');
-  const gaugeNum = document.getElementById('gaugeNum');
-  const gaugeNote = document.getElementById('gaugeNote');
-  let reving = false;
-  let audioCtx = null;
 
-  if (gaugeNum) gaugeNum.textContent = roasRangeText;
-
-  function makeDistortionCurve(amount){
-    const k = amount;
-    const samples = 44100;
-    const curve = new Float32Array(samples);
-    const deg = Math.PI / 180;
-    for (let i = 0; i < samples; i++){
-      const x = (i * 2) / samples - 1;
-      curve[i] = ((3 + k) * x * 20 * deg) / (Math.PI + k * Math.abs(x));
-    }
-    return curve;
-  }
-
-  function makeNoiseBuffer(seconds){
-    const buffer = audioCtx.createBuffer(1, audioCtx.sampleRate * seconds, audioCtx.sampleRate);
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
-    return buffer;
-  }
-
-  function playRevSound(){
-    try{
-      if (!audioCtx){
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-
-      const now = audioCtx.currentTime;
-      const dur = 2.3;
-      const blip1 = 0.3;
-      const dip = 0.5;
-      const peak = 1.05;
-      const holdEnd = 1.4;
-
-      // master bus with growl distortion, feeding a moving low-pass for the throttle sweep
-      const master = audioCtx.createGain();
-      master.gain.setValueAtTime(0.0001, now);
-      master.gain.exponentialRampToValueAtTime(0.26, now + 0.1);
-      master.gain.exponentialRampToValueAtTime(0.13, now + dip);
-      master.gain.exponentialRampToValueAtTime(0.36, now + peak);
-      master.gain.exponentialRampToValueAtTime(0.3, now + holdEnd);
-      master.gain.exponentialRampToValueAtTime(0.0001, now + dur);
-      master.connect(audioCtx.destination);
-
-      // short echo layer feeding off the master bus, for a wider, cooler "in a garage" feel
-      const delay = audioCtx.createDelay();
-      delay.delayTime.value = 0.16;
-      const feedback = audioCtx.createGain();
-      feedback.gain.value = 0.22;
-      const delayWet = audioCtx.createGain();
-      delayWet.gain.value = 0.22;
-      master.connect(delay);
-      delay.connect(feedback);
-      feedback.connect(delay);
-      delay.connect(delayWet);
-      delayWet.connect(audioCtx.destination);
-
-      const drive = audioCtx.createWaveShaper();
-      drive.curve = makeDistortionCurve(26);
-      drive.oversample = '2x';
-
-      const toneFilter = audioCtx.createBiquadFilter();
-      toneFilter.type = 'lowpass';
-      toneFilter.frequency.setValueAtTime(650, now);
-      toneFilter.frequency.linearRampToValueAtTime(2600, now + blip1);
-      toneFilter.frequency.linearRampToValueAtTime(1100, now + dip);
-      toneFilter.frequency.linearRampToValueAtTime(4200, now + peak);
-      toneFilter.frequency.linearRampToValueAtTime(4500, now + holdEnd);
-      toneFilter.frequency.linearRampToValueAtTime(850, now + dur);
-      toneFilter.Q.value = 0.9;
-
-      drive.connect(toneFilter);
-      toneFilter.connect(master);
-
-      // sub-bass rumble - the low-end thump of a V8 block, double-blipped before settling
-      const sub = audioCtx.createOscillator();
-      sub.type = 'sine';
-      sub.frequency.setValueAtTime(42, now);
-      sub.frequency.linearRampToValueAtTime(165, now + blip1);
-      sub.frequency.linearRampToValueAtTime(72, now + dip);
-      sub.frequency.linearRampToValueAtTime(225, now + peak);
-      sub.frequency.linearRampToValueAtTime(240, now + holdEnd);
-      sub.frequency.linearRampToValueAtTime(55, now + dur);
-      const subGain = audioCtx.createGain();
-      subGain.gain.value = 0.55;
-      sub.connect(subGain);
-      subGain.connect(master);
-      sub.start(now);
-      sub.stop(now + dur + 0.05);
-
-      // four detuned "cylinder" oscillators through the growl distortion - the layered V8 roar
-      [-8, -3, 3, 8].forEach((det) => {
-        const osc = audioCtx.createOscillator();
-        osc.type = 'sawtooth';
-        osc.detune.value = det;
-        osc.frequency.setValueAtTime(58, now);
-        osc.frequency.linearRampToValueAtTime(205, now + blip1);
-        osc.frequency.linearRampToValueAtTime(88, now + dip);
-        osc.frequency.linearRampToValueAtTime(295, now + peak);
-        osc.frequency.linearRampToValueAtTime(315, now + holdEnd);
-        osc.frequency.linearRampToValueAtTime(92, now + dur);
-        osc.connect(drive);
-        osc.start(now);
-        osc.stop(now + dur + 0.05);
-      });
-
-      // spark crackle on the first blip
-      const noiseBuffer = makeNoiseBuffer(0.25);
-      const spark0 = audioCtx.createBufferSource();
-      spark0.buffer = noiseBuffer;
-      const sparkFilter0 = audioCtx.createBiquadFilter();
-      sparkFilter0.type = 'bandpass';
-      sparkFilter0.frequency.value = 4000;
-      sparkFilter0.Q.value = 1.1;
-      const sparkGain0 = audioCtx.createGain();
-      sparkGain0.gain.setValueAtTime(0.0001, now + blip1 - 0.02);
-      sparkGain0.gain.exponentialRampToValueAtTime(0.18, now + blip1 + 0.01);
-      sparkGain0.gain.exponentialRampToValueAtTime(0.0001, now + blip1 + 0.16);
-      spark0.connect(sparkFilter0);
-      sparkFilter0.connect(sparkGain0);
-      sparkGain0.connect(master);
-      spark0.start(now + blip1 - 0.02);
-      spark0.stop(now + blip1 + 0.18);
-
-      // bigger spark/backfire crackle right as it hits redline
-      const spark1 = audioCtx.createBufferSource();
-      spark1.buffer = noiseBuffer;
-      const sparkFilter1 = audioCtx.createBiquadFilter();
-      sparkFilter1.type = 'bandpass';
-      sparkFilter1.frequency.value = 4500;
-      sparkFilter1.Q.value = 1.1;
-      const sparkGain1 = audioCtx.createGain();
-      sparkGain1.gain.setValueAtTime(0.0001, now + peak - 0.02);
-      sparkGain1.gain.exponentialRampToValueAtTime(0.32, now + peak + 0.01);
-      sparkGain1.gain.exponentialRampToValueAtTime(0.0001, now + peak + 0.22);
-      spark1.connect(sparkFilter1);
-      sparkFilter1.connect(sparkGain1);
-      sparkGain1.connect(master);
-      spark1.start(now + peak - 0.02);
-      spark1.stop(now + peak + 0.24);
-
-      // a couple of extra crackles through the hold - sustained sparks at redline
-      [holdEnd - 0.15, holdEnd + 0.1].forEach((t, i) => {
-        const spark = audioCtx.createBufferSource();
-        spark.buffer = noiseBuffer;
-        const sf = audioCtx.createBiquadFilter();
-        sf.type = 'bandpass';
-        sf.frequency.value = 5800 + i * 700;
-        sf.Q.value = 1.4;
-        const sg = audioCtx.createGain();
-        sg.gain.setValueAtTime(0.0001, now + t - 0.01);
-        sg.gain.exponentialRampToValueAtTime(0.15, now + t + 0.005);
-        sg.gain.exponentialRampToValueAtTime(0.0001, now + t + 0.13);
-        spark.connect(sf);
-        sf.connect(sg);
-        sg.connect(master);
-        spark.start(now + t - 0.01);
-        spark.stop(now + t + 0.15);
-      });
-    } catch(e){
-      /* Web Audio unavailable - fail silently, visual rev still works */
-    }
-  }
-
-  function revGauge(){
-    if (reving) return;
-    reving = true;
-    gaugeWrap.classList.add('revving');
-    playRevSound();
-
-    const startVal = ROAS_HIGH;
-    const peakVal = ROAS_HIGH + 1.6 + Math.random() * 1.5;
-    let step = 0;
-    const steps = 10;
-    const original = gaugeNote.innerHTML;
-
-    const tickUp = setInterval(() => {
-      step++;
-      const t = step / steps;
-      const val = startVal + (peakVal - startVal) * t;
-      gaugeNum.textContent = val.toFixed(1) + 'x';
-      if (step >= steps){
-        clearInterval(tickUp);
-        gaugeNote.innerHTML = 'Redlined. That\'s the fun part.';
-        setTimeout(() => {
-          const tickDown = setInterval(() => {
-            step--;
-            const t2 = step / steps;
-            const val2 = startVal + (peakVal - startVal) * t2;
-            gaugeNum.textContent = val2.toFixed(1) + 'x';
-            if (step <= 0){
-              clearInterval(tickDown);
-              gaugeNum.textContent = roasRangeText;
-              gaugeNote.innerHTML = original;
-              gaugeWrap.classList.remove('revving');
-              reving = false;
-            }
-          }, 60);
-        }, 900);
-      }
-    }, 80);
-  }
-
-  if (gaugeWrap){
-    gaugeWrap.addEventListener('click', revGauge);
-    gaugeWrap.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); revGauge(); }
-    });
-  }
-
-  /* ---- Hero video scrub: horizontal mouse movement drives currentTime ---- */
+  /* ---- Hero video scrub: horizontal mouse movement drives currentTime ----
+     The source is attached from JS so phones never download the clip - the
+     element is display:none under 960px but the browser would still fetch it.
+     Seeks are coalesced to one per animation frame; a mouse fires far more
+     move events than the decoder can service, and queued seeks compound. */
   const scrubVideo = document.getElementById('heroScrubVideo');
-  if (scrubVideo && !reduceMotion){
-    const SCRUB_SENSITIVITY = 0.8;
-    let prevX = null, targetTime = 0, seeking = false;
+  const canScrub = window.matchMedia('(min-width: 961px)').matches &&
+                   window.matchMedia('(hover: hover)').matches;
 
-    function requestSeek(){
+  if (scrubVideo && canScrub && !reduceMotion){
+    const SCRUB_SENSITIVITY = 0.8;
+    let prevX = null, targetTime = 0, seeking = false, frameQueued = false;
+
+    scrubVideo.src = scrubVideo.dataset.src;
+
+    function commitSeek(){
+      frameQueued = false;
       if (seeking) return;
+      const dur = scrubVideo.duration;
+      if (!isFinite(dur) || dur <= 0) return;
+      if (Math.abs(scrubVideo.currentTime - targetTime) < 0.01) return;
       seeking = true;
       scrubVideo.currentTime = targetTime;
+    }
+
+    function queueSeek(){
+      if (frameQueued) return;
+      frameQueued = true;
+      requestAnimationFrame(commitSeek);
     }
 
     window.addEventListener('mousemove', (e) => {
@@ -2122,12 +1713,12 @@
       const delta = e.clientX - prevX;
       prevX = e.clientX;
       targetTime = Math.min(Math.max(targetTime + (delta / window.innerWidth) * SCRUB_SENSITIVITY * dur, 0), dur);
-      requestSeek();
+      queueSeek();
     }, { passive: true });
 
     scrubVideo.addEventListener('seeked', () => {
       seeking = false;
-      if (Math.abs(scrubVideo.currentTime - targetTime) > 0.02) requestSeek();
+      if (Math.abs(scrubVideo.currentTime - targetTime) > 0.02) queueSeek();
     });
   }
 
@@ -2143,19 +1734,6 @@
       panel.addEventListener('mouseleave', () => {
         panel.style.transform = '';
       });
-    });
-  }
-
-  /* ---- Hero cursor spotlight ---- */
-  const heroBg = document.querySelector('.hero-grid-bg');
-  const heroSection = document.querySelector('.hero');
-  if (!reduceMotion && heroBg && heroSection && window.matchMedia('(hover: hover)').matches){
-    heroSection.addEventListener('mousemove', (e) => {
-      const r = heroSection.getBoundingClientRect();
-      const x = ((e.clientX - r.left) / r.width) * 100;
-      const y = ((e.clientY - r.top) / r.height) * 100;
-      heroBg.style.maskImage = `radial-gradient(ellipse 60% 50% at ${x}% ${y}%, black 10%, transparent 70%)`;
-      heroBg.style.webkitMaskImage = heroBg.style.maskImage;
     });
   }
 
@@ -2325,7 +1903,7 @@
 
     document.addEventListener('mouseleave', () => cursorEl.classList.remove('active'));
 
-    const hoverTargets = 'a, button, .gauge-wrap, .panel, .manifesto-card, .faq-q, input[type="range"]';
+    const hoverTargets = 'a, button, .panel, .manifesto-card, .faq-q, input[type="range"]';
     document.querySelectorAll(hoverTargets).forEach(target => {
       target.addEventListener('mouseenter', () => cursorEl.classList.add('hover'));
       target.addEventListener('mouseleave', () => cursorEl.classList.remove('hover'));
