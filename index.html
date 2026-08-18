@@ -627,6 +627,17 @@
   }
 
   .hero-side{ display:flex; flex-direction:column; align-items:center; gap:18px; }
+  .hero-video-scrim{
+    position:absolute; inset:0; z-index:1; pointer-events:none;
+    background:linear-gradient(100deg, rgba(250,249,246,.94) 0%, rgba(250,249,246,.82) 34%, rgba(250,249,246,.5) 62%, rgba(250,249,246,.3) 100%);
+  }
+  html[data-theme="dark"] .hero-video-scrim{
+    background:linear-gradient(100deg, rgba(10,10,11,.95) 0%, rgba(10,10,11,.86) 34%, rgba(10,10,11,.58) 62%, rgba(10,10,11,.4) 100%);
+  }
+  .hero-video-bg{
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:cover; object-position:70% center; z-index:0; pointer-events:none;
+  }
   .gauge-wrap{
     position:relative; width:280px; height:280px;
     cursor:pointer;
@@ -1287,6 +1298,10 @@
 
   <!-- HERO -->
   <section class="hero">
+    <video class="hero-video-bg" id="heroScrubVideo"
+      src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260530_042513_df96a13b-6155-4f6e-8b93-c9dee66fba08.mp4"
+      muted playsinline preload="auto" aria-hidden="true"></video>
+    <div class="hero-video-scrim" aria-hidden="true"></div>
     <div class="hero-grid-bg parallax-layer" data-parallax="0.06" aria-hidden="true"></div>
     <div class="hero-blobs" aria-hidden="true">
       <span class="parallax-layer" data-parallax="0.14"><span class="blob blob-1"></span></span>
@@ -1335,24 +1350,6 @@
         <p class="hero-fit">Built for D2C, SaaS, apps, and B2B teams with a working product - not pre-launch pitches.</p>
       </div>
       <div class="hero-side">
-        <div class="gauge-wrap" id="gaugeWrap" role="button" tabindex="0" aria-label="Rev the engine">
-          <div class="gauge-blaze" aria-hidden="true"></div>
-          <svg viewBox="0 0 260 260">
-            <circle class="gauge-bg" cx="130" cy="130" r="120"></circle>
-            <circle class="gauge-fg" id="gaugeFg" cx="130" cy="130" r="120"></circle>
-          </svg>
-          <div class="gauge-center">
-            <span class="num" id="gaugeNum">3.2-6.4x</span>
-            <span class="label" id="gaugeLabel">Client ROAS Range</span>
-          </div>
-        </div>
-        <p class="gauge-note" id="gaugeNote">Measured across active accounts,<br>trailing 90 days</p>
-        <p class="gauge-hint">
-          <svg class="hint-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <polygon points="13 2 3 14 11 14 9 22 21 9 13 9 13 2"></polygon>
-          </svg>
-          Tap the dial to rev it →
-        </p>
       </div>
     </div>
   </section>
@@ -2096,10 +2093,40 @@
     }, 80);
   }
 
-  gaugeWrap.addEventListener('click', revGauge);
-  gaugeWrap.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); revGauge(); }
-  });
+  if (gaugeWrap){
+    gaugeWrap.addEventListener('click', revGauge);
+    gaugeWrap.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); revGauge(); }
+    });
+  }
+
+  /* ---- Hero video scrub: horizontal mouse movement drives currentTime ---- */
+  const scrubVideo = document.getElementById('heroScrubVideo');
+  if (scrubVideo && !reduceMotion){
+    const SCRUB_SENSITIVITY = 0.8;
+    let prevX = null, targetTime = 0, seeking = false;
+
+    function requestSeek(){
+      if (seeking) return;
+      seeking = true;
+      scrubVideo.currentTime = targetTime;
+    }
+
+    window.addEventListener('mousemove', (e) => {
+      if (prevX === null){ prevX = e.clientX; return; }
+      const dur = scrubVideo.duration;
+      if (!isFinite(dur) || dur <= 0){ prevX = e.clientX; return; }
+      const delta = e.clientX - prevX;
+      prevX = e.clientX;
+      targetTime = Math.min(Math.max(targetTime + (delta / window.innerWidth) * SCRUB_SENSITIVITY * dur, 0), dur);
+      requestSeek();
+    }, { passive: true });
+
+    scrubVideo.addEventListener('seeked', () => {
+      seeking = false;
+      if (Math.abs(scrubVideo.currentTime - targetTime) > 0.02) requestSeek();
+    });
+  }
 
   /* ---- Panel tilt ---- */
   if (!reduceMotion && window.matchMedia('(hover: hover)').matches){
