@@ -13,10 +13,42 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Hyp Engine - Media Agency for SEO, Google, Meta &amp; Social Ads</title>
 <meta name="description" content="The Hyp Engine is a performance media agency running SEO, Google Ads, Meta Ads, Apple Search Ads, TikTok, Snapchat and LinkedIn campaigns - built around revenue, not vanity metrics.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://mmebin23.github.io/the-hyp-engine/">
+<meta name="theme-color" content="#F8F9FB">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Hyp Engine">
+<meta property="og:title" content="The Hyp Engine - Media Agency for SEO, Google, Meta &amp; Social Ads">
+<meta property="og:description" content="Performance media agency running SEO, Google Ads, Meta Ads, Apple Search Ads, TikTok, Snapchat and LinkedIn campaigns - built around revenue, not vanity metrics.">
+<meta property="og:url" content="https://mmebin23.github.io/the-hyp-engine/">
+<meta property="og:image" content="https://mmebin23.github.io/the-hyp-engine/assets/logo.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Hyp Engine - Media Agency for SEO, Google, Meta &amp; Social Ads">
+<meta name="twitter:description" content="Performance media agency running SEO, Google Ads, Meta Ads, Apple Search Ads, TikTok, Snapchat and LinkedIn campaigns - built around revenue, not vanity metrics.">
+<meta name="twitter:image" content="https://mmebin23.github.io/the-hyp-engine/assets/logo.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "The Hyp Engine",
+  "alternateName": "Hyp Engine",
+  "description": "Performance media agency running SEO, Google Ads, Meta Ads, Apple Search Ads, TikTok, Snapchat and LinkedIn campaigns for D2C, SaaS, app, and B2B brands.",
+  "url": "https://mmebin23.github.io/the-hyp-engine/",
+  "logo": "https://mmebin23.github.io/the-hyp-engine/assets/logo.png",
+  "email": "hello@thehypengine.com",
+  "priceRange": "$$",
+  "areaServed": "Worldwide",
+  "serviceType": ["SEO", "Google Ads", "Meta Ads", "Apple Search Ads", "TikTok Ads", "Snapchat Ads", "LinkedIn Ads"]
+}
+</script>
+
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --black: #F8F9FB;
@@ -34,6 +66,7 @@
     --display: 'Anton', sans-serif;
     --body: 'Space Grotesk', sans-serif;
     --mono: 'JetBrains Mono', monospace;
+    --wordmark: 'Jost', sans-serif;
 
     /* neumorphic surface tokens */
     --neu-bg: #F8F9FB;
@@ -225,12 +258,19 @@
   }
   .nav-actions{ display:flex; align-items:center; gap:16px; }
   .logo{
-    font-family:var(--display);
-    font-size:20px;
-    letter-spacing:.02em;
+    font-family:var(--wordmark);
+    font-size:19px;
+    font-weight:500;
+    letter-spacing:.05em;
     display:flex; align-items:center; gap:10px;
   }
   .logo-text{ white-space:nowrap; flex-shrink:0; }
+  .logo-text .lw-the{
+    font-weight:400; color:var(--off-dim); font-size:.55em; letter-spacing:.25em;
+    margin-right:4px;
+  }
+  .logo-text .lw-hyp{ font-weight:500; color:var(--off); }
+  .logo-text .lw-engine{ font-weight:400; color:var(--off); }
   .logo .dot{
     width:9px; height:9px; border-radius:50%;
     background:var(--signal);
@@ -239,7 +279,7 @@
   }
   .logo-mark-wrap{
     position:relative;
-    width:34px; height:34px; flex-shrink:0;
+    width:48px; height:48px; flex-shrink:0;
     display:flex; align-items:center; justify-content:center;
     transform-style:preserve-3d;
     perspective:400px;
@@ -419,11 +459,9 @@
   }
   html[data-theme="dark"] .hero{
     background-image:
-      linear-gradient(100deg, rgba(10,10,11,.97) 0%, rgba(10,10,11,.86) 32%, rgba(10,10,11,.55) 58%, rgba(10,10,11,.4) 100%),
-      linear-gradient(to top, rgba(10,10,11,1) 0%, rgba(10,10,11,0) 22%),
-      url('./assets/neon-network-mesh.jpg');
-    background-size:cover, cover, cover;
-    background-position:center, center, 70% center;
+      linear-gradient(100deg, rgba(10,10,11,.97) 0%, rgba(10,10,11,.86) 32%, rgba(10,10,11,.55) 58%, rgba(10,10,11,.4) 100%);
+    background-size:cover;
+    background-position:center;
     background-repeat:no-repeat;
   }
   .hero-grid-bg{
@@ -507,20 +545,6 @@
     transform:translateY(-2px) scale(1.03);
     text-shadow:0 0 24px rgba(255,75,31,.65);
   }
-  .hero h1 .strike{
-    position:relative; color:var(--off-dim);
-    display:inline-block;
-    transition:transform .2s ease;
-    cursor:default;
-  }
-  .hero h1 .strike:hover{ transform:rotate(-1.5deg); }
-  .hero h1 .strike::after{
-    content:""; position:absolute; left:-2%; right:-2%; top:48%;
-    height:5px; background:var(--rev);
-    transform:rotate(-2deg);
-    transition:transform .2s ease;
-  }
-  .hero h1 .strike:hover::after{ transform:rotate(-2deg) scaleX(1.04); }
   .hero p.lede{
     font-size:18px; line-height:1.6; color:var(--off-dim);
     max-width:520px; margin-bottom:36px;
@@ -724,7 +748,7 @@
   .panel:hover{
     box-shadow:10px 10px 20px var(--neu-dark), -8px -8px 18px var(--neu-light), 0 0 22px rgba(255,75,31,.14);
   }
-  .panel .idx{ font-family:var(--mono); font-size:11px; color:var(--steel); letter-spacing:.06em; }
+  .panel .idx{ font-family:var(--mono); font-size:11px; color:var(--off-dim); letter-spacing:.06em; opacity:.65; }
   .panel .switch{
     width:34px; height:18px; border-radius:20px;
     background:var(--neu-bg); box-shadow:var(--neu-pressed);
@@ -899,11 +923,45 @@
   .cta{
     padding:130px 0; text-align:center; position:relative; overflow:hidden;
     background-image:
-      linear-gradient(180deg, rgba(8,6,14,.6), rgba(8,6,14,.82)),
-      url('assets/neon-network-mesh.jpg');
-    background-size:cover;
-    background-position:center;
+      radial-gradient(ellipse 80% 70% at 50% 40%, rgba(20,26,40,1) 0%, rgba(8,10,16,1) 70%);
   }
+  .network-motion{
+    position:absolute; inset:0; width:100%; height:100%;
+    pointer-events:none;
+  }
+  .nm-lines line{
+    stroke:rgba(76,125,255,.35);
+    animation:nm-line-pulse 5s ease-in-out infinite;
+  }
+  .nm-lines line:nth-child(3n){ stroke:rgba(255,106,26,.3); animation-delay:.6s; }
+  .nm-lines line:nth-child(3n+1){ animation-delay:1.4s; }
+  .nm-lines line:nth-child(4n){ animation-delay:2.2s; }
+  @keyframes nm-line-pulse{
+    0%, 100%{ opacity:.25; }
+    50%{ opacity:.75; }
+  }
+  .nm-nodes circle{
+    fill:#6E9BFF;
+    filter:drop-shadow(0 0 6px rgba(76,125,255,.9));
+    animation:nm-twinkle 3.4s ease-in-out infinite;
+    transform-box:fill-box; transform-origin:center;
+  }
+  .nm-nodes circle:nth-child(3n){
+    fill:#FF8A4C;
+    filter:drop-shadow(0 0 6px rgba(255,106,26,.9));
+  }
+  .nm-nodes circle:nth-child(2n){ animation-delay:.8s; }
+  .nm-nodes circle:nth-child(3n+1){ animation-delay:1.6s; }
+  .nm-nodes circle:nth-child(4n){ animation-delay:2.4s; }
+  .nm-nodes circle:nth-child(5n){ animation-delay:.3s; }
+  @keyframes nm-twinkle{
+    0%, 100%{ opacity:.4; transform:scale(.85); }
+    50%{ opacity:1; transform:scale(1.25); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .nm-lines line, .nm-nodes circle{ animation:none; opacity:.6; }
+  }
+
   .cta-glow{
     position:absolute; top:50%; left:50%; width:900px; height:900px; transform:translate(-50%,-50%);
     background:radial-gradient(circle, rgba(255,75,31,.22) 0%, transparent 60%);
@@ -933,7 +991,15 @@
   .cta p{ color:rgba(245,243,238,.72); max-width:480px; margin:22px auto 40px; font-size:16px; line-height:1.6; position:relative; z-index:2; }
   .cta .btn{
     font-size:14px; padding:16px 34px; position:relative; z-index:2;
-    background:var(--signal); color:#0A0A0B; box-shadow:0 10px 30px rgba(255,106,26,.4);
+    background:var(--signal); color:#0A0A0B;
+    animation:cta-btn-breathe 3.2s ease-in-out infinite;
+  }
+  @keyframes cta-btn-breathe{
+    0%, 100%{ box-shadow:0 10px 30px rgba(255,106,26,.4); }
+    50%{ box-shadow:0 10px 40px rgba(255,106,26,.7); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .cta .btn{ animation:none; }
   }
   .cta .btn:hover{ background:var(--rev); color:#0A0A0B; box-shadow:0 12px 34px rgba(76,125,255,.45); }
 
@@ -941,7 +1007,7 @@
   footer{ border-top:1px solid var(--steel-dim); padding:56px 0 32px; }
   .foot-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; margin-bottom:56px; }
   .foot-logo{
-    font-family:var(--display); font-size:18px; margin-bottom:14px;
+    font-family:var(--wordmark); font-size:17px; font-weight:500; letter-spacing:.05em; margin-bottom:14px;
     display:flex; align-items:center; gap:10px;
   }
   .foot-grid p{ color:var(--off-dim); font-size:13.5px; line-height:1.6; max-width:280px; }
@@ -1075,7 +1141,7 @@
   @media (max-width:560px){
     .wrap{ padding:0 20px; }
     .logo{ font-size:16px; }
-    .logo-mark-wrap{ width:26px; height:26px; }
+    .logo-mark-wrap{ width:36px; height:36px; }
     .ticker-track span{ font-size:11px; padding:0 16px; }
     .panel-grid{ grid-template-columns:1fr; }
     .results-grid{ grid-template-columns:1fr; }
@@ -1114,7 +1180,7 @@
       <span class="logo-mark-wrap" id="logoMarkHeader">
         <img src="assets/favicon.png" alt="" class="logo-mark-img">
       </span>
-      <span class="logo-text">THE HYP ENGINE</span>
+      <span class="logo-text"><span class="lw-the">THE</span> <span class="lw-hyp">HYP</span> <span class="lw-engine">ENGINE</span></span>
       <span class="logo-tag"><strong>Media Agency</strong></span>
     </a>
     <nav class="links" id="navLinks">
@@ -1183,7 +1249,7 @@
           <span class="hero-badge-dot"></span>
           <span class="hero-badge-main">Media Agency</span>
         </div>
-        <h1>Less <span class="strike">Hype.</span><br>All <span class="accent">Horsepower.</span></h1>
+        <h1>Your Growth,<br><span class="accent">Weaponized.</span></h1>
         <p class="lede">We're the <strong class="hl">media agency</strong> that actually runs your SEO and paid ads - Google, Meta, Apple, TikTok, Snapchat, LinkedIn, all of it - and reports back in dollars, not decks. If a campaign isn't pulling its weight by week three, we already know. So will you.</p>
         <div class="hero-ctas">
           <a href="#contact" class="btn">Get A Free Audit</a>
@@ -1525,6 +1591,38 @@
 
   <!-- CTA -->
   <section class="cta" id="contact">
+    <svg class="network-motion" viewBox="0 0 900 500" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+      <g class="nm-lines" fill="none" stroke-width="1">
+        <line x1="80" y1="380" x2="220" y2="260"></line>
+        <line x1="220" y1="260" x2="150" y2="120"></line>
+        <line x1="220" y1="260" x2="380" y2="310"></line>
+        <line x1="380" y1="310" x2="340" y2="150"></line>
+        <line x1="340" y1="150" x2="480" y2="90"></line>
+        <line x1="380" y1="310" x2="520" y2="380"></line>
+        <line x1="520" y1="380" x2="480" y2="90"></line>
+        <line x1="520" y1="380" x2="670" y2="330"></line>
+        <line x1="670" y1="330" x2="620" y2="170"></line>
+        <line x1="620" y1="170" x2="480" y2="90"></line>
+        <line x1="670" y1="330" x2="800" y2="260"></line>
+        <line x1="800" y1="260" x2="760" y2="110"></line>
+        <line x1="760" y1="110" x2="620" y2="170"></line>
+        <line x1="150" y1="120" x2="60" y2="60"></line>
+      </g>
+      <g class="nm-nodes">
+        <circle cx="80" cy="380" r="3.2"></circle>
+        <circle cx="220" cy="260" r="4"></circle>
+        <circle cx="150" cy="120" r="3"></circle>
+        <circle cx="380" cy="310" r="3.6"></circle>
+        <circle cx="340" cy="150" r="3"></circle>
+        <circle cx="480" cy="90" r="4.2"></circle>
+        <circle cx="520" cy="380" r="3.4"></circle>
+        <circle cx="670" cy="330" r="4"></circle>
+        <circle cx="620" cy="170" r="3.2"></circle>
+        <circle cx="800" cy="260" r="3.8"></circle>
+        <circle cx="760" cy="110" r="3"></circle>
+        <circle cx="60" cy="60" r="2.6"></circle>
+      </g>
+    </svg>
     <div class="cta-glow" aria-hidden="true"></div>
     <svg class="ignition-art" viewBox="0 0 600 600" aria-hidden="true">
       <circle cx="300" cy="300" r="280" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 10"></circle>
@@ -1559,7 +1657,7 @@
           <span class="logo-mark-wrap" id="logoMarkFooter">
             <img src="assets/favicon.png" alt="" class="logo-mark-img">
           </span>
-          <span class="logo-text">THE HYP ENGINE</span>
+          <span class="logo-text"><span class="lw-the">THE</span> <span class="lw-hyp">HYP</span> <span class="lw-engine">ENGINE</span></span>
         </div>
         <p>We run SEO and paid media for brands who'd rather see revenue than a highlight reel. Built by people who've actually managed the ad accounts, not just talked about them.</p>
       </div>
@@ -1959,7 +2057,16 @@
 
   /* ---- Scroll reveal ---- */
   const revealTargets = document.querySelectorAll('.manifesto-card, .panel, .stage, .mini-gauge, .calc-panel, .faq-item');
-  if (!reduceMotion && 'IntersectionObserver' in window){
+  if (!reduceMotion && hasGsap && typeof ScrollTrigger !== 'undefined'){
+    gsap.set(revealTargets, { opacity: 0, y: 26 });
+    ScrollTrigger.batch(revealTargets, {
+      start: 'top 88%',
+      once: true,
+      onEnter: (batch) => gsap.to(batch, {
+        opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', stagger: 0.09
+      })
+    });
+  } else if (!reduceMotion && 'IntersectionObserver' in window){
     revealTargets.forEach(el => el.classList.add('reveal'));
     const io = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -2135,6 +2242,26 @@
       });
       btn.addEventListener('mouseleave', () => { moveX(0); moveY(0); });
     });
+  }
+
+  /* ---- CTA network background: mouse parallax ---- */
+  if (hasGsap && cursorCapable && !reduceMotion){
+    const ctaSection = document.querySelector('.cta');
+    const networkSvg = document.querySelector('.network-motion');
+    if (ctaSection && networkSvg){
+      const moveNetX = gsap.quickTo(networkSvg, 'x', { duration: 0.8, ease: 'power2.out' });
+      const moveNetY = gsap.quickTo(networkSvg, 'y', { duration: 0.8, ease: 'power2.out' });
+      ctaSection.addEventListener('mousemove', (e) => {
+        const rect = ctaSection.getBoundingClientRect();
+        const relX = (e.clientX - rect.left - rect.width / 2) / rect.width;
+        const relY = (e.clientY - rect.top - rect.height / 2) / rect.height;
+        moveNetX(relX * -24);
+        moveNetY(relY * -18);
+      });
+      ctaSection.addEventListener('mouseleave', () => {
+        moveNetX(0); moveNetY(0);
+      });
+    }
   }
 
   /* ---- Kinetic typography: hero headline reveal on load, section headings on scroll ---- */

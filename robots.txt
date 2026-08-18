@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mmebin23.github.io/the-hyp-engine/sitemap.xml
