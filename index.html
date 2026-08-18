@@ -634,6 +634,9 @@
   html[data-theme="dark"] .hero-video-scrim{
     background:linear-gradient(100deg, rgba(10,10,11,.95) 0%, rgba(10,10,11,.86) 34%, rgba(10,10,11,.58) 62%, rgba(10,10,11,.4) 100%);
   }
+  @media (max-width:960px){
+    .hero-video-bg, .hero-video-scrim{ display:none; }
+  }
   .hero-video-bg{
     position:absolute; inset:0; width:100%; height:100%;
     object-fit:cover; object-position:70% center; z-index:0; pointer-events:none;
