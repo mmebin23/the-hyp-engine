@@ -48,7 +48,7 @@
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --black: #F6F2E9;
@@ -63,7 +63,7 @@
     --off: #0B0F14;
     --off-dim: #6B6459;
     --ink: #0A0A0B;
-    --display: 'Anton', sans-serif;
+    --display: 'Oswald', 'Anton', sans-serif;
     --body: 'Space Grotesk', sans-serif;
     --mono: 'JetBrains Mono', monospace;
     --wordmark: 'Jost', sans-serif;
@@ -192,14 +192,9 @@
     letter-spacing:.18em;
     text-transform:uppercase;
     color:var(--signal);
-    display:flex; align-items:center; gap:10px;
-  }
-  .eyebrow::before{
-    content:"";
-    width:18px; height:1px; background:var(--signal);
+    display:flex; align-items:center;
   }
   .eyebrow-center{ justify-content:center; }
-  .eyebrow-center::before{ display:none; }
 
   /* ---------- spotlight-hover utility ---------- */
   .spot-hover{ position:relative; }
@@ -481,6 +476,11 @@
     position:relative; z-index:2;
     display:grid; grid-template-columns:minmax(0, 1.15fr); gap:40px; align-items:center;
   }
+  .hero h1, .section-head h2, .faq h2, .cta h2,
+  .stage h3, .gauge-center .num,
+  .manifesto-head h2, .process h2, .results h2, .deliverables h2{
+    font-weight:500;
+  }
   .hero h1{
     font-family:var(--display);
     font-size:clamp(50px, 6.8vw, 100px);
@@ -653,50 +653,7 @@
   }
   .panel.more h3{ color:var(--off-dim); font-weight:500; font-size:14px; }
 
-  /* ================= CALCULATOR ================= */
-  .calculator{ padding:128px 0; position:relative; }
-  .calculator h2{ font-family:var(--display); font-size:clamp(32px,4vw,48px); text-transform:uppercase; margin-top:16px; }
-  .calculator .sub{ color:var(--off-dim); max-width:480px; font-size:14.5px; line-height:1.6; margin-top:14px; margin-bottom:48px; }
-
-  .calc-panel{
-    display:grid; grid-template-columns:1.2fr auto 1fr;
-    align-items:center; gap:48px;
-    background:var(--neu-bg);
-    border-radius:var(--neu-radius);
-    box-shadow:var(--neu-raised);
-    padding:48px;
-  }
-  .calc-divider{ width:2px; align-self:stretch; background:transparent; box-shadow:var(--neu-pressed); border-radius:2px; }
-  .calc-input label{
-    font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--off-dim);
-    display:block; margin-bottom:20px;
-  }
-  .calc-input input[type="range"]{
-    -webkit-appearance:none; appearance:none;
-    width:100%; height:6px; border-radius:6px;
-    background:var(--neu-bg); box-shadow:var(--neu-pressed);
-    outline:none; margin-bottom:24px;
-  }
-  .calc-input input[type="range"]::-webkit-slider-thumb{
-    -webkit-appearance:none; appearance:none;
-    width:22px; height:22px; border-radius:50%;
-    background:var(--neu-bg);
-    box-shadow:var(--neu-raised-sm), 0 0 0 3px rgba(255,75,31,.18);
-    cursor:pointer;
-    transition:transform .15s ease;
-  }
-  .calc-input input[type="range"]::-webkit-slider-thumb:hover{ transform:scale(1.15); }
-  .calc-input input[type="range"]::-moz-range-thumb{
-    width:22px; height:22px; border-radius:50%; border:none;
-    background:var(--neu-bg);
-    box-shadow:var(--neu-raised-sm), 0 0 0 3px rgba(255,75,31,.18);
-    cursor:pointer;
-  }
-  .calc-value{ font-family:var(--display); font-size:36px; color:var(--off); }
-  .calc-output{ display:flex; flex-direction:column; }
-  .calc-output-label{ font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--off-dim); margin-bottom:14px; }
-  .calc-output-num{ font-family:var(--display); font-size:34px; color:var(--rev); text-shadow:0 0 24px rgba(76,125,255,.35); line-height:1.15; }
-  .calc-output-sub{ font-family:var(--mono); font-size:11.5px; color:var(--off-dim); margin-top:12px; }
+  /* ================= RESULTS DISCLAIMER ================= */
   .calc-disclaimer{ font-family:var(--mono); font-size:11px; color:var(--off-dim); opacity:.7; max-width:640px; margin:24px 0 32px; line-height:1.6; }
 
   /* ================= PROCESS ================= */
@@ -1015,12 +972,10 @@
     .foot-grid{ grid-template-columns:1fr 1fr; }
 
     .hero{ padding:56px 0 64px; }
-    .manifesto, .services, .process, .results, .calculator, .faq, .deliverables{ padding:64px 0; }
+    .manifesto, .services, .process, .results, .faq, .deliverables{ padding:64px 0; }
     .cta{ padding:80px 0; }
     .section-head{ margin-bottom:32px; }
     .manifesto-head{ margin-bottom:36px; }
-    .calc-panel{ grid-template-columns:1fr; padding:32px 24px; gap:32px; }
-    .calc-divider{ width:100%; height:3px; }
   }
   @media (max-width:560px){
     .wrap{ padding:0 20px; }
@@ -1032,11 +987,10 @@
     .foot-grid{ grid-template-columns:1fr; }
     .process-track{ row-gap:36px; }
     .foot-bottom{ flex-direction:column; align-items:flex-start; }
-    .calc-output-num{ font-size:26px; }
     .float-cta{ right:16px; bottom:16px; padding:12px 16px; font-size:11px; }
     .back-to-top{ right:16px; bottom:70px; width:36px; height:36px; }
     .hero-badge{ font-size:11px; padding:8px 14px; }
-    .panel, .manifesto-card, .faq-item, .calc-panel{
+    .panel, .manifesto-card, .faq-item{
       box-shadow:5px 5px 12px var(--neu-dark), -4px -4px 10px var(--neu-light);
     }
   }
@@ -1067,7 +1021,6 @@
     </a>
     <nav class="links" id="navLinks">
       <a href="#services">Services</a>
-      <a href="#calculator">Calculator</a>
       <a href="#process">Process</a>
       <a href="#results">Results</a>
       <a href="#faq">FAQ</a>
@@ -1230,30 +1183,6 @@
         <div class="panel"><div><span class="idx">CH.07</span><div class="switch"></div></div><div><h3>LinkedIn Ads</h3><span class="tag">B2B &amp; Enterprise</span></div></div>
         <div class="panel more"><h3>+ Programmatic, CRO, Marketing Automation &amp; more - ask us.</h3></div>
       </div>
-    </div>
-  </section>
-
-  <!-- CALCULATOR -->
-  <section class="calculator" id="calculator">
-    <div class="wrap">
-      <p class="eyebrow">Try It Yourself</p>
-      <h2>What's your engine idling at?</h2>
-      <p class="sub">Drag the slider to your monthly ad spend and see what it could be producing when it's actually tuned.</p>
-      <div class="calc-panel">
-        <div class="calc-input">
-          <label for="spendSlider">Monthly ad spend</label>
-          <input type="range" id="spendSlider" min="1000" max="100000" step="500" value="10000" aria-describedby="spendValue">
-          <div class="calc-value" id="spendValue">$10,000</div>
-        </div>
-        <div class="calc-divider" aria-hidden="true"></div>
-        <div class="calc-output">
-          <span class="calc-output-label">Potential Monthly Revenue*</span>
-          <span class="calc-output-num" id="calcOutput">$32,000 - $64,000</span>
-          <span class="calc-output-sub" id="calcRoasSub">at a 3.2x-6.4x ROAS range</span>
-        </div>
-      </div>
-      <p class="calc-disclaimer">*A rough estimate pulled from what our current clients are actually seeing - not a promise. Your number depends on your market, your funnel, and where you're starting from, so talk to us before you bank on it.</p>
-      <a href="#contact" class="btn">Get My Real Number →</a>
     </div>
   </section>
 
@@ -1663,14 +1592,6 @@
     updateParallax();
   }
 
-  // ROAS range varies slightly per visit rather than showing one fixed number -
-  // bounded to a realistic band so it stays credible.
-  const roasBase = 2.9 + Math.random() * 0.7;
-  const ROAS_LOW = Math.round(roasBase * 10) / 10;
-  const roasSpread = 2.6 + Math.random() * 1.2;
-  const ROAS_HIGH = Math.round((ROAS_LOW + roasSpread) * 10) / 10;
-  const roasRangeText = ROAS_LOW.toFixed(1) + '-' + ROAS_HIGH.toFixed(1) + 'x';
-
 
   /* ---- Hero video scrub: horizontal mouse movement drives currentTime ----
      The source is attached from JS so phones never download the clip - the
@@ -1735,7 +1656,7 @@
   }
 
   /* ---- Scroll reveal ---- */
-  const revealTargets = document.querySelectorAll('.manifesto-card, .panel, .stage, .mini-gauge, .calc-panel, .faq-item');
+  const revealTargets = document.querySelectorAll('.manifesto-card, .panel, .stage, .mini-gauge, .faq-item');
   if (!reduceMotion && hasGsap && typeof ScrollTrigger !== 'undefined'){
     gsap.set(revealTargets, { opacity: 0, y: 26 });
     ScrollTrigger.batch(revealTargets, {
@@ -1829,27 +1750,6 @@
   backToTop.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
   });
-
-  /* ---- ROI calculator ---- */
-  const spendSlider = document.getElementById('spendSlider');
-  const spendValue = document.getElementById('spendValue');
-  const calcOutput = document.getElementById('calcOutput');
-  const calcRoasSub = document.getElementById('calcRoasSub');
-  if (calcRoasSub) calcRoasSub.textContent = 'at a ' + roasRangeText + ' ROAS range';
-
-  function formatMoney(n){
-    return '$' + Math.round(n).toLocaleString('en-US');
-  }
-
-  function updateCalc(){
-    const spend = Number(spendSlider.value);
-    spendValue.textContent = formatMoney(spend);
-    calcOutput.textContent = formatMoney(spend * ROAS_LOW) + ' - ' + formatMoney(spend * ROAS_HIGH);
-  }
-  if (spendSlider){
-    spendSlider.addEventListener('input', updateCalc);
-    updateCalc();
-  }
 
   /* ---- FAQ accordion ---- */
   document.querySelectorAll('.faq-q').forEach(btn => {
