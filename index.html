@@ -223,7 +223,7 @@
     display:inline-flex; align-items:center; gap:10px;
     flex-wrap:wrap; row-gap:6px;
     font-family:var(--mono);
-    font-size:13px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+    font-size:13px; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
     color:var(--off-dim);
     background:var(--neu-bg);
     border:none;
@@ -281,9 +281,6 @@
     position:relative;
     width:48px; height:48px; flex-shrink:0;
     display:flex; align-items:center; justify-content:center;
-    background:radial-gradient(circle, #14171F 0%, #0A0B10 100%);
-    border-radius:14px;
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);
     transform-style:preserve-3d;
     perspective:400px;
     transition:transform .3s cubic-bezier(.34,1.56,.64,1);
@@ -301,11 +298,11 @@
   }
   .logo-mark-wrap::before{
     content:"";
-    position:absolute; inset:-40%;
+    position:absolute; inset:-25%;
     border-radius:50%;
     background:conic-gradient(from 0deg, var(--rev), var(--signal), var(--rev));
     filter:blur(10px);
-    opacity:.45;
+    opacity:.3;
     z-index:-1;
     animation:logo-glow-spin 6s linear infinite;
     transition:opacity .3s ease;
@@ -315,7 +312,7 @@
     to{ transform:rotate(360deg); }
   }
   .logo-mark-img{
-    width:76%; height:76%; object-fit:contain;
+    width:100%; height:100%; object-fit:contain;
     transition:filter .3s ease;
   }
   .logo:hover .logo-mark-wrap{ transform:scale(1.14); }
@@ -333,7 +330,7 @@
     padding-left:14px; margin-left:4px;
     white-space:nowrap;
   }
-  .logo-tag strong{ color:var(--signal); font-weight:700; }
+  .logo-tag strong{ color:var(--signal); font-weight:600; }
   @keyframes pulse{ 0%,100%{ opacity:1; transform:scale(1);} 50%{ opacity:.4; transform:scale(.72);} }
 
   nav.links{ display:flex; gap:36px; }
@@ -452,7 +449,7 @@
     to{ transform:translateX(-50%); }
   }
   .ticker-track span{
-    font-family:var(--mono); font-size:12px; font-weight:700;
+    font-family:var(--mono); font-size:12px; font-weight:600;
     letter-spacing:.06em; text-transform:uppercase;
     padding:0 24px;
     display:inline-flex; align-items:center; gap:24px;
@@ -507,7 +504,7 @@
     max-width:520px; margin-bottom:36px;
   }
   .hero p.lede .hl{
-    color:var(--off); font-weight:700;
+    color:var(--off); font-weight:600;
   }
   .hero-ctas{ display:flex; gap:16px; flex-wrap:wrap; align-items:center; }
 
@@ -597,7 +594,7 @@
     font-family:var(--mono); font-size:11px; color:var(--signal); letter-spacing:.1em;
   }
   .manifesto-card h3{
-    font-family:var(--body); font-weight:700; font-size:19px; margin:14px 0 10px; line-height:1.3;
+    font-family:var(--body); font-weight:600; font-size:19px; margin:14px 0 10px; line-height:1.3;
   }
   .manifesto-card p{ color:var(--off-dim); font-size:14.5px; line-height:1.6; }
 
@@ -648,7 +645,7 @@
     background:var(--steel); transition:transform .3s, background .3s, box-shadow .3s;
   }
   .panel:hover .switch::after{ background:var(--signal); transform:translateX(15px); box-shadow:0 0 8px var(--signal); }
-  .panel h3{ font-family:var(--body); font-weight:700; font-size:17px; }
+  .panel h3{ font-family:var(--body); font-weight:600; font-size:17px; }
   .panel span.tag{ font-family:var(--mono); font-size:10.5px; color:var(--off-dim); letter-spacing:.06em; text-transform:uppercase; }
 
   .panel.more{
@@ -792,7 +789,7 @@
   .faq-q{
     width:100%; display:flex; justify-content:space-between; align-items:center; gap:24px;
     padding:22px 0; text-align:left;
-    font-family:var(--body); font-weight:600; font-size:17px; color:var(--off);
+    font-family:var(--body); font-weight:500; font-size:17px; color:var(--off);
   }
   .faq-q:hover{ color:var(--signal); }
   .faq-icon{
@@ -925,7 +922,7 @@
     position:fixed; right:28px; bottom:28px; z-index:90;
     display:flex; align-items:center; gap:10px;
     background:var(--signal); color:var(--ink);
-    font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+    font-family:var(--mono); font-size:12px; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
     padding:14px 20px;
     border-radius:var(--neu-radius-sm);
     box-shadow:0 8px 24px rgba(0,0,0,.4);
@@ -993,7 +990,7 @@
     nav.links a.mobile-cta{
       display:flex; justify-content:center;
       background:var(--signal); color:var(--ink);
-      font-weight:700; box-shadow:none;
+      font-weight:600; box-shadow:none;
       margin-top:4px;
     }
     nav.links a.mobile-cta:active{ box-shadow:inset 3px 3px 8px rgba(0,0,0,.25); }
@@ -1132,7 +1129,7 @@
           <span class="hero-badge-dot"></span>
           <span class="hero-badge-main">Media Agency</span>
         </div>
-        <h1>Your Growth,<br><span class="accent">Weaponized.</span></h1>
+        <h1>For Brands That<br>Refuse To <span class="accent">Blend In.</span></h1>
         <p class="lede">We're the <strong class="hl">media agency</strong> that actually runs your SEO and paid ads - Google, Meta, Apple, TikTok, Snapchat, LinkedIn, all of it - and reports back in dollars, not decks. If a campaign isn't pulling its weight by week three, we already know. So will you.</p>
         <div class="hero-ctas">
           <a href="#contact" class="btn">Get A Free Audit</a>
