@@ -41,7 +41,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Jost:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700,900&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -60,7 +60,7 @@
     --display: 'Anton', sans-serif;
     --body: 'Satoshi', 'General Sans', sans-serif;
     --mono: 'JetBrains Mono', monospace;
-    --wordmark: 'Satoshi', 'General Sans', sans-serif;
+    --wordmark: 'Jost', 'General Sans', sans-serif;
 
     /* neumorphic surface tokens */
     --neu-bg: #F6F2E9;
@@ -221,7 +221,7 @@
     font-family:var(--wordmark);
     font-size:19px;
     font-weight:600;
-    letter-spacing:.05em;
+    letter-spacing:.09em;
     display:flex; align-items:center; gap:10px;
   }
   .logo-text{ white-space:nowrap; flex-shrink:0; }
@@ -230,7 +230,7 @@
     margin-right:4px;
   }
   .logo-text .lw-hyp{ font-weight:700; color:var(--off); }
-  .logo-text .lw-engine{ font-weight:600; color:var(--off); }
+  .logo-text .lw-engine{ font-weight:400; color:var(--off-dim); }
   .logo .dot{
     width:9px; height:9px; border-radius:50%;
     background:var(--signal);
@@ -405,6 +405,7 @@
     position:relative;
     padding:96px 0 120px;
     overflow:hidden;
+    background:linear-gradient(135deg, var(--panel) 0%, var(--neu-bg) 60%);
     transition:background-color .4s ease;
   }  .parallax-layer{
     position:absolute; inset:0;
@@ -645,12 +646,11 @@
   .panel:hover{
     box-shadow:10px 10px 20px var(--neu-dark), -8px -8px 18px var(--neu-light), 0 0 22px rgba(255,75,31,.14);
   }
-  .panel .idx{ font-family:var(--mono); font-size:11px; color:var(--off-dim); letter-spacing:.06em; opacity:.65; }
   .panel .panel-icon{
-    width:40px; height:40px; border-radius:12px;
+    width:42px; height:42px; border-radius:12px;
     background:var(--neu-bg); box-shadow:var(--neu-raised-sm);
     display:flex; align-items:center; justify-content:center;
-    margin-bottom:14px;
+    margin-bottom:16px;
     color:var(--steel);
     transition:color .3s ease, box-shadow .3s ease;
   }
@@ -870,7 +870,7 @@
   footer{ border-top:1px solid var(--steel-dim); padding:56px 0 32px; }
   .foot-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; margin-bottom:56px; }
   .foot-logo{
-    font-family:var(--wordmark); font-size:17px; font-weight:600; letter-spacing:.05em; margin-bottom:14px;
+    font-family:var(--wordmark); font-size:17px; font-weight:600; letter-spacing:.09em; margin-bottom:14px;
     display:flex; align-items:center; gap:10px;
   }
   .foot-grid p{ color:var(--off-dim); font-size:13.5px; line-height:1.6; max-width:280px; }
@@ -1326,13 +1326,13 @@
         <p class="sub">Strategy, creative, media, and the site it all runs on - built and run by one team, not stitched together from seven vendors who never talk to each other.</p>
       </div>
       <div class="panel-grid">
-        <div class="panel"><div><span class="idx">CH.01</span><div class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"></circle><line x1="15.5" y1="15.5" x2="21" y2="21"></line></svg></div></div><div><h3>SEO</h3><span class="tag">Organic Growth Engine</span></div></div>
-        <div class="panel"><div><span class="idx">CH.02</span><div class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="5"></circle><circle cx="12" cy="12" r="1.1" fill="currentColor" stroke="none"></circle></svg></div></div><div><h3>Paid Media</h3><span class="tag">Google, Meta, TikTok &amp; more</span></div></div>
-        <div class="panel"><div><span class="idx">CH.03</span><div class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="15" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><circle cx="6.3" cy="6.7" r="0.6" fill="currentColor" stroke="none"></circle><circle cx="8.6" cy="6.7" r="0.6" fill="currentColor" stroke="none"></circle></svg></div></div><div><h3>Web Design &amp; Dev</h3><span class="tag">Sites Built To Convert</span></div></div>
-        <div class="panel"><div><span class="idx">CH.04</span><div class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 L4.8 16.2 L15.5 5.5 A1.8 1.8 0 0 1 18 5.5 L18.5 6 A1.8 1.8 0 0 1 18.5 8.5 L7.8 19.2 Z"></path><line x1="13.5" y1="7.5" x2="16.5" y2="10.5"></line></svg></div></div><div><h3>Creative &amp; Branding</h3><span class="tag">Identity, Design &amp; Content</span></div></div>
-        <div class="panel"><div><span class="idx">CH.05</span><div class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5 A1.5 1.5 0 0 1 5.5 7 H8 L9.2 5 H14.8 L16 7 H18.5 A1.5 1.5 0 0 1 20 8.5 V17 A1.5 1.5 0 0 1 18.5 18.5 H5.5 A1.5 1.5 0 0 1 4 17 Z"></path><circle cx="12" cy="12.5" r="3.4"></circle></svg></div></div><div><h3>Media Production</h3><span class="tag">Video &amp; Photography</span></div></div>
-        <div class="panel"><div><span class="idx">CH.06</span><div class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6 A2 2 0 0 1 6 4 H18 A2 2 0 0 1 20 6 V13 A2 2 0 0 1 18 15 H10 L6 19 V15 H6 A2 2 0 0 1 4 13 Z"></path></svg></div></div><div><h3>Social Media</h3><span class="tag">Content &amp; Community</span></div></div>
-        <div class="panel"><div><span class="idx">CH.07</span><div class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5 H20 L14 12.5 V18 L10 20 V12.5 Z"></path></svg></div></div><div><h3>CRO &amp; Automation</h3><span class="tag">Funnels That Compound</span></div></div>
+        <div class="panel"><div class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"></circle><line x1="15.5" y1="15.5" x2="21" y2="21"></line></svg></div><div><h3>SEO</h3><span class="tag">Organic Growth Engine</span></div></div>
+        <div class="panel"><div class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="5"></circle><circle cx="12" cy="12" r="1.1" fill="currentColor" stroke="none"></circle></svg></div><div><h3>Paid Media</h3><span class="tag">Google, Meta, TikTok &amp; more</span></div></div>
+        <div class="panel"><div class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="15" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><circle cx="6.3" cy="6.7" r="0.6" fill="currentColor" stroke="none"></circle><circle cx="8.6" cy="6.7" r="0.6" fill="currentColor" stroke="none"></circle></svg></div><div><h3>Web Design &amp; Dev</h3><span class="tag">Sites Built To Convert</span></div></div>
+        <div class="panel"><div class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 L4.8 16.2 L15.5 5.5 A1.8 1.8 0 0 1 18 5.5 L18.5 6 A1.8 1.8 0 0 1 18.5 8.5 L7.8 19.2 Z"></path><line x1="13.5" y1="7.5" x2="16.5" y2="10.5"></line></svg></div><div><h3>Creative &amp; Branding</h3><span class="tag">Identity, Design &amp; Content</span></div></div>
+        <div class="panel"><div class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5 A1.5 1.5 0 0 1 5.5 7 H8 L9.2 5 H14.8 L16 7 H18.5 A1.5 1.5 0 0 1 20 8.5 V17 A1.5 1.5 0 0 1 18.5 18.5 H5.5 A1.5 1.5 0 0 1 4 17 Z"></path><circle cx="12" cy="12.5" r="3.4"></circle></svg></div><div><h3>Media Production</h3><span class="tag">Video &amp; Photography</span></div></div>
+        <div class="panel"><div class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6 A2 2 0 0 1 6 4 H18 A2 2 0 0 1 20 6 V13 A2 2 0 0 1 18 15 H10 L6 19 V15 H6 A2 2 0 0 1 4 13 Z"></path></svg></div><div><h3>Social Media</h3><span class="tag">Content &amp; Community</span></div></div>
+        <div class="panel"><div class="panel-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5 H20 L14 12.5 V18 L10 20 V12.5 Z"></path></svg></div><div><h3>CRO &amp; Automation</h3><span class="tag">Funnels That Compound</span></div></div>
         <div class="panel more"><h3>+ Email, Apple Search Ads, LinkedIn &amp; more - ask us.</h3></div>
       </div>
     </div>
@@ -1848,14 +1848,23 @@
      Seeks are coalesced to one per animation frame; a mouse fires far more
      move events than the decoder can service, and queued seeks compound. */
   const scrubVideo = document.getElementById('heroScrubVideo');
-  const canScrub = window.matchMedia('(min-width: 961px)').matches &&
-                   window.matchMedia('(hover: hover)').matches;
+  const isDesktopWidth = window.matchMedia('(min-width: 961px)').matches;
+  const canScrub = isDesktopWidth && window.matchMedia('(hover: hover)').matches;
+
+  // Baseline: load and autoplay a looping video on any desktop-width screen,
+  // regardless of hover support, so the hero never falls back to a blank
+  // background on touchscreens or hybrid devices. Mouse-scrub (below) then
+  // takes manual control only when a real mouse is present.
+  if (scrubVideo && isDesktopWidth && !reduceMotion){
+    scrubVideo.src = scrubVideo.dataset.src;
+    scrubVideo.loop = true;
+    scrubVideo.play().catch(() => {});
+  }
 
   if (scrubVideo && canScrub && !reduceMotion){
     const SCRUB_SENSITIVITY = 0.8;
     let prevX = null, targetTime = 0, seeking = false, frameQueued = false;
-
-    scrubVideo.src = scrubVideo.dataset.src;
+    let scrubbing = false;
 
     function commitSeek(){
       frameQueued = false;
@@ -1874,9 +1883,10 @@
     }
 
     window.addEventListener('mousemove', (e) => {
-      if (prevX === null){ prevX = e.clientX; return; }
+      if (prevX === null){ prevX = e.clientX; targetTime = scrubVideo.currentTime || 0; return; }
       const dur = scrubVideo.duration;
       if (!isFinite(dur) || dur <= 0){ prevX = e.clientX; return; }
+      if (!scrubbing){ scrubbing = true; scrubVideo.pause(); scrubVideo.loop = false; }
       const delta = e.clientX - prevX;
       prevX = e.clientX;
       targetTime = Math.min(Math.max(targetTime + (delta / window.innerWidth) * SCRUB_SENSITIVITY * dur, 0), dur);
