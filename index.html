@@ -1088,7 +1088,9 @@
     background:linear-gradient(145deg, #d9500f, #b3390b);
     box-shadow:5px 5px 12px var(--neu-dark), -4px -4px 10px var(--neu-light), inset 0 1px 2px rgba(255,255,255,.3);
   }
-  .audit-done .btn{ margin-top:24px; }
+  .audit-error-mark{ background:linear-gradient(145deg, #6b6459, #4a453d); }
+  .audit-done .btn, .audit-error .btn{ margin-top:24px; }
+  .audit-nav .audit-submit.is-loading{ opacity:.7; pointer-events:none; }
   @keyframes audit-fade{ from{ opacity:0; transform:translateX(12px); } to{ opacity:1; transform:translateX(0); } }
   .audit-step h2{
     font-family:var(--display); font-weight:400;
@@ -1721,9 +1723,16 @@
 
       <div class="audit-step audit-done" data-step="done" id="auditDone">
         <div class="audit-done-mark" aria-hidden="true">✓</div>
-        <h2>Your request is ready to send.</h2>
-        <p class="audit-sub">Your email app should have opened with everything filled in - just hit send and it lands with us. If nothing opened, email us directly at <a href="mailto:contact@thehypengine.com">contact@thehypengine.com</a>.</p>
+        <h2>Your audit is in motion.</h2>
+        <p class="audit-sub">We've got everything we need. Our team will take a look at your business and get back to you within two working days.</p>
         <button type="button" class="btn ghost" id="auditDoneClose">Close</button>
+      </div>
+
+      <div class="audit-step audit-error" data-step="error" id="auditError">
+        <div class="audit-done-mark audit-error-mark" aria-hidden="true">!</div>
+        <h2>Something went wrong.</h2>
+        <p class="audit-sub">We couldn't send that through. Please try again, or email us directly at <a href="mailto:contact@thehypengine.com">contact@thehypengine.com</a>.</p>
+        <button type="button" class="btn solid" id="auditRetry">Try Again</button>
       </div>
 
       <div class="audit-nav">
@@ -2124,7 +2133,7 @@
     const overlay = document.getElementById('auditOverlay');
     if (!overlay) return;
     const form = document.getElementById('auditForm');
-    const steps = Array.from(form.querySelectorAll('.audit-step')).filter(s => s.id !== 'auditDone');
+    const steps = Array.from(form.querySelectorAll('.audit-step')).filter(s => s.id !== 'auditDone' && s.id !== 'auditError');
     const backBtn = document.getElementById('auditBack');
     const nextBtn = document.getElementById('auditNext');
     const submitBtn = document.getElementById('auditSubmit');
@@ -2198,45 +2207,72 @@
         .map(c => c.getAttribute('data-value')).join(', ');
     }
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      if (!validateStep(current)) return;
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xbgrwgdw';
+
+    function setLoading(isLoading){
+      submitBtn.classList.toggle('is-loading', isLoading);
+      submitBtn.disabled = isLoading;
+      submitBtn.textContent = isLoading ? 'Sending...' : 'Send My Audit Request';
+    }
+
+    async function submitAudit(){
       const get = (n) => (form.querySelector('[name="' + n + '"]') || {}).value || '';
       const goals = collectChips('goals');
       const budget = collectChips('budget');
 
-      const lines = [
-        'New Free Audit Request',
-        '========================',
-        '',
-        'Name: ' + get('name'),
-        'Company: ' + get('company'),
-        'Industry: ' + get('industry'),
-        'Website: ' + get('website'),
-        'Social: ' + get('social'),
-        '',
-        'Goals: ' + (goals || '(none selected)'),
-        'Monthly budget: ' + (budget || '(not specified)'),
-        '',
-        'Email: ' + get('email'),
-        'Notes: ' + (get('notes') || '(none)')
-      ];
+      const payload = {
+        name: get('name'),
+        company: get('company'),
+        industry: get('industry'),
+        website: get('website'),
+        social: get('social'),
+        goals: goals || '(none selected)',
+        budget: budget || '(not specified)',
+        email: get('email'),
+        notes: get('notes') || '(none)',
+        _subject: 'Free Audit Request - ' + (get('company') || get('name') || 'New Lead')
+      };
 
-      const subject = 'Free Audit Request - ' + (get('company') || get('name') || 'New Lead');
-      const body = lines.join('\n');
-      const mailto = 'mailto:contact@thehypengine.com'
-        + '?subject=' + encodeURIComponent(subject)
-        + '&body=' + encodeURIComponent(body);
+      setLoading(true);
+      try {
+        const res = await fetch(FORMSPREE_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error('Submission failed');
 
-      form.querySelector('.audit-nav').style.display = 'none';
-      steps.forEach(s => s.classList.remove('is-active'));
-      const done = document.getElementById('auditDone');
-      if (done) done.classList.add('is-active');
-      if (progressFill) progressFill.style.width = '100%';
-      if (stepCount) stepCount.textContent = 'Done';
+        form.querySelector('.audit-nav').style.display = 'none';
+        steps.forEach(s => s.classList.remove('is-active'));
+        const done = document.getElementById('auditDone');
+        if (done) done.classList.add('is-active');
+        if (progressFill) progressFill.style.width = '100%';
+        if (stepCount) stepCount.textContent = 'Done';
+      } catch (err) {
+        form.querySelector('.audit-nav').style.display = 'none';
+        steps.forEach(s => s.classList.remove('is-active'));
+        const errorStep = document.getElementById('auditError');
+        if (errorStep) errorStep.classList.add('is-active');
+      } finally {
+        setLoading(false);
+      }
+    }
 
-      window.location.href = mailto;
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!validateStep(current)) return;
+      submitAudit();
     });
+
+    const retryBtn = document.getElementById('auditRetry');
+    if (retryBtn){
+      retryBtn.addEventListener('click', () => {
+        const errorStep = document.getElementById('auditError');
+        if (errorStep) errorStep.classList.remove('is-active');
+        form.querySelector('.audit-nav').style.display = '';
+        showStep(total - 1);
+      });
+    }
 
     function openAudit(){
       lastFocused = document.activeElement;
