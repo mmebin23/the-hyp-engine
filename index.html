@@ -33,7 +33,7 @@
   "email": "contact@thehypengine.com",
   "priceRange": "$$",
   "areaServed": "Worldwide",
-  "serviceType": ["SEO", "Paid Media", "Web Design & Development", "Creative & Branding", "Media Production", "Social Media Marketing", "Conversion Rate Optimization"]
+  "serviceType": ["SEO", "Paid Media", "Web Design & Development", "Creative & Branding", "Media Production", "Social Media Marketing", "Conversion Rate Optimization", "AI-Powered Marketing"]
 }
 </script>
 
@@ -417,7 +417,7 @@
   }
   .hero h1, .section-head h2, .faq h2, .cta h2,
   .stage h3, .gauge-center .num,
-  .manifesto-head h2, .process h2, .results h2, .deliverables h2{
+  .manifesto-head h2, .process h2, .results h2, .deliverables h2, .ai-edge-copy h2{
     font-weight:400;
   }
   .hero h1{
@@ -532,6 +532,82 @@
     font-family:var(--body); font-weight:600; font-size:19px; margin:14px 0 10px; line-height:1.3;
   }
   .manifesto-card p{ color:var(--off-dim); font-size:14.5px; line-height:1.6; }
+
+  /* ================= AI EDGE ================= */
+  .ai-edge{ padding:128px 0; position:relative; overflow:hidden; }
+  .ai-edge-inner{
+    display:grid; grid-template-columns:1.3fr .7fr; gap:56px; align-items:center;
+    background:var(--neu-bg);
+    border-radius:var(--neu-radius);
+    box-shadow:var(--neu-raised);
+    padding:56px;
+  }
+  .ai-edge-copy h2{
+    font-family:var(--display); font-size:clamp(30px,3.6vw,46px); text-transform:uppercase;
+    line-height:1.02; margin:16px 0 24px;
+  }
+  .ai-edge-lede{ color:var(--off-dim); font-size:15.5px; line-height:1.7; margin-bottom:20px; max-width:560px; }
+  .ai-edge-copy .btn{ margin-top:8px; }
+
+  .ai-edge-visual{
+    position:relative; aspect-ratio:1; min-height:240px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .ai-glow{
+    position:absolute; top:50%; left:50%; width:220px; height:220px;
+    margin:-110px 0 0 -110px; border-radius:50%;
+    background:radial-gradient(circle, rgba(11,62,245,.28) 0%, rgba(200,66,14,.14) 55%, transparent 75%);
+    filter:blur(22px);
+    animation:ai-glow-pulse 3.6s ease-in-out infinite;
+    z-index:0;
+  }
+  @keyframes ai-glow-pulse{
+    0%, 100%{ opacity:.7; transform:scale(1); }
+    50%{ opacity:1; transform:scale(1.08); }
+  }
+  .ai-core{
+    width:104px; height:104px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--display); font-size:32px; color:#fff;
+    background:linear-gradient(150deg, #4d7bff 0%, #0b3ef5 55%, #062a9e 100%);
+    box-shadow:7px 7px 18px var(--neu-dark),
+               -6px -6px 16px var(--neu-light),
+               0 0 30px rgba(11,62,245,.45),
+               inset 0 2px 3px rgba(255,255,255,.4),
+               inset 0 -3px 6px rgba(0,0,0,.2);
+    position:relative; z-index:3;
+    animation:ai-core-pulse 3.6s ease-in-out infinite;
+  }
+  @keyframes ai-core-pulse{
+    0%, 100%{ box-shadow:7px 7px 18px var(--neu-dark), -6px -6px 16px var(--neu-light), 0 0 26px rgba(11,62,245,.4), inset 0 2px 3px rgba(255,255,255,.4), inset 0 -3px 6px rgba(0,0,0,.2); }
+    50%{ box-shadow:7px 7px 20px var(--neu-dark), -6px -6px 18px var(--neu-light), 0 0 42px rgba(11,62,245,.6), inset 0 2px 3px rgba(255,255,255,.45), inset 0 -3px 6px rgba(0,0,0,.2); }
+  }
+  .ai-orbit{
+    position:absolute; top:50%; left:50%; width:180px; height:180px;
+    margin:-90px 0 0 -90px; border-radius:50%;
+    border:1px solid var(--steel-dim);
+    box-shadow:inset 1px 1px 3px var(--neu-dark), inset -1px -1px 3px var(--neu-light);
+    animation:ai-spin 18s linear infinite;
+    z-index:1;
+  }
+  .ai-orbit-2{ width:240px; height:240px; margin:-120px 0 0 -120px; animation-duration:26s; animation-direction:reverse; border-color:transparent; box-shadow:inset 1px 1px 4px var(--neu-dark), inset -1px -1px 4px var(--neu-light); }
+  @keyframes ai-spin{ from{ transform:rotate(0deg); } to{ transform:rotate(360deg); } }
+  .ai-node{
+    position:absolute; width:14px; height:14px; border-radius:50%;
+    background:var(--neu-bg); box-shadow:var(--neu-raised-sm);
+    z-index:2;
+  }
+  .ai-node::after{ content:""; position:absolute; inset:3px; border-radius:50%; }
+  .ai-node-1{ top:-7px; left:50%; margin-left:-7px; }
+  .ai-node-1::after{ background:var(--signal); box-shadow:0 0 8px var(--signal); }
+  .ai-node-2{ top:50%; left:-7px; margin-top:-7px; }
+  .ai-node-2::after{ background:var(--rev); box-shadow:0 0 8px var(--rev); }
+  .ai-node-3{ bottom:16px; right:16px; }
+  .ai-node-3::after{ background:var(--signal); box-shadow:0 0 8px var(--signal); }
+  @media (prefers-reduced-motion: reduce){
+    .ai-orbit{ animation:none; }
+    .ai-core, .ai-glow{ animation:none; }
+  }
 
   /* ================= SERVICES ================= */
   .services{ padding:128px 0; position:relative; overflow:hidden; }
@@ -906,6 +982,8 @@
     main{ padding-top:82px; }
     .manifesto-grid{ grid-template-columns:1fr; }
     .deliverables-grid{ grid-template-columns:1fr; }
+    .ai-edge-inner{ grid-template-columns:1fr; gap:40px; padding:36px 26px; }
+    .ai-edge-visual{ order:-1; min-height:200px; max-width:240px; margin:0 auto; }
     .panel-grid{ grid-template-columns:repeat(2,1fr); }
     .process-track{ grid-template-columns:1fr; gap:8px; }
     .process-track::before{ display:none; }
@@ -922,7 +1000,7 @@
     .foot-grid{ grid-template-columns:1fr 1fr; }
 
     .hero{ padding:56px 0 64px; }
-    .manifesto, .services, .process, .results, .faq, .deliverables{ padding:64px 0; }
+    .manifesto, .services, .process, .results, .faq, .deliverables, .ai-edge{ padding:64px 0; }
     .cta{ padding:80px 0; }
     .section-head{ margin-bottom:32px; }
     .manifesto-head{ margin-bottom:36px; }
@@ -948,6 +1026,123 @@
     .panel, .manifesto-card, .faq-item{
       box-shadow:5px 5px 12px var(--neu-dark), -4px -4px 10px var(--neu-light);
     }
+  }
+
+  /* ================= AUDIT OVERLAY ================= */
+  .audit-overlay{
+    position:fixed; inset:0; z-index:300;
+    background:rgba(20,18,14,.55);
+    backdrop-filter:blur(8px);
+    display:flex; align-items:center; justify-content:center;
+    padding:24px;
+    opacity:0; pointer-events:none;
+    transition:opacity .35s ease;
+  }
+  .audit-overlay.is-open{ opacity:1; pointer-events:auto; }
+  .audit-shell{
+    position:relative;
+    width:100%; max-width:620px;
+    max-height:92vh; overflow-y:auto;
+    background:var(--neu-bg);
+    border-radius:var(--neu-radius);
+    box-shadow:12px 12px 40px rgba(0,0,0,.35), -8px -8px 24px rgba(255,255,255,.4);
+    padding:48px 48px 36px;
+    transform:translateY(24px) scale(.98);
+    transition:transform .4s cubic-bezier(.22,1,.36,1);
+  }
+  .audit-overlay.is-open .audit-shell{ transform:translateY(0) scale(1); }
+  .audit-close{
+    position:absolute; top:18px; right:20px;
+    width:38px; height:38px; border:none; border-radius:50%;
+    background:var(--neu-bg); box-shadow:var(--neu-raised-sm);
+    color:var(--off-dim); font-size:22px; line-height:1; cursor:pointer;
+    transition:transform .2s ease, color .2s ease, box-shadow .15s ease;
+  }
+  .audit-close:hover{ color:var(--signal); transform:rotate(90deg); }
+  .audit-close:active{ box-shadow:var(--neu-pressed); }
+
+  .audit-progress-wrap{ display:flex; align-items:center; gap:14px; margin-bottom:32px; padding-right:44px; }
+  .audit-progress-bar{
+    flex:1; height:8px; border-radius:999px;
+    background:var(--neu-bg);
+    box-shadow:inset 2px 2px 4px var(--neu-dark), inset -1px -1px 2px var(--neu-light);
+    overflow:hidden;
+  }
+  .audit-progress-fill{
+    height:100%; width:20%; border-radius:999px;
+    background:linear-gradient(90deg, var(--rev), var(--signal));
+    box-shadow:0 0 8px rgba(200,66,14,.5);
+    transition:width .4s cubic-bezier(.22,1,.36,1);
+  }
+  .audit-step-count{ font-family:var(--mono); font-size:11px; color:var(--off-dim); letter-spacing:.05em; white-space:nowrap; }
+
+  .audit-step{ display:none; animation:audit-fade .4s ease; }
+  .audit-step.is-active{ display:block; }
+  .audit-done{ text-align:center; padding:12px 0; }
+  .audit-done-mark{
+    width:64px; height:64px; margin:0 auto 24px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:30px; color:#fff;
+    border-radius:50%;
+    background:linear-gradient(145deg, #d9500f, #b3390b);
+    box-shadow:5px 5px 12px var(--neu-dark), -4px -4px 10px var(--neu-light), inset 0 1px 2px rgba(255,255,255,.3);
+  }
+  .audit-done .btn{ margin-top:24px; }
+  @keyframes audit-fade{ from{ opacity:0; transform:translateX(12px); } to{ opacity:1; transform:translateX(0); } }
+  .audit-step h2{
+    font-family:var(--display); font-weight:400;
+    font-size:clamp(26px,4vw,38px); text-transform:uppercase; line-height:1.05;
+    margin:12px 0 10px;
+  }
+  .audit-sub{ color:var(--off-dim); font-size:14.5px; line-height:1.6; margin-bottom:26px; max-width:460px; }
+
+  .audit-field{ display:block; margin-bottom:18px; }
+  .audit-field span{ display:block; font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--off-dim); margin-bottom:10px; }
+  .audit-field span em{ font-style:normal; opacity:.6; text-transform:none; letter-spacing:0; }
+  .audit-field input, .audit-field textarea{
+    width:100%; font-family:var(--body); font-size:15px; color:var(--off);
+    background:var(--neu-bg);
+    border:none; border-radius:var(--neu-radius-sm);
+    box-shadow:inset 3px 3px 7px var(--neu-dark), inset -2px -2px 5px var(--neu-light);
+    padding:14px 16px; resize:vertical;
+    transition:box-shadow .2s ease;
+  }
+  .audit-field input:focus, .audit-field textarea:focus{
+    outline:none;
+    box-shadow:inset 3px 3px 7px var(--neu-dark), inset -2px -2px 5px var(--neu-light), 0 0 0 2px rgba(200,66,14,.35);
+  }
+  .audit-field input::placeholder, .audit-field textarea::placeholder{ color:var(--off-dim); opacity:.55; }
+  .audit-field.error input, .audit-field.error textarea{
+    box-shadow:inset 3px 3px 7px var(--neu-dark), inset -2px -2px 5px var(--neu-light), 0 0 0 2px rgba(200,66,14,.7);
+  }
+
+  .audit-chips{ display:flex; flex-wrap:wrap; gap:12px; }
+  .audit-chip{
+    font-family:var(--body); font-size:14px; color:var(--off-dim);
+    background:var(--neu-bg); border:none; border-radius:999px;
+    box-shadow:var(--neu-raised-sm); padding:12px 20px; cursor:pointer;
+    transition:transform .15s ease, color .2s ease, box-shadow .2s ease;
+  }
+  .audit-chip:hover{ transform:translateY(-2px); color:var(--off); }
+  .audit-chip.selected{
+    color:#fff;
+    background:linear-gradient(145deg, #d9500f, #b3390b);
+    box-shadow:4px 4px 8px rgba(150,66,20,.4), -3px -3px 7px rgba(255,180,120,.5), inset 0 1px 1px rgba(255,255,255,.25);
+  }
+
+  .audit-nav{ display:flex; gap:14px; margin-top:36px; align-items:center; }
+  .audit-nav .audit-back{ margin-right:auto; }
+  .audit-nav .btn{ cursor:pointer; }
+  .audit-back[disabled]{ opacity:.35; pointer-events:none; }
+
+  @media (max-width:560px){
+    .audit-shell{ padding:40px 24px 28px; border-radius:20px; }
+    .audit-nav{ flex-wrap:wrap; }
+    .audit-nav .btn{ flex:1 1 auto; justify-content:center; text-align:center; }
+    .audit-nav .audit-back{ margin-right:0; order:2; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .audit-overlay, .audit-shell, .audit-step, .audit-progress-fill{ transition:none; animation:none; }
   }
 </style>
 </head>
@@ -976,6 +1171,7 @@
     </a>
     <nav class="links" id="navLinks">
       <a href="#services">Services</a>
+      <a href="#ai">AI Edge</a>
       <a href="#process">Process</a>
       <a href="#results">Results</a>
       <a href="#faq">FAQ</a>
@@ -1061,6 +1257,32 @@
           <span class="mk">04 / AI PLUS HUMAN, NOT AI INSTEAD OF HUMAN</span>
           <h3>The models spot the pattern. A person decides what to do with it.</h3>
           <p>We run AI across every account's bid signals, creative fatigue, and audience drop-off - the stuff that'd take a person days to catch by hand. But creative direction, positioning, and what actually gets scaled or killed still goes through someone who's run ad accounts for a living, not a dashboard left on autopilot.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI EDGE -->
+  <section class="ai-edge" id="ai">
+    <div class="wrap">
+      <div class="ai-edge-inner">
+        <div class="ai-edge-copy">
+          <p class="eyebrow">The AI Edge</p>
+          <h2>AI isn't a buzzword here.<br>It's built into how we work.</h2>
+          <p class="ai-edge-lede">The way marketing gets done is being rewritten in real time - and most agencies are still catching up. We're not. We track how AI is reshaping search, creative, targeting, and measurement, and we put those tools to work inside your accounts, not in a whitepaper.</p>
+          <p class="ai-edge-lede">Our commitment is simple: give your company a genuine AI edge over competitors who are still doing it the old way - faster testing, sharper targeting, and creative produced at a scale that used to be impossible. Backed, always, by people who know what to do with what the models find.</p>
+          <a href="#contact" class="btn solid">Get Your AI Edge</a>
+        </div>
+        <div class="ai-edge-visual" aria-hidden="true">
+          <div class="ai-glow"></div>
+          <div class="ai-orbit">
+            <div class="ai-node ai-node-1"></div>
+          </div>
+          <div class="ai-orbit ai-orbit-2">
+            <div class="ai-node ai-node-2"></div>
+            <div class="ai-node ai-node-3"></div>
+          </div>
+          <div class="ai-core">AI</div>
         </div>
       </div>
     </div>
@@ -1386,6 +1608,7 @@
       </div>
       <div class="foot-col">
         <h4>Agency</h4>
+        <a href="#ai">AI Edge</a>
         <a href="#process">Process</a>
         <a href="#results">Results</a>
         <a href="mailto:contact@thehypengine.com">Contact</a>
@@ -1408,6 +1631,109 @@
   <span class="dot"></span> Free Audit
 </a>
 <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+
+<!-- AUDIT OVERLAY -->
+<div class="audit-overlay" id="auditOverlay" role="dialog" aria-modal="true" aria-labelledby="auditTitle" aria-hidden="true">
+  <div class="audit-shell">
+    <button class="audit-close" id="auditClose" aria-label="Close audit form">&times;</button>
+
+    <div class="audit-progress-wrap" aria-hidden="true">
+      <div class="audit-progress-bar"><div class="audit-progress-fill" id="auditProgressFill"></div></div>
+      <span class="audit-step-count" id="auditStepCount">Step 1 of 5</span>
+    </div>
+
+    <form class="audit-form" id="auditForm" novalidate>
+      <div class="audit-step is-active" data-step="1">
+        <p class="eyebrow">Free Audit</p>
+        <h2 id="auditTitle">First, the basics.</h2>
+        <p class="audit-sub">Tell us who we'd be working with. No commitment - this just helps us come prepared.</p>
+        <label class="audit-field">
+          <span>Your name</span>
+          <input type="text" name="name" placeholder="Jane Doe" required>
+        </label>
+        <label class="audit-field">
+          <span>Company name</span>
+          <input type="text" name="company" placeholder="Acme Inc." required>
+        </label>
+        <label class="audit-field">
+          <span>What does your business do?</span>
+          <input type="text" name="industry" placeholder="e.g. D2C skincare, B2B SaaS, mobile app">
+        </label>
+      </div>
+
+      <div class="audit-step" data-step="2">
+        <p class="eyebrow">Free Audit</p>
+        <h2>Where do you live online?</h2>
+        <p class="audit-sub">Drop your site and socials so we can take a look before we talk.</p>
+        <label class="audit-field">
+          <span>Website URL</span>
+          <input type="text" name="website" placeholder="https://yourcompany.com">
+        </label>
+        <label class="audit-field">
+          <span>Main social handle <em>(optional)</em></span>
+          <input type="text" name="social" placeholder="@yourcompany">
+        </label>
+      </div>
+
+      <div class="audit-step" data-step="3">
+        <p class="eyebrow">Free Audit</p>
+        <h2>What are you trying to fix?</h2>
+        <p class="audit-sub">Pick what matters most right now. Choose as many as apply.</p>
+        <div class="audit-chips" data-name="goals">
+          <button type="button" class="audit-chip" data-value="More leads / sales">More leads &amp; sales</button>
+          <button type="button" class="audit-chip" data-value="Lower cost per acquisition">Lower cost per acquisition</button>
+          <button type="button" class="audit-chip" data-value="A new or rebuilt website">New / rebuilt website</button>
+          <button type="button" class="audit-chip" data-value="Branding & creative">Branding &amp; creative</button>
+          <button type="button" class="audit-chip" data-value="Content & social">Content &amp; social</button>
+          <button type="button" class="audit-chip" data-value="Video & photo production">Video &amp; photo</button>
+          <button type="button" class="audit-chip" data-value="An AI edge over competitors">An AI edge</button>
+          <button type="button" class="audit-chip" data-value="Not sure - need direction">Not sure yet</button>
+        </div>
+      </div>
+
+      <div class="audit-step" data-step="4">
+        <p class="eyebrow">Free Audit</p>
+        <h2>Rough monthly budget?</h2>
+        <p class="audit-sub">Ballpark is fine. It helps us tell you honestly what's realistic - no wrong answers.</p>
+        <div class="audit-chips audit-chips-single" data-name="budget">
+          <button type="button" class="audit-chip" data-value="Under $2k / month">Under $2k</button>
+          <button type="button" class="audit-chip" data-value="$2k - $5k / month">$2k - $5k</button>
+          <button type="button" class="audit-chip" data-value="$5k - $15k / month">$5k - $15k</button>
+          <button type="button" class="audit-chip" data-value="$15k+ / month">$15k+</button>
+          <button type="button" class="audit-chip" data-value="Not sure yet">Not sure yet</button>
+        </div>
+      </div>
+
+      <div class="audit-step" data-step="5">
+        <p class="eyebrow">Free Audit</p>
+        <h2>Where do we send it?</h2>
+        <p class="audit-sub">We'll review everything and get back with a straight-talk audit - usually within two working days.</p>
+        <label class="audit-field">
+          <span>Email address</span>
+          <input type="email" name="email" placeholder="jane@acme.com" required>
+        </label>
+        <label class="audit-field">
+          <span>Anything else we should know? <em>(optional)</em></span>
+          <textarea name="notes" rows="3" placeholder="Context, deadlines, what's been frustrating you..."></textarea>
+        </label>
+      </div>
+
+      <div class="audit-step audit-done" data-step="done" id="auditDone">
+        <div class="audit-done-mark" aria-hidden="true">✓</div>
+        <h2>Your request is ready to send.</h2>
+        <p class="audit-sub">Your email app should have opened with everything filled in - just hit send and it lands with us. If nothing opened, email us directly at <a href="mailto:contact@thehypengine.com">contact@thehypengine.com</a>.</p>
+        <button type="button" class="btn ghost" id="auditDoneClose">Close</button>
+      </div>
+
+      <div class="audit-nav">
+        <button type="button" class="btn ghost audit-back" id="auditBack">Back</button>
+        <button type="button" class="btn solid audit-next" id="auditNext">Continue</button>
+        <button type="submit" class="btn solid audit-submit" id="auditSubmit" style="display:none;">Send My Audit Request</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 
 <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.26/dist/lenis.css">
 <script src="https://unpkg.com/lenis@1.3.26/dist/lenis.min.js"></script>
@@ -1791,6 +2117,167 @@
       });
     }
   }
+
+  /* ---- Audit overlay: multi-step questionnaire ---- */
+  (function(){
+    const overlay = document.getElementById('auditOverlay');
+    if (!overlay) return;
+    const form = document.getElementById('auditForm');
+    const steps = Array.from(form.querySelectorAll('.audit-step')).filter(s => s.id !== 'auditDone');
+    const backBtn = document.getElementById('auditBack');
+    const nextBtn = document.getElementById('auditNext');
+    const submitBtn = document.getElementById('auditSubmit');
+    const closeBtn = document.getElementById('auditClose');
+    const progressFill = document.getElementById('auditProgressFill');
+    const stepCount = document.getElementById('auditStepCount');
+    const total = steps.length;
+    let current = 0;
+    let lastFocused = null;
+
+    function showStep(i){
+      steps.forEach((s, idx) => s.classList.toggle('is-active', idx === i));
+      current = i;
+      backBtn.style.visibility = i === 0 ? 'hidden' : 'visible';
+      const isLast = i === total - 1;
+      nextBtn.style.display = isLast ? 'none' : '';
+      submitBtn.style.display = isLast ? '' : 'none';
+      if (progressFill) progressFill.style.width = ((i + 1) / total * 100) + '%';
+      if (stepCount) stepCount.textContent = 'Step ' + (i + 1) + ' of ' + total;
+      const firstInput = steps[i].querySelector('input, textarea, .audit-chip');
+      if (firstInput) setTimeout(() => firstInput.focus(), 60);
+    }
+
+    function validateStep(i){
+      const required = steps[i].querySelectorAll('[required]');
+      for (const field of required){
+        if (!field.value.trim()){
+          field.classList.add('invalid');
+          field.focus();
+          return false;
+        }
+        if (field.type === 'email' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(field.value.trim())){
+          field.classList.add('invalid');
+          field.focus();
+          return false;
+        }
+        field.classList.remove('invalid');
+      }
+      return true;
+    }
+
+    form.querySelectorAll('.audit-chips').forEach(group => {
+      const single = group.classList.contains('audit-chips-single');
+      group.querySelectorAll('.audit-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          if (single){
+            group.querySelectorAll('.audit-chip').forEach(c => c.classList.remove('selected'));
+            chip.classList.add('selected');
+          } else {
+            chip.classList.toggle('selected');
+          }
+        });
+      });
+    });
+
+    form.querySelectorAll('input, textarea').forEach(field => {
+      field.addEventListener('input', () => field.classList.remove('invalid'));
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (validateStep(current) && current < total - 1) showStep(current + 1);
+    });
+    backBtn.addEventListener('click', () => {
+      if (current > 0) showStep(current - 1);
+    });
+
+    function collectChips(name){
+      const group = form.querySelector('.audit-chips[data-name="' + name + '"]');
+      if (!group) return '';
+      return Array.from(group.querySelectorAll('.audit-chip.selected'))
+        .map(c => c.getAttribute('data-value')).join(', ');
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!validateStep(current)) return;
+      const get = (n) => (form.querySelector('[name="' + n + '"]') || {}).value || '';
+      const goals = collectChips('goals');
+      const budget = collectChips('budget');
+
+      const lines = [
+        'New Free Audit Request',
+        '========================',
+        '',
+        'Name: ' + get('name'),
+        'Company: ' + get('company'),
+        'Industry: ' + get('industry'),
+        'Website: ' + get('website'),
+        'Social: ' + get('social'),
+        '',
+        'Goals: ' + (goals || '(none selected)'),
+        'Monthly budget: ' + (budget || '(not specified)'),
+        '',
+        'Email: ' + get('email'),
+        'Notes: ' + (get('notes') || '(none)')
+      ];
+
+      const subject = 'Free Audit Request - ' + (get('company') || get('name') || 'New Lead');
+      const body = lines.join('\n');
+      const mailto = 'mailto:contact@thehypengine.com'
+        + '?subject=' + encodeURIComponent(subject)
+        + '&body=' + encodeURIComponent(body);
+
+      form.querySelector('.audit-nav').style.display = 'none';
+      steps.forEach(s => s.classList.remove('is-active'));
+      const done = document.getElementById('auditDone');
+      if (done) done.classList.add('is-active');
+      if (progressFill) progressFill.style.width = '100%';
+      if (stepCount) stepCount.textContent = 'Done';
+
+      window.location.href = mailto;
+    });
+
+    function openAudit(){
+      lastFocused = document.activeElement;
+      overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      if (lenis) lenis.stop();
+      showStep(0);
+    }
+    function closeAudit(){
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (lenis) lenis.start();
+      if (lastFocused && lastFocused.focus) lastFocused.focus();
+    }
+
+    closeBtn.addEventListener('click', closeAudit);
+    const doneClose = document.getElementById('auditDoneClose');
+    if (doneClose) doneClose.addEventListener('click', closeAudit);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeAudit(); });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeAudit();
+    });
+
+    const auditTriggers = document.querySelectorAll(
+      '.desktop-cta, .mobile-cta, #floatCta, .hero-ctas .btn.solid, .cta .btn, .ai-edge-copy .btn.solid'
+    );
+    auditTriggers.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (typeof navLinks !== 'undefined' && navLinks){
+          navLinks.classList.remove('open');
+          if (typeof menuToggle !== 'undefined' && menuToggle){
+            menuToggle.classList.remove('open');
+            menuToggle.setAttribute('aria-expanded', 'false');
+          }
+        }
+        openAudit();
+      });
+    });
+  })();
 </script>
 </body>
 </html>
