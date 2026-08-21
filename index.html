@@ -1868,6 +1868,10 @@
           <input type="email" name="email" placeholder="jane@acme.com" required>
         </label>
         <label class="audit-field">
+          <span>Phone number <em>(optional, include country code)</em></span>
+          <input type="tel" name="phone" placeholder="+1 555 123 4567" autocomplete="tel">
+        </label>
+        <label class="audit-field">
           <span>Anything else we should know? <em>(optional)</em></span>
           <textarea name="notes" rows="3" placeholder="Context, deadlines, what's been frustrating you..."></textarea>
         </label>
@@ -2391,6 +2395,7 @@
         goals: goals || '(none selected)',
         budget: budget || '(not specified)',
         email: get('email'),
+        phone: get('phone') || '(not provided)',
         notes: get('notes') || '(none)',
         _subject: 'Free Audit Request - ' + (get('company') || get('name') || 'New Lead')
       };
