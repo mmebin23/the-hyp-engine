@@ -1036,29 +1036,28 @@
   /* ================= SERVICE DRAWER ================= */
   .service-drawer-scrim{
     position:fixed; inset:0; z-index:290;
-    background:rgba(20,18,14,.4);
+    background:rgba(20,18,14,.55);
+    backdrop-filter:blur(8px);
+    display:flex; align-items:center; justify-content:center;
+    padding:24px;
     opacity:0; pointer-events:none;
     transition:opacity .35s ease;
   }
   .service-drawer-scrim.is-open{ opacity:1; pointer-events:auto; }
   .service-drawer{
-    position:fixed; top:0; right:0; bottom:0; z-index:291;
-    width:min(460px, 92vw);
+    position:relative;
+    width:100%; max-width:620px;
+    max-height:92vh; overflow-y:auto;
     background:var(--neu-bg);
-    box-shadow:-14px 0 40px rgba(0,0,0,.25);
-    padding:80px 40px 40px;
-    overflow-y:auto;
-    transform:translateX(100%);
-    transition:transform .45s cubic-bezier(.22,1,.36,1);
+    border-radius:var(--neu-radius);
+    box-shadow:12px 12px 40px rgba(0,0,0,.35), -8px -8px 24px rgba(255,255,255,.4);
+    padding:56px 48px 40px;
+    transform:translateY(24px) scale(.98);
+    transition:transform .4s cubic-bezier(.22,1,.36,1);
   }
-  .service-drawer.is-open{ transform:translateX(0); }
-  .service-drawer-ghost{
-    position:absolute; top:20px; right:24px;
-    font-family:var(--display); font-size:120px; line-height:1;
-    color:var(--panel-2); z-index:0; user-select:none; pointer-events:none;
-  }
+  .service-drawer-scrim.is-open .service-drawer{ transform:translateY(0) scale(1); }
   .service-drawer-close{
-    position:absolute; top:20px; left:24px;
+    position:absolute; top:18px; right:20px;
     width:38px; height:38px; border:none; border-radius:50%;
     background:var(--neu-bg); box-shadow:var(--neu-raised-sm);
     color:var(--off-dim); font-size:22px; line-height:1; cursor:pointer;
@@ -1096,8 +1095,7 @@
     .service-drawer, .service-drawer-scrim{ transition:none; }
   }
   @media (max-width:560px){
-    .service-drawer{ padding:72px 24px 32px; }
-    .service-drawer-ghost{ font-size:80px; top:14px; right:16px; }
+    .service-drawer{ padding:64px 26px 30px; }
   }
 
   /* ================= AUDIT OVERLAY ================= */
@@ -1707,19 +1705,19 @@
 <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
 <!-- SERVICE DRAWER -->
-<div class="service-drawer-scrim" id="serviceDrawerScrim"></div>
-<div class="service-drawer" id="serviceDrawer" role="dialog" aria-modal="true" aria-labelledby="serviceDrawerTitle" aria-hidden="true">
-  <span class="service-drawer-ghost" id="serviceDrawerGhost" aria-hidden="true"></span>
-  <button class="service-drawer-close" id="serviceDrawerClose" aria-label="Close">&times;</button>
-  <div class="service-drawer-body">
-    <div class="service-drawer-icon" id="serviceDrawerIcon"></div>
-    <p class="service-drawer-tag" id="serviceDrawerTag"></p>
-    <h2 id="serviceDrawerTitle"></h2>
-    <p class="service-drawer-lede" id="serviceDrawerLede"></p>
-    <ul class="service-drawer-list" id="serviceDrawerList"></ul>
-    <div class="service-drawer-cta">
-      <button type="button" class="btn solid" id="serviceDrawerAudit">Start The Audit</button>
-      <button type="button" class="btn ghost" id="serviceDrawerClose2">Close</button>
+<div class="service-drawer-scrim" id="serviceDrawerScrim">
+  <div class="service-drawer" id="serviceDrawer" role="dialog" aria-modal="true" aria-labelledby="serviceDrawerTitle" aria-hidden="true">
+    <button class="service-drawer-close" id="serviceDrawerClose" aria-label="Close">&times;</button>
+    <div class="service-drawer-body">
+      <div class="service-drawer-icon" id="serviceDrawerIcon"></div>
+      <p class="service-drawer-tag" id="serviceDrawerTag"></p>
+      <h2 id="serviceDrawerTitle"></h2>
+      <p class="service-drawer-lede" id="serviceDrawerLede"></p>
+      <ul class="service-drawer-list" id="serviceDrawerList"></ul>
+      <div class="service-drawer-cta">
+        <button type="button" class="btn solid" id="serviceDrawerAudit">Start The Audit</button>
+        <button type="button" class="btn ghost" id="serviceDrawerClose2">Close</button>
+      </div>
     </div>
   </div>
 </div>
@@ -2423,7 +2421,6 @@
     if (!scrim || !drawer) return;
     const closeBtn = document.getElementById('serviceDrawerClose');
     const closeBtn2 = document.getElementById('serviceDrawerClose2');
-    const ghostEl = document.getElementById('serviceDrawerGhost');
     const iconEl = document.getElementById('serviceDrawerIcon');
     const tagEl = document.getElementById('serviceDrawerTag');
     const titleEl = document.getElementById('serviceDrawerTitle');
@@ -2444,7 +2441,7 @@
 
     const CONTENT = {
       'seo': {
-        num: '01', tag: 'Search & Organic',
+        tag: 'Search & Organic',
         title: "Ranking For The Right Words Is The Job.",
         lede: "Traffic that doesn't convert is a vanity metric with extra steps. We build for intent, not volume.",
         points: [
@@ -2455,7 +2452,7 @@
         ]
       },
       'paid-media': {
-        num: '02', tag: 'Acquisition',
+        tag: 'Acquisition',
         title: "Ad Spend Without A System Is Gambling With Extra Steps.",
         lede: "We run wherever your buyers actually are, and we watch the numbers daily - not once a month.",
         points: [
@@ -2466,7 +2463,7 @@
         ]
       },
       'web-dev': {
-        num: '03', tag: 'Website',
+        tag: 'Website',
         title: "A Site That Looks Good And Converts Nothing Is A Brochure.",
         lede: "We design for the person about to leave the page, not the person judging the portfolio.",
         points: [
@@ -2477,7 +2474,7 @@
         ]
       },
       'creative': {
-        num: '04', tag: 'Identity',
+        tag: 'Identity',
         title: "Your Brand Is The Reason Someone Picks You Over The Next Tab.",
         lede: "Not a logo. Not a font pairing. The actual reason to choose you specifically.",
         points: [
@@ -2488,7 +2485,7 @@
         ]
       },
       'media-production': {
-        num: '05', tag: 'Video & Photo',
+        tag: 'Video & Photo',
         title: "Stock Footage Looks Like Stock Footage. People Can Tell.",
         lede: "Shot for your brand and your audience - not borrowed from a library everyone else uses too.",
         points: [
@@ -2499,7 +2496,7 @@
         ]
       },
       'social': {
-        num: '06', tag: 'Content & Community',
+        tag: 'Content & Community',
         title: "Posting Isn't A Strategy. It's A Symptom Of Not Having One.",
         lede: "A calendar with no goal behind it is just noise on a schedule.",
         points: [
@@ -2510,7 +2507,7 @@
         ]
       },
       'cro': {
-        num: '07', tag: 'Conversion',
+        tag: 'Conversion',
         title: "Traffic You're Already Paying For, Converting At A Rate You're Leaving On The Table.",
         lede: "The cheapest growth channel is usually the one you already have - you're just losing people in it.",
         points: [
@@ -2526,7 +2523,6 @@
       const data = CONTENT[serviceId];
       if (!data) return;
       lastFocused = document.activeElement;
-      ghostEl.textContent = data.num;
       iconEl.innerHTML = ICONS[serviceId] || '';
       tagEl.textContent = data.tag;
       titleEl.textContent = data.title;
