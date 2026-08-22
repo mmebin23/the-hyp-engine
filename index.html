@@ -1250,6 +1250,18 @@
     box-shadow:inset 3px 3px 7px var(--neu-dark), inset -2px -2px 5px var(--neu-light), 0 0 0 2px rgba(200,66,14,.35);
   }
   .audit-field input::placeholder, .audit-field textarea::placeholder{ color:var(--off-dim); opacity:.55; }
+  .audit-field input.invalid, .audit-field textarea.invalid{
+    box-shadow:inset 3px 3px 7px var(--neu-dark), inset -2px -2px 5px var(--neu-light), 0 0 0 2px rgba(200,66,14,.7);
+    animation:audit-field-shake .3s ease;
+  }
+  @keyframes audit-field-shake{
+    0%, 100%{ transform:translateX(0); }
+    25%{ transform:translateX(-4px); }
+    75%{ transform:translateX(4px); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .audit-field input.invalid, .audit-field textarea.invalid{ animation:none; }
+  }
   .audit-field.error input, .audit-field.error textarea{
     box-shadow:inset 3px 3px 7px var(--neu-dark), inset -2px -2px 5px var(--neu-light), 0 0 0 2px rgba(200,66,14,.7);
   }
@@ -1823,7 +1835,7 @@
         <p class="audit-sub">Drop your site and socials so we can take a look before we talk.</p>
         <label class="audit-field">
           <span>Website URL</span>
-          <input type="text" name="website" placeholder="https://yourcompany.com">
+          <input type="url" name="website" placeholder="https://yourcompany.com">
         </label>
         <label class="audit-field">
           <span>Main social handle <em>(optional)</em></span>
@@ -2295,6 +2307,24 @@
     }
   }
 
+  /* ---- Shared focus trap for modal overlays ---- */
+  function trapFocus(container, e){
+    if (e.key !== 'Tab') return;
+    const focusable = container.querySelectorAll(
+      'a[href], button:not([disabled]):not([style*="display: none"]), input:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    );
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first){
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last){
+      e.preventDefault();
+      first.focus();
+    }
+  }
+
   /* ---- Audit overlay: multi-step questionnaire ---- */
   (function(){
     const overlay = document.getElementById('auditOverlay');
@@ -2333,6 +2363,16 @@
           return false;
         }
         if (field.type === 'email' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(field.value.trim())){
+          field.classList.add('invalid');
+          field.focus();
+          return false;
+        }
+        field.classList.remove('invalid');
+      }
+      const urlFields = steps[i].querySelectorAll('input[type="url"]');
+      for (const field of urlFields){
+        const val = field.value.trim();
+        if (val && !/^(https?:\/\/)?([\w-]+\.)+[a-zA-Z]{2,}([\/?#].*)?$/i.test(val)){
           field.classList.add('invalid');
           field.focus();
           return false;
@@ -2386,12 +2426,14 @@
       const get = (n) => (form.querySelector('[name="' + n + '"]') || {}).value || '';
       const goals = collectChips('goals');
       const budget = collectChips('budget');
+      const rawWebsite = get('website').trim();
+      const website = rawWebsite && !/^https?:\/\//i.test(rawWebsite) ? 'https://' + rawWebsite : rawWebsite;
 
       const payload = {
         name: get('name'),
         company: get('company'),
         industry: get('industry'),
-        website: get('website'),
+        website: website,
         social: get('social'),
         goals: goals || '(none selected)',
         budget: budget || '(not specified)',
@@ -2464,7 +2506,9 @@
     if (doneClose) doneClose.addEventListener('click', closeAudit);
     overlay.addEventListener('click', (e) => { if (e.target === overlay) closeAudit(); });
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeAudit();
+      if (!overlay.classList.contains('is-open')) return;
+      if (e.key === 'Escape') closeAudit();
+      else if (e.key === 'Tab') trapFocus(overlay, e);
     });
 
     const auditTriggers = document.querySelectorAll(
@@ -2635,7 +2679,9 @@
     closeBtn2.addEventListener('click', closeDrawer);
     scrim.addEventListener('click', closeDrawer);
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && drawer.classList.contains('is-open')) closeDrawer();
+      if (!drawer.classList.contains('is-open')) return;
+      if (e.key === 'Escape') closeDrawer();
+      else if (e.key === 'Tab') trapFocus(drawer, e);
     });
     auditBtn.addEventListener('click', () => {
       closeDrawer();
