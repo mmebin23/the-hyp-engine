@@ -1266,6 +1266,29 @@
     box-shadow:inset 3px 3px 7px var(--neu-dark), inset -2px -2px 5px var(--neu-light), 0 0 0 2px rgba(200,66,14,.7);
   }
 
+  .audit-currency-picker{
+    display:flex; flex-direction:column; gap:8px;
+    margin-bottom:20px; max-width:240px;
+  }
+  .audit-currency-picker span{
+    font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--off-dim);
+  }
+  .audit-currency-picker select{
+    width:100%; font-family:var(--body); font-size:15px; color:var(--off);
+    background:var(--neu-bg);
+    border:none; border-radius:var(--neu-radius-sm);
+    box-shadow:inset 3px 3px 7px var(--neu-dark), inset -2px -2px 5px var(--neu-light);
+    padding:12px 16px;
+    appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236B6459' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 14px center; background-size:16px;
+    cursor:pointer;
+  }
+  .audit-currency-picker select:focus{
+    outline:none;
+    box-shadow:inset 3px 3px 7px var(--neu-dark), inset -2px -2px 5px var(--neu-light), 0 0 0 2px rgba(200,66,14,.35);
+  }
   .audit-chips{ display:flex; flex-wrap:wrap; gap:12px; }
   .audit-chip{
     font-family:var(--body); font-size:14px; color:var(--off-dim);
@@ -1863,11 +1886,20 @@
         <p class="eyebrow">Free Audit</p>
         <h2>Rough monthly budget?</h2>
         <p class="audit-sub">Ballpark is fine. It helps us tell you honestly what's realistic - no wrong answers.</p>
-        <div class="audit-chips audit-chips-single" data-name="budget">
-          <button type="button" class="audit-chip" data-value="Under $2k / month">Under $2k</button>
-          <button type="button" class="audit-chip" data-value="$2k - $5k / month">$2k - $5k</button>
-          <button type="button" class="audit-chip" data-value="$5k - $15k / month">$5k - $15k</button>
-          <button type="button" class="audit-chip" data-value="$15k+ / month">$15k+</button>
+        <label class="audit-currency-picker">
+          <span>Currency</span>
+          <select id="auditCurrency" name="currency">
+            <option value="AED" selected>AED - UAE Dirham</option>
+            <option value="USD">USD - US Dollar</option>
+            <option value="EUR">EUR - Euro</option>
+            <option value="GBP">GBP - British Pound</option>
+          </select>
+        </label>
+        <div class="audit-chips audit-chips-single" data-name="budget" id="auditBudgetChips">
+          <button type="button" class="audit-chip" data-tier="0">Under AED 7.5K</button>
+          <button type="button" class="audit-chip" data-tier="1">AED 7.5K - 18K</button>
+          <button type="button" class="audit-chip" data-tier="2">AED 18K - 55K</button>
+          <button type="button" class="audit-chip" data-tier="3">AED 55K+</button>
           <button type="button" class="audit-chip" data-value="Not sure yet">Not sure yet</button>
         </div>
       </div>
@@ -2380,6 +2412,31 @@
         field.classList.remove('invalid');
       }
       return true;
+    }
+
+    /* ---- Currency-aware budget ranges ---- */
+    const BUDGET_RANGES = {
+      AED: ['Under AED 7.5K', 'AED 7.5K - 18K', 'AED 18K - 55K', 'AED 55K+'],
+      USD: ['Under $2K', '$2K - $5K', '$5K - $15K', '$15K+'],
+      EUR: ['Under \u20ac2K', '\u20ac2K - \u20ac5K', '\u20ac5K - \u20ac14K', '\u20ac14K+'],
+      GBP: ['Under \u00a31.5K', '\u00a31.5K - \u00a34K', '\u00a34K - \u00a312K', '\u00a312K+']
+    };
+    const currencySelect = document.getElementById('auditCurrency');
+    const budgetTierChips = document.querySelectorAll('#auditBudgetChips .audit-chip[data-tier]');
+
+    function renderBudgetRanges(){
+      const currency = currencySelect ? currencySelect.value : 'AED';
+      const ranges = BUDGET_RANGES[currency] || BUDGET_RANGES.AED;
+      budgetTierChips.forEach(chip => {
+        const tier = Number(chip.getAttribute('data-tier'));
+        const label = ranges[tier];
+        chip.textContent = label;
+        chip.setAttribute('data-value', label + ' / month (' + currency + ')');
+      });
+    }
+    renderBudgetRanges();
+    if (currencySelect){
+      currencySelect.addEventListener('change', renderBudgetRanges);
     }
 
     form.querySelectorAll('.audit-chips').forEach(group => {
