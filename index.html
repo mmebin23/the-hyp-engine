@@ -181,7 +181,8 @@
   @media (hover:none), (pointer:coarse){
     .custom-cursor{ display:none; }
   }
-  body.custom-cursor-active, body.custom-cursor-active a, body.custom-cursor-active button{
+  body.custom-cursor-active, body.custom-cursor-active a, body.custom-cursor-active button,
+  body.custom-cursor-active input, body.custom-cursor-active textarea{
     cursor:none;
   }
 
@@ -2198,8 +2199,8 @@
 
     const setDot = hasGsap ? gsap.quickTo(cursorDot, 'x', { duration: 0, ease: 'none' }) : null;
     const setDotY = hasGsap ? gsap.quickTo(cursorDot, 'y', { duration: 0, ease: 'none' }) : null;
-    const setRingX = hasGsap ? gsap.quickTo(cursorRing, 'x', { duration: 0.45, ease: 'power3.out' }) : null;
-    const setRingY = hasGsap ? gsap.quickTo(cursorRing, 'y', { duration: 0.45, ease: 'power3.out' }) : null;
+    const setRingX = hasGsap ? gsap.quickTo(cursorRing, 'x', { duration: 0.15, ease: 'power3.out' }) : null;
+    const setRingY = hasGsap ? gsap.quickTo(cursorRing, 'y', { duration: 0.15, ease: 'power3.out' }) : null;
 
     window.addEventListener('mousemove', (e) => {
       cursorEl.classList.add('active');
