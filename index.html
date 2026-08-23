@@ -201,6 +201,7 @@
     background-repeat:no-repeat;
     color:var(--off);
     font-family:var(--body);
+    font-weight:500;
     font-size:16px;
     line-height:1.55;
     -webkit-font-smoothing:antialiased;
@@ -761,14 +762,19 @@
     width:34px; height:34px; border-radius:50%; background:var(--neu-bg);
     box-shadow:var(--neu-raised-sm);
     border:none; display:flex; align-items:center; justify-content:center;
-    font-family:var(--mono); font-size:11px; color:var(--signal); margin-bottom:26px; position:relative; z-index:2;
+    margin-bottom:26px; position:relative; z-index:2;
     transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+  }
+  .stage .tick::before{
+    content:""; width:8px; height:8px; border-radius:50%; background:var(--signal);
+    transition:background .25s ease;
   }
   .stage:hover .tick{
     transform:scale(1.15);
-    background:var(--signal); color:var(--ink);
+    background:var(--signal);
     box-shadow:0 0 18px rgba(255,75,31,.7);
   }
+  .stage:hover .tick::before{ background:var(--ink); }
   .stage h3{ font-family:var(--display); font-size:24px; text-transform:uppercase; margin-bottom:12px; letter-spacing:.01em; }
   .stage p{ color:var(--off-dim); font-size:14.5px; line-height:1.65; max-width:320px; }
 
@@ -1412,22 +1418,22 @@
       </div>
       <div class="manifesto-grid">
         <div class="manifesto-card">
-          <span class="mk">01 / NO RETAINERS FOR SHOW</span>
+          <span class="mk">NO RETAINERS FOR SHOW</span>
           <h3>Every dollar is tied to a number you agreed to.</h3>
           <p>If a channel stalls, we kill it that week - not "let's revisit next quarter." Even when that means a smaller invoice for us. We'd rather lose the line item than waste your money.</p>
         </div>
         <div class="manifesto-card">
-          <span class="mk">02 / NO IMPRESSION THEATER</span>
+          <span class="mk">NO IMPRESSION THEATER</span>
           <h3>Reach and impressions don't pay your bills.</h3>
           <p>Big reach numbers look great in a slide and terrible on a bank statement. We track cost per lead, cost per sale, and how much of your revenue actually traces back to the ad - the stuff your CFO would ask about.</p>
         </div>
         <div class="manifesto-card">
-          <span class="mk">03 / NO SLOW DECISIONS</span>
+          <span class="mk">NO SLOW DECISIONS</span>
           <h3>We ship changes in days, not quarters.</h3>
           <p>Most agencies test a new headline once a month if you're lucky. We're swapping creative and rewriting copy that's underperforming within days - the algorithm doesn't wait for your quarterly review, so neither do we.</p>
         </div>
         <div class="manifesto-card">
-          <span class="mk">04 / AI PLUS HUMAN, NOT AI INSTEAD OF HUMAN</span>
+          <span class="mk">AI PLUS HUMAN, NOT AI INSTEAD OF HUMAN</span>
           <h3>The models spot the pattern. A person decides what to do with it.</h3>
           <p>We run AI across every account's bid signals, creative fatigue, and audience drop-off - the stuff that'd take a person days to catch by hand. But creative direction, positioning, and what actually gets scaled or killed still goes through someone who's run ad accounts for a living, not a dashboard left on autopilot.</p>
         </div>
@@ -1527,17 +1533,17 @@
       <h2 style="font-family:var(--display); font-size:clamp(32px,4vw,48px); text-transform:uppercase; margin-top:16px;">Three stages. No detours.</h2>
       <div class="process-track">
         <div class="stage">
-          <div class="tick">01</div>
+          <div class="tick" aria-hidden="true"></div>
           <h3>Ignition</h3>
           <p>Full audit of your funnel, competitors, and current spend. We find where money is leaking before we ask for any of yours.</p>
         </div>
         <div class="stage">
-          <div class="tick">02</div>
+          <div class="tick" aria-hidden="true"></div>
           <h3>Acceleration</h3>
           <p>We build and run only what actually moves your numbers, not every service on our menu because we happen to sell it. Anything underperforming gets rewritten fast, not next sprint.</p>
         </div>
         <div class="stage">
-          <div class="tick">03</div>
+          <div class="tick" aria-hidden="true"></div>
           <h3>Dominance</h3>
           <p>Winning channels get scaled aggressively, losers get killed fast. You get a weekly readout in plain numbers - no jargon.</p>
         </div>
