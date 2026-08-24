@@ -179,19 +179,24 @@
   .custom-cursor.hover .cursor-dot{ opacity:0; }
   @media (hover:none), (pointer:coarse){
     .custom-cursor{ display:none; }
-    .cursor-trail-layer{ display:none; }
+    .ink-trail-canvas{ display:none; }
   }
-  .cursor-trail-layer{
+  .ink-trail-canvas{
     position:fixed; inset:0; z-index:150;
     pointer-events:none;
   }
-  .cursor-trail-dot{
+  .click-spark{
     position:fixed; top:0; left:0;
-    border-radius:50%;
-    opacity:.75;
-    transform:translate(-50%, -50%) scale(1);
-    transition:opacity .6s ease, transform .6s ease;
-    will-change:opacity, transform;
+    width:5px; height:5px; border-radius:1px;
+    pointer-events:none; z-index:150;
+    animation:spark-burst .55s cubic-bezier(.25,.8,.4,1) forwards;
+  }
+  @keyframes spark-burst{
+    0%{ transform:translate(-50%,-50%) translate(0,0) rotate(0deg); opacity:1; }
+    100%{ transform:translate(-50%,-50%) translate(var(--tx), calc(var(--ty) + 18px)) rotate(200deg); opacity:0; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .click-spark{ display:none; }
   }
   body.custom-cursor-active, body.custom-cursor-active a, body.custom-cursor-active button,
   body.custom-cursor-active input, body.custom-cursor-active textarea{
@@ -583,6 +588,7 @@
   }
   .manifesto-grid{
     display:grid; grid-template-columns:repeat(2,1fr); gap:22px;
+    perspective:900px;
     position:relative; z-index:2;
   }
   .manifesto-card{
@@ -592,7 +598,9 @@
     padding:34px 30px;
     position:relative;
     overflow:hidden;
-    transition:transform .25s ease, box-shadow .25s ease;
+    transition:transform .2s ease-out, box-shadow .25s ease;
+    transform-style:preserve-3d;
+    will-change:transform;
   }
   .manifesto-card::before{
     content:"";
@@ -602,7 +610,6 @@
     transition:transform .3s ease;
   }
   .manifesto-card:hover{
-    transform:translateY(-6px);
     box-shadow:10px 10px 22px var(--neu-dark), -8px -8px 18px var(--neu-light);
   }
   .manifesto-card:hover::before{ transform:scaleX(1); }
@@ -2118,18 +2125,76 @@
     });
   }
 
-  /* ---- Panel tilt ---- */
-  if (!reduceMotion && window.matchMedia('(hover: hover)').matches){
-    document.querySelectorAll('.panel').forEach(panel => {
-      panel.addEventListener('mousemove', (e) => {
-        const r = panel.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width - 0.5;
-        const y = (e.clientY - r.top) / r.height - 0.5;
-        panel.style.transform = `rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateZ(4px)`;
+  /* ---- 3D tilt on cursor proximity ---- */
+  const hoverCapableNow = window.matchMedia('(hover: hover)').matches && window.matchMedia('(pointer: fine)').matches;
+  if (!reduceMotion && hoverCapableNow){
+    const tiltTargets = Array.from(document.querySelectorAll('.panel:not(.more), .manifesto-card'));
+    const TILT_RADIUS = 220;
+    const MAX_TILT = 9;
+    const LIFT = 6;
+
+    let tiltRects = [];
+    function cacheTiltRects(){
+      tiltRects = tiltTargets.map(el => {
+        const r = el.getBoundingClientRect();
+        return { el: el, cx: r.left + r.width / 2, cy: r.top + r.height / 2, w: r.width, h: r.height };
       });
-      panel.addEventListener('mouseleave', () => {
-        panel.style.transform = '';
+    }
+    cacheTiltRects();
+    window.addEventListener('resize', cacheTiltRects);
+    let tiltScrollT = null;
+    window.addEventListener('scroll', () => {
+      clearTimeout(tiltScrollT);
+      tiltScrollT = setTimeout(cacheTiltRects, 120);
+    }, { passive: true });
+
+    let tiltMouseX = -9999, tiltMouseY = -9999;
+    window.addEventListener('mousemove', (e) => {
+      tiltMouseX = e.clientX; tiltMouseY = e.clientY;
+    }, { passive: true });
+
+    function tiltLoop(){
+      tiltRects.forEach(item => {
+        const dx = tiltMouseX - item.cx;
+        const dy = tiltMouseY - item.cy;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < TILT_RADIUS){
+          const strength = 1 - dist / TILT_RADIUS;
+          const rotateY = (dx / (item.w / 2)) * MAX_TILT * strength;
+          const rotateX = -(dy / (item.h / 2)) * MAX_TILT * strength;
+          const lift = -LIFT * strength;
+          item.el.style.transform =
+            'perspective(900px) translateY(' + lift.toFixed(1) + 'px) ' +
+            'rotateX(' + rotateX.toFixed(2) + 'deg) rotateY(' + rotateY.toFixed(2) + 'deg)';
+        } else if (item.el.style.transform){
+          item.el.style.transform = '';
+        }
       });
+      requestAnimationFrame(tiltLoop);
+    }
+    requestAnimationFrame(tiltLoop);
+  }
+
+  /* ---- Click spark burst ---- */
+  if (!reduceMotion && hoverCapableNow){
+    const SPARK_COLORS = ['#C8420E', '#0B3EF5'];
+    document.addEventListener('click', (e) => {
+      const count = 6;
+      for (let i = 0; i < count; i++){
+        const spark = document.createElement('span');
+        spark.className = 'click-spark';
+        const angle = (Math.PI * 2 * i) / count + (Math.random() * 0.6 - 0.3);
+        const distance = 28 + Math.random() * 22;
+        const tx = Math.cos(angle) * distance;
+        const ty = Math.sin(angle) * distance;
+        spark.style.left = e.clientX + 'px';
+        spark.style.top = e.clientY + 'px';
+        spark.style.background = SPARK_COLORS[i % 2];
+        spark.style.setProperty('--tx', tx + 'px');
+        spark.style.setProperty('--ty', ty + 'px');
+        document.body.appendChild(spark);
+        setTimeout(() => spark.remove(), 550);
+      }
     });
   }
 
@@ -2257,12 +2322,16 @@
   if (cursorEl && cursorCapable && !reduceMotion){
     document.body.classList.add('custom-cursor-active');
     let dotX = window.innerWidth / 2, dotY = window.innerHeight / 2;
-    let ringX = dotX, ringY = dotY;
+    let lastMoveX = dotX, lastMoveY = dotY;
+    let stretchIdleTimer = null;
 
     const setDot = hasGsap ? gsap.quickTo(cursorDot, 'x', { duration: 0, ease: 'none' }) : null;
     const setDotY = hasGsap ? gsap.quickTo(cursorDot, 'y', { duration: 0, ease: 'none' }) : null;
     const setRingX = hasGsap ? gsap.quickTo(cursorRing, 'x', { duration: 0.15, ease: 'power3.out' }) : null;
     const setRingY = hasGsap ? gsap.quickTo(cursorRing, 'y', { duration: 0.15, ease: 'power3.out' }) : null;
+    const setRingRotation = hasGsap ? gsap.quickTo(cursorRing, 'rotation', { duration: 0.2, ease: 'power3.out' }) : null;
+    const setRingScaleX = hasGsap ? gsap.quickTo(cursorRing, 'scaleX', { duration: 0.2, ease: 'power3.out' }) : null;
+    const setRingScaleY = hasGsap ? gsap.quickTo(cursorRing, 'scaleY', { duration: 0.2, ease: 'power3.out' }) : null;
 
     window.addEventListener('mousemove', (e) => {
       cursorEl.classList.add('active');
@@ -2270,6 +2339,22 @@
       if (hasGsap){
         setDot(dotX); setDotY(dotY);
         setRingX(dotX); setRingY(dotY);
+
+        const dx = dotX - lastMoveX;
+        const dy = dotY - lastMoveY;
+        lastMoveX = dotX; lastMoveY = dotY;
+        const speed = Math.sqrt(dx * dx + dy * dy);
+        const stretch = Math.min(speed / 45, 0.55);
+        if (stretch > 0.04){
+          const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+          setRingRotation(angle);
+          setRingScaleX(1 + stretch);
+          setRingScaleY(1 - stretch * 0.35);
+        }
+        clearTimeout(stretchIdleTimer);
+        stretchIdleTimer = setTimeout(() => {
+          setRingScaleX(1); setRingScaleY(1);
+        }, 90);
       } else {
         cursorDot.style.transform = 'translate(' + dotX + 'px,' + dotY + 'px)';
         cursorRing.style.transform = 'translate(' + dotX + 'px,' + dotY + 'px)';
@@ -2285,38 +2370,69 @@
     });
   }
 
-  /* ---- Ambient cursor trail: small fading brand-colour particles ---- */
+  /* ---- Ink trail: smooth flowing line behind the cursor, colour drifting between brand tones ---- */
   if (cursorCapable && !reduceMotion){
-    const trailLayer = document.createElement('div');
-    trailLayer.className = 'cursor-trail-layer';
-    trailLayer.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(trailLayer);
+    const trailCanvas = document.createElement('canvas');
+    trailCanvas.className = 'ink-trail-canvas';
+    trailCanvas.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(trailCanvas);
+    const ctx = trailCanvas.getContext('2d');
 
-    const TRAIL_COLORS = ['#C8420E', '#0B3EF5'];
-    const SPAWN_INTERVAL = 55;
-    let lastSpawn = 0;
+    function resizeInkCanvas(){
+      const dpr = window.devicePixelRatio || 1;
+      trailCanvas.width = window.innerWidth * dpr;
+      trailCanvas.height = window.innerHeight * dpr;
+      trailCanvas.style.width = window.innerWidth + 'px';
+      trailCanvas.style.height = window.innerHeight + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resizeInkCanvas();
+    window.addEventListener('resize', resizeInkCanvas);
+
+    function lerpColor(a, b, t){
+      const ah = parseInt(a.slice(1), 16), bh = parseInt(b.slice(1), 16);
+      const ar = (ah >> 16) & 255, ag = (ah >> 8) & 255, ab = ah & 255;
+      const br = (bh >> 16) & 255, bg = (bh >> 8) & 255, bb = bh & 255;
+      const rr = Math.round(ar + (br - ar) * t);
+      const rg = Math.round(ag + (bg - ag) * t);
+      const rb = Math.round(ab + (bb - ab) * t);
+      return 'rgb(' + rr + ',' + rg + ',' + rb + ')';
+    }
+
+    let inkPoints = [];
+    const INK_MAX_AGE = 450;
 
     window.addEventListener('mousemove', (e) => {
-      const now = performance.now();
-      if (now - lastSpawn < SPAWN_INTERVAL) return;
-      lastSpawn = now;
-
-      const dot = document.createElement('span');
-      dot.className = 'cursor-trail-dot';
-      const size = 4 + Math.random() * 4;
-      dot.style.width = size + 'px';
-      dot.style.height = size + 'px';
-      dot.style.left = e.clientX + 'px';
-      dot.style.top = e.clientY + 'px';
-      dot.style.background = TRAIL_COLORS[Math.floor(Math.random() * TRAIL_COLORS.length)];
-      trailLayer.appendChild(dot);
-
-      requestAnimationFrame(() => {
-        dot.style.opacity = '0';
-        dot.style.transform = 'translate(-50%, -50%) scale(0.3)';
-      });
-      setTimeout(() => dot.remove(), 650);
+      inkPoints.push({ x: e.clientX, y: e.clientY, t: performance.now() });
     }, { passive: true });
+
+    function drawInkTrail(){
+      const now = performance.now();
+      inkPoints = inkPoints.filter(p => now - p.t < INK_MAX_AGE);
+      ctx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+
+      const hueT = (Math.sin(now / 1800) + 1) / 2;
+      const strokeColor = lerpColor('#C8420E', '#0B3EF5', hueT);
+
+      for (let i = 1; i < inkPoints.length; i++){
+        const p0 = inkPoints[i - 1];
+        const p1 = inkPoints[i];
+        const age = now - p1.t;
+        const lifeRatio = 1 - age / INK_MAX_AGE;
+        if (lifeRatio <= 0) continue;
+
+        ctx.beginPath();
+        ctx.moveTo(p0.x, p0.y);
+        ctx.lineTo(p1.x, p1.y);
+        ctx.strokeStyle = strokeColor;
+        ctx.globalAlpha = lifeRatio * 0.5;
+        ctx.lineWidth = Math.max(1, lifeRatio * 5);
+        ctx.lineCap = 'round';
+        ctx.stroke();
+      }
+      requestAnimationFrame(drawInkTrail);
+    }
+    requestAnimationFrame(drawInkTrail);
   }
 
   /* ---- Magnetic buttons ---- */
