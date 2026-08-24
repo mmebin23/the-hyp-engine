@@ -2370,7 +2370,7 @@
     });
   }
 
-  /* ---- Ink trail: smooth flowing line behind the cursor, colour drifting between brand tones ---- */
+  /* ---- Liquid tendril trail: dark gooey trail with spikes and drips ---- */
   if (cursorCapable && !reduceMotion){
     const trailCanvas = document.createElement('canvas');
     trailCanvas.className = 'ink-trail-canvas';
@@ -2389,30 +2389,28 @@
     resizeInkCanvas();
     window.addEventListener('resize', resizeInkCanvas);
 
-    function lerpColor(a, b, t){
-      const ah = parseInt(a.slice(1), 16), bh = parseInt(b.slice(1), 16);
-      const ar = (ah >> 16) & 255, ag = (ah >> 8) & 255, ab = ah & 255;
-      const br = (bh >> 16) & 255, bg = (bh >> 8) & 255, bb = bh & 255;
-      const rr = Math.round(ar + (br - ar) * t);
-      const rg = Math.round(ag + (bg - ag) * t);
-      const rb = Math.round(ab + (bb - ab) * t);
-      return 'rgb(' + rr + ',' + rg + ',' + rb + ')';
-    }
-
     let inkPoints = [];
-    const INK_MAX_AGE = 450;
+    let drips = [];
+    const INK_MAX_AGE = 480;
+    const DRIP_MAX_AGE = 500;
 
     window.addEventListener('mousemove', (e) => {
       inkPoints.push({ x: e.clientX, y: e.clientY, t: performance.now() });
+      if (Math.random() < 0.12){
+        drips.push({
+          x: e.clientX + (Math.random() * 10 - 5),
+          y: e.clientY,
+          t: performance.now()
+        });
+      }
     }, { passive: true });
 
     function drawInkTrail(){
       const now = performance.now();
       inkPoints = inkPoints.filter(p => now - p.t < INK_MAX_AGE);
+      drips = drips.filter(d => now - d.t < DRIP_MAX_AGE);
       ctx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
-
-      const hueT = (Math.sin(now / 1800) + 1) / 2;
-      const strokeColor = lerpColor('#C8420E', '#0B3EF5', hueT);
+      ctx.lineCap = 'round';
 
       for (let i = 1; i < inkPoints.length; i++){
         const p0 = inkPoints[i - 1];
@@ -2421,15 +2419,47 @@
         const lifeRatio = 1 - age / INK_MAX_AGE;
         if (lifeRatio <= 0) continue;
 
+        const dx = p1.x - p0.x, dy = p1.y - p0.y;
+        const len = Math.sqrt(dx * dx + dy * dy) || 1;
+        const nx = -dy / len, ny = dx / len;
+        const jag = Math.sin(now / 85 + i * 1.4) * 5 * lifeRatio;
+
         ctx.beginPath();
-        ctx.moveTo(p0.x, p0.y);
-        ctx.lineTo(p1.x, p1.y);
-        ctx.strokeStyle = strokeColor;
-        ctx.globalAlpha = lifeRatio * 0.5;
-        ctx.lineWidth = Math.max(1, lifeRatio * 5);
-        ctx.lineCap = 'round';
+        ctx.moveTo(p0.x + nx * jag, p0.y + ny * jag);
+        ctx.lineTo(p1.x + nx * jag, p1.y + ny * jag);
+        ctx.strokeStyle = 'rgba(11,15,20,' + (lifeRatio * 0.75) + ')';
+        ctx.lineWidth = Math.max(1.5, lifeRatio * 9);
         ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(p0.x + nx * (jag + 2), p0.y + ny * (jag + 2));
+        ctx.lineTo(p1.x + nx * (jag + 2), p1.y + ny * (jag + 2));
+        ctx.strokeStyle = 'rgba(120,130,145,' + (lifeRatio * 0.25) + ')';
+        ctx.lineWidth = Math.max(0.6, lifeRatio * 1.6);
+        ctx.stroke();
+
+        if (i % 4 === 0 && lifeRatio > 0.45){
+          const spikeLen = 15 * lifeRatio;
+          const spikeDir = i % 8 === 0 ? 1 : -1;
+          ctx.beginPath();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p1.x + nx * spikeLen * spikeDir, p1.y + ny * spikeLen * spikeDir);
+          ctx.strokeStyle = 'rgba(11,15,20,' + (lifeRatio * 0.55) + ')';
+          ctx.lineWidth = Math.max(0.6, lifeRatio * 2.2);
+          ctx.stroke();
+        }
       }
+
+      drips.forEach(d => {
+        const ratio = 1 - (now - d.t) / DRIP_MAX_AGE;
+        if (ratio <= 0) return;
+        const fallY = d.y + (1 - ratio) * 28;
+        ctx.beginPath();
+        ctx.arc(d.x, fallY, Math.max(0.8, ratio * 2.6), 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(11,15,20,' + (ratio * 0.65) + ')';
+        ctx.fill();
+      });
+      ctx.globalAlpha = 1;
       requestAnimationFrame(drawInkTrail);
     }
     requestAnimationFrame(drawInkTrail);
