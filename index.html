@@ -179,6 +179,19 @@
   .custom-cursor.hover .cursor-dot{ opacity:0; }
   @media (hover:none), (pointer:coarse){
     .custom-cursor{ display:none; }
+    .cursor-trail-layer{ display:none; }
+  }
+  .cursor-trail-layer{
+    position:fixed; inset:0; z-index:150;
+    pointer-events:none;
+  }
+  .cursor-trail-dot{
+    position:fixed; top:0; left:0;
+    border-radius:50%;
+    opacity:.75;
+    transform:translate(-50%, -50%) scale(1);
+    transition:opacity .6s ease, transform .6s ease;
+    will-change:opacity, transform;
   }
   body.custom-cursor-active, body.custom-cursor-active a, body.custom-cursor-active button,
   body.custom-cursor-active input, body.custom-cursor-active textarea{
@@ -2270,6 +2283,40 @@
       target.addEventListener('mouseenter', () => cursorEl.classList.add('hover'));
       target.addEventListener('mouseleave', () => cursorEl.classList.remove('hover'));
     });
+  }
+
+  /* ---- Ambient cursor trail: small fading brand-colour particles ---- */
+  if (cursorCapable && !reduceMotion){
+    const trailLayer = document.createElement('div');
+    trailLayer.className = 'cursor-trail-layer';
+    trailLayer.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(trailLayer);
+
+    const TRAIL_COLORS = ['#C8420E', '#0B3EF5'];
+    const SPAWN_INTERVAL = 55;
+    let lastSpawn = 0;
+
+    window.addEventListener('mousemove', (e) => {
+      const now = performance.now();
+      if (now - lastSpawn < SPAWN_INTERVAL) return;
+      lastSpawn = now;
+
+      const dot = document.createElement('span');
+      dot.className = 'cursor-trail-dot';
+      const size = 4 + Math.random() * 4;
+      dot.style.width = size + 'px';
+      dot.style.height = size + 'px';
+      dot.style.left = e.clientX + 'px';
+      dot.style.top = e.clientY + 'px';
+      dot.style.background = TRAIL_COLORS[Math.floor(Math.random() * TRAIL_COLORS.length)];
+      trailLayer.appendChild(dot);
+
+      requestAnimationFrame(() => {
+        dot.style.opacity = '0';
+        dot.style.transform = 'translate(-50%, -50%) scale(0.3)';
+      });
+      setTimeout(() => dot.remove(), 650);
+    }, { passive: true });
   }
 
   /* ---- Magnetic buttons ---- */
