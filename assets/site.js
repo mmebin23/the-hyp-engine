@@ -346,17 +346,53 @@
     btn.addEventListener('click', () => {
       const item = btn.parentElement;
       const answer = item.querySelector('.faq-a');
+      const answerP = answer.querySelector('p');
       const isOpen = btn.getAttribute('aria-expanded') === 'true';
 
       document.querySelectorAll('.faq-q').forEach(other => {
         if (other !== btn){
           other.setAttribute('aria-expanded', 'false');
-          other.parentElement.querySelector('.faq-a').style.maxHeight = null;
+          const otherAnswer = other.parentElement.querySelector('.faq-a');
+          otherAnswer.style.maxHeight = null;
+          const otherP = otherAnswer.querySelector('p');
+          if (otherP && otherP.dataset.typeTimer){
+            clearInterval(Number(otherP.dataset.typeTimer));
+            otherP.textContent = otherP.dataset.fullText || otherP.textContent;
+          }
         }
       });
 
       btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
-      answer.style.maxHeight = isOpen ? null : answer.scrollHeight + 'px';
+
+      if (isOpen){
+        answer.style.maxHeight = null;
+        if (answerP && answerP.dataset.typeTimer){
+          clearInterval(Number(answerP.dataset.typeTimer));
+          answerP.textContent = answerP.dataset.fullText || answerP.textContent;
+        }
+        return;
+      }
+
+      if (answerP && !answerP.dataset.fullText){
+        answerP.dataset.fullText = answerP.textContent;
+      }
+      answer.style.maxHeight = answer.scrollHeight + 'px';
+
+      if (answerP && answerP.dataset.fullText && !reduceMotion){
+        const fullText = answerP.dataset.fullText;
+        answerP.textContent = '';
+        let i = 0;
+        const timer = setInterval(() => {
+          i += 2;
+          answerP.textContent = fullText.slice(0, i);
+          if (i >= fullText.length){
+            answerP.textContent = fullText;
+            clearInterval(timer);
+            delete answerP.dataset.typeTimer;
+          }
+        }, 12);
+        answerP.dataset.typeTimer = String(timer);
+      }
     });
   });
 
@@ -522,6 +558,24 @@
       }
       requestAnimationFrame(drawInkTrail);
     }
+  }
+
+  /* ---- Creative hero photo parallax ---- */
+  const creativeHeroPhoto = document.querySelector('.creative-hero-photo');
+  const creativeHeroImg = document.querySelector('.creative-hero-img');
+  if (creativeHeroPhoto && creativeHeroImg && hasGsap && cursorCapable && !reduceMotion){
+    const movePhotoX = gsap.quickTo(creativeHeroImg, 'x', { duration: 0.6, ease: 'power2.out' });
+    const movePhotoY = gsap.quickTo(creativeHeroImg, 'y', { duration: 0.6, ease: 'power2.out' });
+    creativeHeroPhoto.addEventListener('mousemove', (e) => {
+      const rect = creativeHeroPhoto.getBoundingClientRect();
+      const relX = (e.clientX - rect.left) / rect.width - 0.5;
+      const relY = (e.clientY - rect.top) / rect.height - 0.5;
+      movePhotoX(relX * -24);
+      movePhotoY(relY * -18);
+    });
+    creativeHeroPhoto.addEventListener('mouseleave', () => {
+      movePhotoX(0); movePhotoY(0);
+    });
   }
 
   /* ---- Magnetic buttons ---- */
