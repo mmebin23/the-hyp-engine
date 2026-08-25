@@ -42,7 +42,11 @@
   },
   "areaServed": "Worldwide",
   "url": "https://www.thehypengine.com/media-production/",
-  "description": "Video and photography shot for your brand and your platforms - not borrowed from a stock library everyone else uses too."
+  "description": "Video and photography shot for your brand and your platforms - not borrowed from a stock library everyone else uses too.",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [".hero .lede", ".service-section p"]
+  }
 }
 </script>
 <script type="application/ld+json">
@@ -141,8 +145,19 @@
   </div>
 </header>
 
-<main id="top" style="padding-top:90px;">
+<nav class="wrap breadcrumb-nav" aria-label="Breadcrumb">
+  <ol style="display:flex; align-items:center; gap:8px; list-style:none; font-family:var(--mono); font-size:11px; color:var(--off-dim); letter-spacing:.04em; text-transform:uppercase; flex-wrap:wrap;">
+    <li><a href="/" style="color:var(--off-dim); text-decoration:none;">Home</a></li>
+    <li aria-hidden="true">/</li>
+    <li><a href="/#services" style="color:var(--off-dim); text-decoration:none;">Services</a></li>
+    <li aria-hidden="true">/</li>
+    <li aria-current="page" style="color:var(--off);">Media Production</li>
+  </ol>
+</nav>
+
+<main id="top" style="padding-top:24px;">
   <section class="hero" style="padding:64px 0 60px;">
+    <div class="ambient-glow ambient-glow-blue" aria-hidden="true"></div>
     <div class="wrap">
       <div class="hero-inner">
         <div class="service-hero-icon motion-live" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5 A1.5 1.5 0 0 1 5.5 7 H8 L9.2 5 H14.8 L16 7 H18.5 A1.5 1.5 0 0 1 20 8.5 V17 A1.5 1.5 0 0 1 18.5 18.5 H5.5 A1.5 1.5 0 0 1 4 17 Z"></path><circle class="mp-lens" cx="12" cy="12.5" r="3.4"></circle></svg></div>
@@ -219,18 +234,30 @@
         <p class="eyebrow">Related</p>
         <h2>Other Ways We Help</h2>
       </div>
-      <div class="panel-grid" style="margin-top:32px; grid-template-columns:repeat(3,1fr);">
+      <div class="related-grid" style="margin-top:32px;">
         <a href="/seo/" class="panel panel-clickable" style="text-decoration:none; color:inherit;">
-          <div><span class="tag" style="font-family:var(--mono); font-size:10.5px; color:var(--off-dim); letter-spacing:.06em; text-transform:uppercase;">Search & Organic</span></div>
-          <div><h3 style="font-family:var(--body); font-weight:600; font-size:17px; margin-top:10px;">SEO</h3></div>
+          <div class="panel-icon"><span class="related-icon"><svg class="icon-seo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"></circle><line x1="15.5" y1="15.5" x2="21" y2="21"></line></svg></span></div>
+          <div><span class="tag" style="font-family:var(--mono); font-size:10.5px; color:var(--off-dim); letter-spacing:.06em; text-transform:uppercase;">Search &amp; Organic</span><h3 style="font-family:var(--body); font-weight:600; font-size:16px; margin-top:8px;">SEO</h3></div>
         </a>
         <a href="/paid-media/" class="panel panel-clickable" style="text-decoration:none; color:inherit;">
-          <div><span class="tag" style="font-family:var(--mono); font-size:10.5px; color:var(--off-dim); letter-spacing:.06em; text-transform:uppercase;">Acquisition</span></div>
-          <div><h3 style="font-family:var(--body); font-weight:600; font-size:17px; margin-top:10px;">Paid Media</h3></div>
+          <div class="panel-icon"><span class="related-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle class="pm-ping" cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="5"></circle><circle cx="12" cy="12" r="1.1" fill="currentColor" stroke="none"></circle></svg></span></div>
+          <div><span class="tag" style="font-family:var(--mono); font-size:10.5px; color:var(--off-dim); letter-spacing:.06em; text-transform:uppercase;">Acquisition</span><h3 style="font-family:var(--body); font-weight:600; font-size:16px; margin-top:8px;">Paid Media</h3></div>
         </a>
         <a href="/web-dev/" class="panel panel-clickable" style="text-decoration:none; color:inherit;">
-          <div><span class="tag" style="font-family:var(--mono); font-size:10.5px; color:var(--off-dim); letter-spacing:.06em; text-transform:uppercase;">Website</span></div>
-          <div><h3 style="font-family:var(--body); font-weight:600; font-size:17px; margin-top:10px;">Web Design &amp; Dev</h3></div>
+          <div class="panel-icon"><span class="related-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="15" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><circle class="wd-dot wd-dot-1" cx="6.3" cy="6.7" r="0.6" fill="currentColor" stroke="none"></circle><circle class="wd-dot wd-dot-2" cx="8.6" cy="6.7" r="0.6" fill="currentColor" stroke="none"></circle><line class="wd-cursor" x1="7" y1="14" x2="7" y2="17.5"></line></svg></span></div>
+          <div><span class="tag" style="font-family:var(--mono); font-size:10.5px; color:var(--off-dim); letter-spacing:.06em; text-transform:uppercase;">Website</span><h3 style="font-family:var(--body); font-weight:600; font-size:16px; margin-top:8px;">Web Design &amp; Dev</h3></div>
+        </a>
+        <a href="/creative/" class="panel panel-clickable" style="text-decoration:none; color:inherit;">
+          <div class="panel-icon"><span class="related-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 L4.8 16.2 L15.5 5.5 A1.8 1.8 0 0 1 18 5.5 L18.5 6 A1.8 1.8 0 0 1 18.5 8.5 L7.8 19.2 Z"></path><line class="cr-line" x1="13.5" y1="7.5" x2="16.5" y2="10.5"></line></svg></span></div>
+          <div><span class="tag" style="font-family:var(--mono); font-size:10.5px; color:var(--off-dim); letter-spacing:.06em; text-transform:uppercase;">Identity</span><h3 style="font-family:var(--body); font-weight:600; font-size:16px; margin-top:8px;">Creative &amp; Branding</h3></div>
+        </a>
+        <a href="/social/" class="panel panel-clickable" style="text-decoration:none; color:inherit;">
+          <div class="panel-icon"><span class="related-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6 A2 2 0 0 1 6 4 H18 A2 2 0 0 1 20 6 V13 A2 2 0 0 1 18 15 H10 L6 19 V15 H6 A2 2 0 0 1 4 13 Z"></path><circle class="sc-dot sc-dot-1" cx="9" cy="9.5" r="0.9" fill="currentColor" stroke="none"></circle><circle class="sc-dot sc-dot-2" cx="12" cy="9.5" r="0.9" fill="currentColor" stroke="none"></circle><circle class="sc-dot sc-dot-3" cx="15" cy="9.5" r="0.9" fill="currentColor" stroke="none"></circle></svg></span></div>
+          <div><span class="tag" style="font-family:var(--mono); font-size:10.5px; color:var(--off-dim); letter-spacing:.06em; text-transform:uppercase;">Content &amp; Community</span><h3 style="font-family:var(--body); font-weight:600; font-size:16px; margin-top:8px;">Social Media</h3></div>
+        </a>
+        <a href="/cro/" class="panel panel-clickable" style="text-decoration:none; color:inherit;">
+          <div class="panel-icon"><span class="related-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5 H20 L14 12.5 V18 L10 20 V12.5 Z"></path><circle class="cro-dot cro-dot-1" cx="12" cy="7" r="0.9" fill="currentColor" stroke="none"></circle><circle class="cro-dot cro-dot-2" cx="12" cy="7" r="0.9" fill="currentColor" stroke="none"></circle></svg></span></div>
+          <div><span class="tag" style="font-family:var(--mono); font-size:10.5px; color:var(--off-dim); letter-spacing:.06em; text-transform:uppercase;">Conversion</span><h3 style="font-family:var(--body); font-weight:600; font-size:16px; margin-top:8px;">CRO &amp; Automation</h3></div>
         </a>
       </div>
     </div>
