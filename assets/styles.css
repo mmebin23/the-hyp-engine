@@ -589,11 +589,19 @@
                inset 0 2px 3px rgba(255,255,255,.4),
                inset 0 -3px 6px rgba(0,0,0,.2);
     position:relative; z-index:3;
-    animation:ai-core-pulse 3.6s ease-in-out infinite;
   }
-  @keyframes ai-core-pulse{
-    0%, 100%{ box-shadow:7px 7px 18px var(--neu-dark), -6px -6px 16px var(--neu-light), 0 0 26px rgba(255,107,26,.45), inset 0 2px 3px rgba(255,255,255,.15), inset 0 -3px 6px rgba(0,0,0,.3); }
-    50%{ box-shadow:7px 7px 20px var(--neu-dark), -6px -6px 18px var(--neu-light), 0 0 42px rgba(255,107,26,.65), inset 0 2px 3px rgba(255,255,255,.18), inset 0 -3px 6px rgba(0,0,0,.3); }
+  .ai-core::after{
+    content:"";
+    position:absolute; inset:-10px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(255,107,26,.55), transparent 70%);
+    z-index:-1;
+    pointer-events:none;
+    animation:ai-core-glow-pulse 3.6s ease-in-out infinite;
+  }
+  @keyframes ai-core-glow-pulse{
+    0%, 100%{ transform:scale(1); opacity:.5; }
+    50%{ transform:scale(1.3); opacity:.9; }
   }
   .ai-orbit{
     position:absolute; top:50%; left:50%; width:180px; height:180px;
@@ -916,18 +924,27 @@
     box-shadow:6px 6px 16px rgba(0,0,0,.55),
                -4px -4px 12px rgba(255,140,70,.25),
                inset 0 1px 1px rgba(255,255,255,.25);
-    animation:cta-btn-breathe 3.2s ease-in-out infinite;
   }
-  @keyframes cta-btn-breathe{
-    0%, 100%{ box-shadow:6px 6px 16px rgba(0,0,0,.55), -4px -4px 12px rgba(255,140,70,.22), inset 0 1px 1px rgba(255,255,255,.25); }
-    50%{ box-shadow:6px 6px 22px rgba(0,0,0,.6), -4px -4px 16px rgba(255,140,70,.45), inset 0 1px 1px rgba(255,255,255,.3); }
+  .cta .btn::after{
+    content:"";
+    position:absolute; inset:-6px;
+    border-radius:999px;
+    background:rgba(255,140,70,.45);
+    filter:blur(8px);
+    z-index:-1;
+    pointer-events:none;
+    animation:cta-btn-glow-pulse 3.2s ease-in-out infinite;
+  }
+  @keyframes cta-btn-glow-pulse{
+    0%, 100%{ transform:scale(1); opacity:.5; }
+    50%{ transform:scale(1.18); opacity:.9; }
   }
   @media (prefers-reduced-motion: reduce){
-    .cta .btn{ animation:none; }
+    .cta .btn::after{ animation:none; }
   }
+  .cta .btn:hover::after{ animation-play-state:paused; }
   .cta .btn:hover{
     background:linear-gradient(145deg, #FF8F4D, #FF6B1A); color:#0A0A0A;
-    animation-play-state:paused;
     box-shadow:6px 6px 18px rgba(0,0,0,.55),
                -4px -4px 14px rgba(255,140,70,.3),
                inset 0 1px 1px rgba(255,255,255,.3);
