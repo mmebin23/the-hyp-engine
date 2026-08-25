@@ -504,53 +504,6 @@
 
   /* ================= MANIFESTO ================= */
   .manifesto{ padding:128px 0; position:relative; overflow:hidden; }
-  .ambient-glow{
-    position:absolute; inset:0;
-    pointer-events:none;
-    overflow:hidden;
-    z-index:0;
-  }
-  .ambient-glow::before, .ambient-glow::after{
-    content:"";
-    position:absolute;
-    border-radius:50%;
-    filter:blur(130px);
-  }
-  .ambient-glow::before{
-    width:36%; padding-bottom:36%;
-    animation:ambient-drift-a 15s ease-in-out infinite;
-  }
-  .ambient-glow::after{
-    width:28%; padding-bottom:28%;
-    animation:ambient-drift-b 19s ease-in-out infinite reverse;
-  }
-  .ambient-glow-blue::before{
-    background:radial-gradient(circle, rgba(11,62,245,.32), transparent 65%);
-    top:-6%; left:-6%;
-  }
-  .ambient-glow-blue::after{
-    background:radial-gradient(circle, rgba(200,66,14,.2), transparent 65%);
-    bottom:-4%; right:-2%;
-  }
-  .ambient-glow-orange::before{
-    background:radial-gradient(circle, rgba(200,66,14,.32), transparent 65%);
-    bottom:-6%; right:-6%;
-  }
-  .ambient-glow-orange::after{
-    background:radial-gradient(circle, rgba(11,62,245,.2), transparent 65%);
-    top:-4%; left:-2%;
-  }
-  @keyframes ambient-drift-a{
-    0%, 100%{ transform:translate(0,0) scale(1); opacity:.7; }
-    50%{ transform:translate(34px,24px) scale(1.1); opacity:.9; }
-  }
-  @keyframes ambient-drift-b{
-    0%, 100%{ transform:translate(0,0) scale(1); opacity:.55; }
-    50%{ transform:translate(-28px,-18px) scale(1.06); opacity:.75; }
-  }
-  @media (prefers-reduced-motion: reduce){
-    .ambient-glow::before, .ambient-glow::after{ animation:none; }
-  }
   .manifesto-head{ max-width:680px; margin-bottom:56px; position:relative; z-index:2; }
   .manifesto-head h2{
     font-family:var(--display); font-size:clamp(32px,4vw,48px); text-transform:uppercase; line-height:1.05; margin-top:16px;
