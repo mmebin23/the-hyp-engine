@@ -50,15 +50,20 @@
     position:fixed; top:0; left:0;
     width:7px; height:7px; margin:-3.5px 0 0 -3.5px;
     border-radius:42% 58% 63% 37% / 41% 44% 56% 59%;
-    background:#0B0F14;
+    background:#C8420E;
+    box-shadow:0 0 8px rgba(200,66,14,.6);
     animation:cursor-blob-morph 3.4s ease-in-out infinite;
   }
   .cursor-ring{
     position:fixed; top:0; left:0;
     width:34px; height:34px; margin:-17px 0 0 -17px;
     border-radius:59% 41% 44% 56% / 37% 63% 41% 59%;
-    border:1.5px solid #0B0F14;
-    opacity:.6;
+    background:rgba(255,255,255,.22);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    border:1.5px solid rgba(255,255,255,.7);
+    box-shadow:0 2px 12px rgba(20,20,40,.1), inset 0 1px 1px rgba(255,255,255,.5);
+    opacity:.85;
     animation:cursor-blob-morph 4.2s ease-in-out infinite reverse;
     transition:width .25s ease, height .25s ease, margin .25s ease, opacity .25s ease, border-color .25s ease, background .25s ease;
   }
@@ -69,8 +74,8 @@
   }
   .custom-cursor.hover .cursor-ring{
     width:56px; height:56px; margin:-28px 0 0 -28px;
-    background:rgba(11,15,20,.1);
-    border-color:#0B0F14;
+    background:rgba(255,255,255,.32);
+    border-color:rgba(255,255,255,.85);
     opacity:1;
   }
   .custom-cursor.hover .cursor-dot{ opacity:0; }

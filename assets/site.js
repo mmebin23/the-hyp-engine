@@ -462,14 +462,14 @@
         ctx.beginPath();
         ctx.moveTo(p0.x + nx * jag, p0.y + ny * jag);
         ctx.lineTo(p1.x + nx * jag, p1.y + ny * jag);
-        ctx.strokeStyle = 'rgba(11,15,20,' + (lifeRatio * 0.75) + ')';
-        ctx.lineWidth = Math.max(1.5, lifeRatio * 9);
+        ctx.strokeStyle = 'rgba(200,66,14,' + (lifeRatio * 0.6) + ')';
+        ctx.lineWidth = Math.max(1.5, lifeRatio * 8);
         ctx.stroke();
 
         ctx.beginPath();
         ctx.moveTo(p0.x + nx * (jag + 2), p0.y + ny * (jag + 2));
         ctx.lineTo(p1.x + nx * (jag + 2), p1.y + ny * (jag + 2));
-        ctx.strokeStyle = 'rgba(120,130,145,' + (lifeRatio * 0.25) + ')';
+        ctx.strokeStyle = 'rgba(255,255,255,' + (lifeRatio * 0.4) + ')';
         ctx.lineWidth = Math.max(0.6, lifeRatio * 1.6);
         ctx.stroke();
 
@@ -479,7 +479,7 @@
           ctx.beginPath();
           ctx.moveTo(p1.x, p1.y);
           ctx.lineTo(p1.x + nx * spikeLen * spikeDir, p1.y + ny * spikeLen * spikeDir);
-          ctx.strokeStyle = 'rgba(11,15,20,' + (lifeRatio * 0.55) + ')';
+          ctx.strokeStyle = 'rgba(11,62,245,' + (lifeRatio * 0.45) + ')';
           ctx.lineWidth = Math.max(0.6, lifeRatio * 2.2);
           ctx.stroke();
         }
@@ -491,7 +491,7 @@
         const fallY = d.y + (1 - ratio) * 28;
         ctx.beginPath();
         ctx.arc(d.x, fallY, Math.max(0.8, ratio * 2.6), 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(11,15,20,' + (ratio * 0.65) + ')';
+        ctx.fillStyle = 'rgba(200,66,14,' + (ratio * 0.5) + ')';
         ctx.fill();
       });
       ctx.globalAlpha = 1;
