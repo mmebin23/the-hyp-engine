@@ -383,7 +383,7 @@
     .ticker-band::before{ animation:none; }
   }
 
-  main{ padding-top:90px; will-change:filter; }
+  main{ padding-top:90px; }
 
   /* ================= HERO ================= */
   .hero{

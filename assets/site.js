@@ -25,40 +25,6 @@
     }
   }
 
-  /* ---- Scroll flow: velocity-driven blur for a fluid scrolling feel ---- */
-  if (lenis && hasGsap && !reduceMotion){
-    const flowTarget = document.querySelector('main');
-    if (flowTarget){
-      const flowState = { blur: 0 };
-      let flowIdleTimer = null;
-
-      function applyFlow(){
-        flowTarget.style.filter = flowState.blur > 0.05 ? 'blur(' + flowState.blur.toFixed(2) + 'px)' : '';
-      }
-
-      lenis.on('scroll', (e) => {
-        const v = Math.max(-1, Math.min(1, e.velocity / 2.2));
-        gsap.to(flowState, {
-          blur: Math.min(Math.abs(v) * 2.6, 3),
-          duration: 0.4,
-          ease: 'power2.out',
-          overwrite: true,
-          onUpdate: applyFlow
-        });
-        clearTimeout(flowIdleTimer);
-        flowIdleTimer = setTimeout(() => {
-          gsap.to(flowState, {
-            blur: 0,
-            duration: 0.6,
-            ease: 'power3.out',
-            overwrite: true,
-            onUpdate: applyFlow
-          });
-        }, 100);
-      });
-    }
-  }
-
   /* ---- Logo mark: cursor tilt + click pulse ---- */
   const logoMarks = [document.getElementById('logoMarkHeader'), document.getElementById('logoMarkFooter')].filter(Boolean);
   logoMarks.forEach(mark => {
