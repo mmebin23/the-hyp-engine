@@ -6,13 +6,13 @@ The Hyp Engine is a media agency for D2C, SaaS, app, and B2B brands. One team ha
 
 ## Services
 
-- SEO - organic search growth
-- Paid Media - Google, Meta, TikTok, and other paid channels
-- Web Design & Development - websites built to convert
-- Creative & Branding - identity, design, and content systems
-- Media Production - video and photography
-- Social Media - content and community management
-- Conversion Rate Optimization & Marketing Automation
+- [SEO](https://www.thehypengine.com/seo/) - organic search growth, technical audits, content built around buyer intent
+- [Paid Media](https://www.thehypengine.com/paid-media/) - Google, Meta, TikTok, and other paid channels
+- [Web Design & Development](https://www.thehypengine.com/web-dev/) - websites built to convert
+- [Creative & Branding](https://www.thehypengine.com/creative/) - identity, design, and content systems
+- [Media Production](https://www.thehypengine.com/media-production/) - video and photography
+- [Social Media](https://www.thehypengine.com/social/) - content and community management
+- [CRO & Automation](https://www.thehypengine.com/cro/) - conversion rate optimization and marketing automation
 - AI-powered marketing (used across strategy, targeting, and creative production)
 
 ## Key facts
@@ -24,6 +24,13 @@ The Hyp Engine is a media agency for D2C, SaaS, app, and B2B brands. One team ha
 - Contact: contact@thehypengine.com
 - Instagram: https://www.instagram.com/thehypengine
 
-## Primary page
+## Pages
 
-- [The Hyp Engine](https://www.thehypengine.com/): full site - services, process, results, FAQ, and contact.
+- [The Hyp Engine](https://www.thehypengine.com/): homepage - services overview, process, results, FAQ, and contact.
+- [SEO](https://www.thehypengine.com/seo/): dedicated SEO service page with FAQ.
+- [Paid Media](https://www.thehypengine.com/paid-media/): dedicated paid media service page with FAQ.
+- [Web Design & Development](https://www.thehypengine.com/web-dev/): dedicated web design/dev service page with FAQ.
+- [Creative & Branding](https://www.thehypengine.com/creative/): dedicated branding service page with FAQ.
+- [Media Production](https://www.thehypengine.com/media-production/): dedicated video/photo service page with FAQ.
+- [Social Media](https://www.thehypengine.com/social/): dedicated social media service page with FAQ.
+- [CRO & Automation](https://www.thehypengine.com/cro/): dedicated CRO/automation service page with FAQ.
