@@ -486,7 +486,7 @@
     content:"";
     position:absolute;
     border-radius:50%;
-    filter:blur(90px);
+    filter:blur(75px);
   }
   .ambient-glow::before{
     width:62%; padding-bottom:62%;
@@ -497,28 +497,28 @@
     animation:ambient-drift-b 19s ease-in-out infinite reverse;
   }
   .ambient-glow-blue::before{
-    background:radial-gradient(circle, rgba(11,62,245,.45), transparent 70%);
+    background:radial-gradient(circle, rgba(11,62,245,.9) 0%, rgba(11,62,245,.5) 35%, transparent 72%);
     top:-16%; left:-10%;
   }
   .ambient-glow-blue::after{
-    background:radial-gradient(circle, rgba(200,66,14,.28), transparent 70%);
+    background:radial-gradient(circle, rgba(200,66,14,.65) 0%, rgba(200,66,14,.32) 35%, transparent 72%);
     bottom:-12%; right:-6%;
   }
   .ambient-glow-orange::before{
-    background:radial-gradient(circle, rgba(200,66,14,.45), transparent 70%);
+    background:radial-gradient(circle, rgba(200,66,14,.9) 0%, rgba(200,66,14,.5) 35%, transparent 72%);
     bottom:-16%; right:-10%;
   }
   .ambient-glow-orange::after{
-    background:radial-gradient(circle, rgba(11,62,245,.28), transparent 70%);
+    background:radial-gradient(circle, rgba(11,62,245,.65) 0%, rgba(11,62,245,.32) 35%, transparent 72%);
     top:-12%; left:-6%;
   }
   @keyframes ambient-drift-a{
-    0%, 100%{ transform:translate(0,0) scale(1); opacity:.75; }
+    0%, 100%{ transform:translate(0,0) scale(1); opacity:.9; }
     50%{ transform:translate(34px,24px) scale(1.18); opacity:1; }
   }
   @keyframes ambient-drift-b{
-    0%, 100%{ transform:translate(0,0) scale(1); opacity:.55; }
-    50%{ transform:translate(-28px,-18px) scale(1.12); opacity:.85; }
+    0%, 100%{ transform:translate(0,0) scale(1); opacity:.7; }
+    50%{ transform:translate(-28px,-18px) scale(1.12); opacity:1; }
   }
   @media (prefers-reduced-motion: reduce){
     .ambient-glow::before, .ambient-glow::after{ animation:none; }
@@ -800,7 +800,7 @@
   }
   .cta-glow{
     position:absolute; top:50%; left:50%; width:900px; height:900px; transform:translate(-50%,-50%);
-    background:radial-gradient(circle, rgba(255,75,31,.22) 0%, transparent 60%);
+    background:radial-gradient(circle, rgba(255,75,31,.5) 0%, rgba(255,75,31,.22) 40%, transparent 65%);
     pointer-events:none;
   }
   .cta h2{
