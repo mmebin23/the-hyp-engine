@@ -323,9 +323,11 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  backToTop.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
-  });
+  if (backToTop){
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+    });
+  }
 
   /* ---- FAQ accordion ---- */
   document.querySelectorAll('.faq-q').forEach(btn => {
