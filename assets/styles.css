@@ -58,11 +58,9 @@
     position:fixed; top:0; left:0;
     width:34px; height:34px; margin:-17px 0 0 -17px;
     border-radius:59% 41% 44% 56% / 37% 63% 41% 59%;
-    background:rgba(255,255,255,.22);
-    backdrop-filter:blur(6px);
-    -webkit-backdrop-filter:blur(6px);
-    border:1.5px solid rgba(255,255,255,.7);
-    box-shadow:0 2px 12px rgba(20,20,40,.1), inset 0 1px 1px rgba(255,255,255,.5);
+    background:rgba(255,255,255,.4);
+    border:1.5px solid rgba(255,255,255,.75);
+    box-shadow:0 2px 12px rgba(20,20,40,.12), inset 0 1px 1px rgba(255,255,255,.55);
     opacity:.85;
     animation:cursor-blob-morph 4.2s ease-in-out infinite reverse;
     transition:width .25s ease, height .25s ease, margin .25s ease, opacity .25s ease, border-color .25s ease, background .25s ease;

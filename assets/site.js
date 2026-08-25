@@ -175,11 +175,24 @@
     }, { passive: true });
 
     let tiltMouseX = -9999, tiltMouseY = -9999;
+    let tiltRunning = false;
+    let tiltIdleTimer = null;
+
+    function startTiltLoop(){
+      if (tiltRunning) return;
+      tiltRunning = true;
+      requestAnimationFrame(tiltLoop);
+    }
+
     window.addEventListener('mousemove', (e) => {
       tiltMouseX = e.clientX; tiltMouseY = e.clientY;
+      startTiltLoop();
+      clearTimeout(tiltIdleTimer);
+      tiltIdleTimer = setTimeout(() => { tiltRunning = false; }, 300);
     }, { passive: true });
 
     function tiltLoop(){
+      if (!tiltRunning) return;
       if (tiltIsScrolling){
         tiltRects.forEach(item => {
           if (item.el.style.transform) item.el.style.transform = '';
@@ -205,7 +218,6 @@
       });
       requestAnimationFrame(tiltLoop);
     }
-    requestAnimationFrame(tiltLoop);
   }
 
   /* ---- Click spark burst ---- */
@@ -429,6 +441,14 @@
     const INK_MAX_AGE = 480;
     const DRIP_MAX_AGE = 500;
 
+    let inkTrailRunning = false;
+
+    function startInkTrailLoop(){
+      if (inkTrailRunning) return;
+      inkTrailRunning = true;
+      requestAnimationFrame(drawInkTrail);
+    }
+
     window.addEventListener('mousemove', (e) => {
       inkPoints.push({ x: e.clientX, y: e.clientY, t: performance.now() });
       if (Math.random() < 0.12){
@@ -438,6 +458,7 @@
           t: performance.now()
         });
       }
+      startInkTrailLoop();
     }, { passive: true });
 
     function drawInkTrail(){
@@ -495,9 +516,12 @@
         ctx.fill();
       });
       ctx.globalAlpha = 1;
+      if (inkPoints.length === 0 && drips.length === 0){
+        inkTrailRunning = false;
+        return;
+      }
       requestAnimationFrame(drawInkTrail);
     }
-    requestAnimationFrame(drawInkTrail);
   }
 
   /* ---- Magnetic buttons ---- */
