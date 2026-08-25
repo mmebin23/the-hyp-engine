@@ -196,10 +196,16 @@
     }
     cacheTiltRects();
     window.addEventListener('resize', cacheTiltRects);
+
+    let tiltIsScrolling = false;
     let tiltScrollT = null;
     window.addEventListener('scroll', () => {
+      tiltIsScrolling = true;
       clearTimeout(tiltScrollT);
-      tiltScrollT = setTimeout(cacheTiltRects, 120);
+      tiltScrollT = setTimeout(() => {
+        cacheTiltRects();
+        tiltIsScrolling = false;
+      }, 150);
     }, { passive: true });
 
     let tiltMouseX = -9999, tiltMouseY = -9999;
@@ -208,6 +214,13 @@
     }, { passive: true });
 
     function tiltLoop(){
+      if (tiltIsScrolling){
+        tiltRects.forEach(item => {
+          if (item.el.style.transform) item.el.style.transform = '';
+        });
+        requestAnimationFrame(tiltLoop);
+        return;
+      }
       tiltRects.forEach(item => {
         const dx = tiltMouseX - item.cx;
         const dy = tiltMouseY - item.cy;
