@@ -210,7 +210,7 @@
 
   /* ---- Click spark burst ---- */
   if (!reduceMotion && hoverCapableNow){
-    const SPARK_COLORS = ['#C8420E', '#0B3EF5'];
+    const SPARK_COLORS = ['#FF6B1A', '#C8420E'];
     document.addEventListener('click', (e) => {
       const count = 6;
       for (let i = 0; i < count; i++){
@@ -479,7 +479,7 @@
           ctx.beginPath();
           ctx.moveTo(p1.x, p1.y);
           ctx.lineTo(p1.x + nx * spikeLen * spikeDir, p1.y + ny * spikeLen * spikeDir);
-          ctx.strokeStyle = 'rgba(11,62,245,' + (lifeRatio * 0.45) + ')';
+          ctx.strokeStyle = 'rgba(255,140,70,' + (lifeRatio * 0.45) + ')';
           ctx.lineWidth = Math.max(0.6, lifeRatio * 2.2);
           ctx.stroke();
         }
