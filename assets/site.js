@@ -501,26 +501,6 @@
     });
   }
 
-  /* ---- CTA network background: mouse parallax ---- */
-  if (hasGsap && cursorCapable && !reduceMotion){
-    const ctaSection = document.querySelector('.cta');
-    const networkSvg = document.querySelector('.network-motion');
-    if (ctaSection && networkSvg){
-      const moveNetX = gsap.quickTo(networkSvg, 'x', { duration: 0.8, ease: 'power2.out' });
-      const moveNetY = gsap.quickTo(networkSvg, 'y', { duration: 0.8, ease: 'power2.out' });
-      ctaSection.addEventListener('mousemove', (e) => {
-        const rect = ctaSection.getBoundingClientRect();
-        const relX = (e.clientX - rect.left - rect.width / 2) / rect.width;
-        const relY = (e.clientY - rect.top - rect.height / 2) / rect.height;
-        moveNetX(relX * -24);
-        moveNetY(relY * -18);
-      });
-      ctaSection.addEventListener('mouseleave', () => {
-        moveNetX(0); moveNetY(0);
-      });
-    }
-  }
-
   /* ---- Kinetic typography: hero headline reveal on load, section headings on scroll ---- */
   if (hasGsap && typeof SplitText !== 'undefined' && !reduceMotion){
     const heroH1 = document.querySelector('.hero h1');
