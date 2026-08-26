@@ -567,13 +567,13 @@
   if (hasThree && hasGsap && services3dCanvas && services3dStage && cursorCapable && !reduceMotion && services3dStage.clientWidth > 0 && services3dStage.clientHeight > 0){
    try {
     const SERVICE_DATA = [
-      { title: 'SEO', tag: 'Organic Growth Engine', geo: 'icosahedron' },
-      { title: 'Paid Media', tag: 'Google, Meta, TikTok & more', geo: 'octahedron' },
-      { title: 'Web Design & Dev', tag: 'Sites Built To Convert', geo: 'box' },
-      { title: 'Creative & Branding', tag: 'Identity, Design & Content', geo: 'dodecahedron' },
-      { title: 'Media Production', tag: 'Video & Photography', geo: 'cone' },
-      { title: 'Social Media', tag: 'Content & Community', geo: 'torus' },
-      { title: 'CRO & Automation', tag: 'Funnels That Compound', geo: 'torusknot' }
+      { title: 'SEO', tag: 'Organic Growth Engine', geo: 'icosahedron', slug: 'seo' },
+      { title: 'Paid Media', tag: 'Google, Meta, TikTok & more', geo: 'octahedron', slug: 'paid-media' },
+      { title: 'Web Design & Dev', tag: 'Sites Built To Convert', geo: 'box', slug: 'web-dev' },
+      { title: 'Creative & Branding', tag: 'Identity, Design & Content', geo: 'dodecahedron', slug: 'creative' },
+      { title: 'Media Production', tag: 'Video & Photography', geo: 'cone', slug: 'media-production' },
+      { title: 'Social Media', tag: 'Content & Community', geo: 'torus', slug: 'social' },
+      { title: 'CRO & Automation', tag: 'Funnels That Compound', geo: 'torusknot', slug: 'cro' }
     ];
 
     const scene = new THREE.Scene();
@@ -718,6 +718,7 @@
       services3dActive = i;
       const svc = SERVICE_DATA[i];
       services3dLabelEl.classList.remove('is-visible');
+      services3dLabelEl.setAttribute('href', '/' + svc.slug + '/');
       setTimeout(() => {
         services3dTagEl.textContent = svc.tag;
         services3dTitleEl.textContent = svc.title;
