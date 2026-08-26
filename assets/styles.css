@@ -655,6 +655,60 @@
 
   /* ================= SERVICES ================= */
   .services{ padding:128px 0; position:relative; overflow:hidden; }
+
+  .services-3d{ position:relative; }
+  .services-3d .wrap{ padding-top:80px; padding-bottom:40px; }
+  .services-3d-stage{
+    position:relative;
+    height:100vh;
+    max-height:820px;
+    margin:0 auto;
+    max-width:1240px;
+    border-radius:var(--neu-radius);
+    overflow:hidden;
+    background:radial-gradient(ellipse at center, #12100d 0%, #0A0A0A 70%);
+    box-shadow:var(--neu-raised);
+  }
+  .services-3d-stage canvas{
+    position:absolute; inset:0; width:100%; height:100%; display:block;
+  }
+  .services-3d-label{
+    position:absolute; left:44px; bottom:52px; z-index:3;
+    pointer-events:none;
+  }
+  .services-3d-label-tag{
+    display:block;
+    font-family:var(--mono); font-size:12px; color:var(--signal);
+    letter-spacing:.1em; text-transform:uppercase; margin-bottom:10px;
+    opacity:0; transform:translateY(8px);
+    transition:opacity .35s ease, transform .35s ease;
+  }
+  .services-3d-label-title{
+    font-family:var(--display); font-size:clamp(28px,4vw,48px);
+    text-transform:uppercase; color:#fff; margin:0;
+    opacity:0; transform:translateY(8px);
+    transition:opacity .35s ease .05s, transform .35s ease .05s;
+  }
+  .services-3d-label.is-visible .services-3d-label-tag,
+  .services-3d-label.is-visible .services-3d-label-title{
+    opacity:1; transform:translateY(0);
+  }
+  .services-3d-progress{
+    position:absolute; right:36px; top:50%; transform:translateY(-50%);
+    display:flex; flex-direction:column; gap:10px; z-index:3;
+  }
+  .services-3d-dot{
+    width:7px; height:7px; border-radius:50%;
+    background:rgba(255,255,255,.25);
+    transition:background .3s ease, transform .3s ease;
+  }
+  .services-3d-dot.active{
+    background:var(--signal);
+    transform:scale(1.5);
+  }
+  @media (max-width:960px){
+    .services-3d{ display:none; }
+  }
   .section-head{
     display:flex; justify-content:space-between; align-items:flex-end; gap:24px;
     margin-bottom:48px; flex-wrap:wrap;

@@ -560,6 +560,201 @@
     }
   }
 
+  /* ---- Services 3D showcase ---- */
+  const hasThree = typeof THREE !== 'undefined';
+  const services3dCanvas = document.getElementById('services3dCanvas');
+  const services3dStage = document.querySelector('.services-3d-stage');
+  if (hasThree && hasGsap && services3dCanvas && services3dStage && cursorCapable && !reduceMotion){
+    const SERVICE_DATA = [
+      { title: 'SEO', tag: 'Organic Growth Engine', geo: 'icosahedron' },
+      { title: 'Paid Media', tag: 'Google, Meta, TikTok & more', geo: 'octahedron' },
+      { title: 'Web Design & Dev', tag: 'Sites Built To Convert', geo: 'box' },
+      { title: 'Creative & Branding', tag: 'Identity, Design & Content', geo: 'dodecahedron' },
+      { title: 'Media Production', tag: 'Video & Photography', geo: 'cone' },
+      { title: 'Social Media', tag: 'Content & Community', geo: 'torus' },
+      { title: 'CRO & Automation', tag: 'Funnels That Compound', geo: 'torusknot' }
+    ];
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(50, services3dStage.clientWidth / services3dStage.clientHeight, 0.1, 100);
+    camera.position.set(0, 0, 14);
+
+    const renderer = new THREE.WebGLRenderer({ canvas: services3dCanvas, antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(services3dStage.clientWidth, services3dStage.clientHeight);
+
+    scene.add(new THREE.AmbientLight(0x332211, 1.2));
+    const keyLight = new THREE.PointLight(0xff8f4d, 3, 40);
+    keyLight.position.set(6, 6, 10);
+    scene.add(keyLight);
+    const fillLight = new THREE.PointLight(0xff6b1a, 1.2, 40);
+    fillLight.position.set(-8, -4, 6);
+    scene.add(fillLight);
+
+    function makeStarLayer(count, spread, size, opacity, color){
+      const geo = new THREE.BufferGeometry();
+      const positions = new Float32Array(count * 3);
+      for (let i = 0; i < count; i++){
+        positions[i * 3] = (Math.random() - 0.5) * spread;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * spread;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * spread - 10;
+      }
+      geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const mat = new THREE.PointsMaterial({ color, size, transparent: true, opacity, sizeAttenuation: true });
+      return new THREE.Points(geo, mat);
+    }
+    const starsFar = makeStarLayer(220, 60, 0.045, 0.35, 0xffffff);
+    const starsNear = makeStarLayer(70, 40, 0.09, 0.6, 0xffd9b8);
+    const starsAccent = makeStarLayer(18, 30, 0.16, 0.8, 0xff8f4d);
+    scene.add(starsFar, starsNear, starsAccent);
+
+    function makeGeometry(type){
+      switch (type){
+        case 'icosahedron': return new THREE.IcosahedronGeometry(1.6, 0);
+        case 'octahedron': return new THREE.OctahedronGeometry(1.7, 0);
+        case 'box': return new THREE.BoxGeometry(2.1, 2.1, 2.1);
+        case 'dodecahedron': return new THREE.DodecahedronGeometry(1.6, 0);
+        case 'cone': return new THREE.ConeGeometry(1.5, 2.4, 8);
+        case 'torus': return new THREE.TorusGeometry(1.3, 0.5, 12, 24);
+        case 'torusknot': return new THREE.TorusKnotGeometry(1.1, 0.35, 80, 10);
+        default: return new THREE.IcosahedronGeometry(1.6, 0);
+      }
+    }
+
+    const objectGroup = new THREE.Group();
+    const objects = SERVICE_DATA.map((svc, i) => {
+      const geo = makeGeometry(svc.geo);
+      const mat = new THREE.MeshStandardMaterial({
+        color: 0x241a12,
+        emissive: 0xff6b1a,
+        emissiveIntensity: 0.4,
+        metalness: 0.55,
+        roughness: 0.28
+      });
+      const mesh = new THREE.Mesh(geo, mat);
+
+      const wireGeo = new THREE.WireframeGeometry(geo);
+      const wireMat = new THREE.LineBasicMaterial({ color: 0xffb88a, transparent: true, opacity: 0.35 });
+      const wireframe = new THREE.LineSegments(wireGeo, wireMat);
+      wireframe.scale.setScalar(1.015);
+      mesh.add(wireframe);
+
+      const glowMat = new THREE.MeshBasicMaterial({
+        color: 0xff6b1a,
+        transparent: true,
+        opacity: 0.16,
+        side: THREE.BackSide,
+        blending: THREE.AdditiveBlending
+      });
+      const glowShell = new THREE.Mesh(geo, glowMat);
+      glowShell.scale.setScalar(1.35);
+      mesh.add(glowShell);
+
+      const angle = (i / SERVICE_DATA.length) * Math.PI * 2;
+      const radius = 7;
+      mesh.position.set(Math.cos(angle) * radius, Math.sin(angle * 0.6) * 1.5, Math.sin(angle) * radius);
+      mesh.userData.wireframe = wireframe;
+      mesh.userData.glowShell = glowShell;
+      objectGroup.add(mesh);
+      return mesh;
+    });
+    scene.add(objectGroup);
+
+    function renderScene(){ renderer.render(scene, camera); }
+
+    let rafRunning = false;
+    let idleT = 0;
+    let baseCameraX = camera.position.x, baseCameraY = camera.position.y;
+    function idleTick(){
+      if (!rafRunning) return;
+      idleT += 0.01;
+      objects.forEach((m, i) => {
+        m.rotation.x += 0.003 + i * 0.0004;
+        m.rotation.y += 0.004;
+      });
+      starsFar.rotation.y += 0.00015;
+      starsNear.rotation.y += 0.00035;
+      starsAccent.rotation.y += 0.0006;
+      camera.position.x = baseCameraX + Math.sin(idleT * 0.4) * 0.35;
+      camera.position.y = baseCameraY + Math.cos(idleT * 0.3) * 0.2;
+      camera.lookAt(0, 0, 0);
+      renderScene();
+      requestAnimationFrame(idleTick);
+    }
+    function startLoop(){
+      if (rafRunning) return;
+      rafRunning = true;
+      requestAnimationFrame(idleTick);
+    }
+    function stopLoop(){ rafRunning = false; }
+
+    const services3dIO = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) startLoop(); else stopLoop();
+      });
+    }, { threshold: 0.05 });
+    services3dIO.observe(services3dStage);
+
+    window.addEventListener('resize', () => {
+      const w = services3dStage.clientWidth, h = services3dStage.clientHeight;
+      if (!w || !h) return;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    });
+
+    const services3dLabelEl = document.getElementById('services3dLabel');
+    const services3dTagEl = document.getElementById('services3dTag');
+    const services3dTitleEl = document.getElementById('services3dTitle');
+    const services3dDots = document.querySelectorAll('.services-3d-dot');
+    let services3dActive = -1;
+
+    function setActiveService(i){
+      if (i === services3dActive) return;
+      services3dActive = i;
+      const svc = SERVICE_DATA[i];
+      services3dLabelEl.classList.remove('is-visible');
+      setTimeout(() => {
+        services3dTagEl.textContent = svc.tag;
+        services3dTitleEl.textContent = svc.title;
+        services3dLabelEl.classList.add('is-visible');
+      }, 120);
+      services3dDots.forEach(d => d.classList.toggle('active', Number(d.dataset.i) === i));
+
+      objects.forEach((m, idx) => {
+        const targetScale = idx === i ? 1.6 : 0.85;
+        gsap.to(m.scale, { x: targetScale, y: targetScale, z: targetScale, duration: 0.6, ease: 'power2.out' });
+        gsap.to(m.material, { emissiveIntensity: idx === i ? 0.9 : 0.25, duration: 0.6 });
+      });
+
+      const targetAngle = (i / SERVICE_DATA.length) * Math.PI * 2;
+      gsap.to(camera.position, {
+        x: Math.cos(targetAngle) * 3,
+        y: 1,
+        duration: 1,
+        ease: 'power2.inOut',
+        onUpdate: () => {
+          camera.lookAt(0, 0, 0);
+          baseCameraX = camera.position.x;
+          baseCameraY = camera.position.y;
+        }
+      });
+    }
+
+    ScrollTrigger.create({
+      trigger: '.services-3d-stage',
+      start: 'top top',
+      end: '+=' + (SERVICE_DATA.length * 400),
+      pin: true,
+      scrub: 0.6,
+      onUpdate: (self) => {
+        const idx = Math.min(SERVICE_DATA.length - 1, Math.floor(self.progress * SERVICE_DATA.length));
+        setActiveService(idx);
+      },
+      onEnter: () => setActiveService(0)
+    });
+  }
+
   /* ---- Creative hero photo parallax ---- */
   const creativeHeroPhoto = document.querySelector('.creative-hero-photo');
   const creativeHeroImg = document.querySelector('.creative-hero-img');
