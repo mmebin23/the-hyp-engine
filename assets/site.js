@@ -709,9 +709,9 @@
 
       mesh.scale.setScalar(0.32);
       mesh.userData.swayOffset = Math.random() * Math.PI * 2;
-      mesh.userData.baseY = Math.sin(angle * 0.6) * 1.5;
 
       const angle = (i / SERVICE_DATA.length) * Math.PI * 2;
+      mesh.userData.baseY = Math.sin(angle * 0.6) * 1.5;
       const radius = 7;
       mesh.position.set(Math.cos(angle) * radius, Math.sin(angle * 0.6) * 1.5, Math.sin(angle) * radius);
       mesh.userData.glowShell = glowShell;
