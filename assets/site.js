@@ -88,61 +88,36 @@
   }
 
 
-  /* ---- Hero video scrub: horizontal mouse movement drives currentTime ----
-     The source is attached from JS so phones never download the clip - the
-     element is display:none under 960px but the browser would still fetch it.
-     Seeks are coalesced to one per animation frame; a mouse fires far more
-     move events than the decoder can service, and queued seeks compound. */
-  const scrubVideo = document.getElementById('heroScrubVideo');
-  const isDesktopWidth = window.matchMedia('(min-width: 961px)').matches;
-  const canScrub = isDesktopWidth && window.matchMedia('(hover: hover)').matches;
+  /* ---- Hero motion-blur slider (replaces the scrub video) ---- */
+  const heroSlides = document.querySelectorAll('.hero-slide');
+  if (heroSlides.length){
+    let heroSlideIndex = 0;
+    let heroSlideTimer = null;
+    const heroCurrentEl = document.getElementById('heroSliderCurrent');
 
-  // Baseline: load and autoplay a looping video on any desktop-width screen,
-  // regardless of hover support, so the hero never falls back to a blank
-  // background on touchscreens or hybrid devices. Mouse-scrub (below) then
-  // takes manual control only when a real mouse is present.
-  if (scrubVideo && isDesktopWidth && !reduceMotion){
-    scrubVideo.src = scrubVideo.dataset.src;
-    scrubVideo.loop = true;
-    scrubVideo.play().catch(() => {});
-  }
-
-  if (scrubVideo && canScrub && !reduceMotion){
-    const SCRUB_SENSITIVITY = 0.8;
-    let prevX = null, targetTime = 0, seeking = false, frameQueued = false;
-    let scrubbing = false;
-
-    function commitSeek(){
-      frameQueued = false;
-      if (seeking) return;
-      const dur = scrubVideo.duration;
-      if (!isFinite(dur) || dur <= 0) return;
-      if (Math.abs(scrubVideo.currentTime - targetTime) < 0.01) return;
-      seeking = true;
-      scrubVideo.currentTime = targetTime;
+    function goToHeroSlide(newIndex){
+      if (newIndex === heroSlideIndex || !heroSlides[newIndex]) return;
+      const oldSlide = heroSlides[heroSlideIndex];
+      const newSlide = heroSlides[newIndex];
+      oldSlide.classList.add('is-leaving');
+      oldSlide.classList.remove('is-active');
+      newSlide.classList.add('is-active');
+      setTimeout(() => { oldSlide.classList.remove('is-leaving'); }, 1000);
+      heroSlideIndex = newIndex;
+      if (heroCurrentEl) heroCurrentEl.textContent = String(newIndex + 1).padStart(2, '0');
     }
+    function nextHeroSlide(){ goToHeroSlide((heroSlideIndex + 1) % heroSlides.length); }
+    function prevHeroSlide(){ goToHeroSlide((heroSlideIndex - 1 + heroSlides.length) % heroSlides.length); }
 
-    function queueSeek(){
-      if (frameQueued) return;
-      frameQueued = true;
-      requestAnimationFrame(commitSeek);
+    const heroPrevBtn = document.getElementById('heroSliderPrev');
+    const heroNextBtn = document.getElementById('heroSliderNext');
+    function resetHeroAutoAdvance(){
+      clearInterval(heroSlideTimer);
+      if (!reduceMotion) heroSlideTimer = setInterval(nextHeroSlide, 6000);
     }
-
-    window.addEventListener('mousemove', (e) => {
-      if (prevX === null){ prevX = e.clientX; targetTime = scrubVideo.currentTime || 0; return; }
-      const dur = scrubVideo.duration;
-      if (!isFinite(dur) || dur <= 0){ prevX = e.clientX; return; }
-      if (!scrubbing){ scrubbing = true; scrubVideo.pause(); scrubVideo.loop = false; }
-      const delta = e.clientX - prevX;
-      prevX = e.clientX;
-      targetTime = Math.min(Math.max(targetTime + (delta / window.innerWidth) * SCRUB_SENSITIVITY * dur, 0), dur);
-      queueSeek();
-    }, { passive: true });
-
-    scrubVideo.addEventListener('seeked', () => {
-      seeking = false;
-      if (Math.abs(scrubVideo.currentTime - targetTime) > 0.02) queueSeek();
-    });
+    if (heroNextBtn) heroNextBtn.addEventListener('click', () => { nextHeroSlide(); resetHeroAutoAdvance(); });
+    if (heroPrevBtn) heroPrevBtn.addEventListener('click', () => { prevHeroSlide(); resetHeroAutoAdvance(); });
+    resetHeroAutoAdvance();
   }
 
   /* ---- 3D tilt on cursor proximity ---- */
@@ -567,13 +542,13 @@
   if (hasThree && hasGsap && services3dCanvas && services3dStage && cursorCapable && !reduceMotion && services3dStage.clientWidth > 0 && services3dStage.clientHeight > 0){
    try {
     const SERVICE_DATA = [
-      { title: 'SEO', tag: 'Organic Growth Engine', geo: 'icosahedron', slug: 'seo' },
-      { title: 'Paid Media', tag: 'Google, Meta, TikTok & more', geo: 'octahedron', slug: 'paid-media' },
-      { title: 'Web Design & Dev', tag: 'Sites Built To Convert', geo: 'box', slug: 'web-dev' },
-      { title: 'Creative & Branding', tag: 'Identity, Design & Content', geo: 'dodecahedron', slug: 'creative' },
-      { title: 'Media Production', tag: 'Video & Photography', geo: 'cone', slug: 'media-production' },
-      { title: 'Social Media', tag: 'Content & Community', geo: 'torus', slug: 'social' },
-      { title: 'CRO & Automation', tag: 'Funnels That Compound', geo: 'torusknot', slug: 'cro' }
+      { title: 'SEO', tag: 'Organic Growth Engine', icon: 'seo', slug: 'seo' },
+      { title: 'Paid Media', tag: 'Google, Meta, TikTok & more', icon: 'paid-media', slug: 'paid-media' },
+      { title: 'Web Design & Dev', tag: 'Sites Built To Convert', icon: 'web-dev', slug: 'web-dev' },
+      { title: 'Creative & Branding', tag: 'Identity, Design & Content', icon: 'creative', slug: 'creative' },
+      { title: 'Media Production', tag: 'Video & Photography', icon: 'media-production', slug: 'media-production' },
+      { title: 'Social Media', tag: 'Content & Community', icon: 'social', slug: 'social' },
+      { title: 'CRO & Automation', tag: 'Funnels That Compound', icon: 'cro', slug: 'cro' }
     ];
 
     const scene = new THREE.Scene();
@@ -609,55 +584,136 @@
     const starsAccent = makeStarLayer(18, 30, 0.16, 0.8, 0xff8f4d);
     scene.add(starsFar, starsNear, starsAccent);
 
-    function makeGeometry(type){
+    function roundRectPath(ctx, x, y, w, h, r){
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+    }
+
+    function drawIcon(ctx, type, cx, cy, r){
+      ctx.strokeStyle = '#FF6B1A';
+      ctx.fillStyle = '#FF6B1A';
+      ctx.lineWidth = 5;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.beginPath();
       switch (type){
-        case 'icosahedron': return new THREE.IcosahedronGeometry(1.6, 0);
-        case 'octahedron': return new THREE.OctahedronGeometry(1.7, 0);
-        case 'box': return new THREE.BoxGeometry(2.1, 2.1, 2.1);
-        case 'dodecahedron': return new THREE.DodecahedronGeometry(1.6, 0);
-        case 'cone': return new THREE.ConeGeometry(1.5, 2.4, 8);
-        case 'torus': return new THREE.TorusGeometry(1.3, 0.5, 12, 24);
-        case 'torusknot': return new THREE.TorusKnotGeometry(1.1, 0.35, 80, 10);
-        default: return new THREE.IcosahedronGeometry(1.6, 0);
+        case 'seo':
+          ctx.arc(cx - r * 0.15, cy - r * 0.15, r * 0.5, 0, Math.PI * 2);
+          ctx.moveTo(cx + r * 0.22, cy + r * 0.22);
+          ctx.lineTo(cx + r * 0.6, cy + r * 0.6);
+          break;
+        case 'paid-media':
+          ctx.arc(cx, cy, r * 0.62, 0, Math.PI * 2);
+          ctx.moveTo(cx + r * 0.32, cy);
+          ctx.arc(cx, cy, r * 0.32, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(cx, cy, r * 0.1, 0, Math.PI * 2);
+          ctx.fill();
+          return;
+        case 'web-dev':
+          roundRectPath(ctx, cx - r * 0.6, cy - r * 0.45, r * 1.2, r * 0.9, 6);
+          ctx.moveTo(cx - r * 0.6, cy - r * 0.18);
+          ctx.lineTo(cx + r * 0.6, cy - r * 0.18);
+          break;
+        case 'creative':
+          ctx.moveTo(cx - r * 0.5, cy + r * 0.5);
+          ctx.lineTo(cx + r * 0.25, cy - r * 0.3);
+          ctx.lineTo(cx + r * 0.5, cy - r * 0.05);
+          ctx.lineTo(cx - r * 0.25, cy + r * 0.5);
+          ctx.closePath();
+          break;
+        case 'media-production':
+          roundRectPath(ctx, cx - r * 0.6, cy - r * 0.32, r * 1.2, r * 0.72, 8);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(cx, cy + r * 0.06, r * 0.28, 0, Math.PI * 2);
+          break;
+        case 'social':
+          roundRectPath(ctx, cx - r * 0.58, cy - r * 0.42, r * 1.16, r * 0.72, 14);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(cx - r * 0.2, cy + r * 0.3);
+          ctx.lineTo(cx - r * 0.35, cy + r * 0.58);
+          ctx.lineTo(cx - r * 0.35, cy + r * 0.3);
+          ctx.closePath();
+          break;
+        case 'cro':
+          ctx.moveTo(cx - r * 0.55, cy - r * 0.4);
+          ctx.lineTo(cx + r * 0.55, cy - r * 0.4);
+          ctx.lineTo(cx + r * 0.15, cy + r * 0.1);
+          ctx.lineTo(cx + r * 0.15, cy + r * 0.5);
+          ctx.lineTo(cx - r * 0.15, cy + r * 0.35);
+          ctx.lineTo(cx - r * 0.15, cy + r * 0.1);
+          ctx.closePath();
+          break;
       }
+      ctx.stroke();
+    }
+
+    function makeCardTexture(svc){
+      const canvas = document.createElement('canvas');
+      canvas.width = 640; canvas.height = 400;
+      const ctx = canvas.getContext('2d');
+
+      roundRectPath(ctx, 6, 6, canvas.width - 12, canvas.height - 12, 30);
+      ctx.fillStyle = 'rgba(22,21,19,0.97)';
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      roundRectPath(ctx, 56, 56, 96, 96, 20);
+      ctx.fillStyle = 'rgba(255,255,255,0.05)';
+      ctx.fill();
+      drawIcon(ctx, svc.icon, 104, 104, 30);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '700 46px Arial, sans-serif';
+      ctx.fillText(svc.title, 56, 245);
+
+      ctx.fillStyle = 'rgba(230,225,215,0.55)';
+      ctx.font = '600 21px monospace';
+      ctx.fillText(svc.tag.toUpperCase(), 56, 288);
+
+      const texture = new THREE.CanvasTexture(canvas);
+      texture.needsUpdate = true;
+      texture.anisotropy = 4;
+      return texture;
     }
 
     const objectGroup = new THREE.Group();
     const objects = SERVICE_DATA.map((svc, i) => {
-      const geo = makeGeometry(svc.geo);
-      const mat = new THREE.MeshStandardMaterial({
-        color: 0x241a12,
-        emissive: 0xff6b1a,
-        emissiveIntensity: 0.4,
-        metalness: 0.55,
-        roughness: 0.28
-      });
+      const texture = makeCardTexture(svc);
+      const geo = new THREE.PlaneGeometry(3.6, 2.25);
+      const mat = new THREE.MeshBasicMaterial({ map: texture, transparent: true, opacity: 0.5 });
       const mesh = new THREE.Mesh(geo, mat);
-
-      const wireGeo = new THREE.WireframeGeometry(geo);
-      const wireMat = new THREE.LineBasicMaterial({ color: 0xffb88a, transparent: true, opacity: 0.06 });
-      const wireframe = new THREE.LineSegments(wireGeo, wireMat);
-      wireframe.scale.setScalar(1.015);
-      mesh.add(wireframe);
+      mesh.userData.slug = svc.slug;
+      mesh.userData.index = i;
 
       const glowMat = new THREE.MeshBasicMaterial({
         color: 0xff6b1a,
         transparent: true,
         opacity: 0.03,
-        side: THREE.BackSide,
-        blending: THREE.AdditiveBlending
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
       });
-      const glowShell = new THREE.Mesh(geo, glowMat);
-      glowShell.scale.setScalar(1.35);
+      const glowShell = new THREE.Mesh(new THREE.PlaneGeometry(4.4, 2.9), glowMat);
+      glowShell.position.z = -0.05;
       mesh.add(glowShell);
 
       mesh.scale.setScalar(0.32);
-      mesh.material.emissiveIntensity = 0.06;
+      mesh.userData.swayOffset = Math.random() * Math.PI * 2;
+      mesh.userData.baseY = Math.sin(angle * 0.6) * 1.5;
 
       const angle = (i / SERVICE_DATA.length) * Math.PI * 2;
       const radius = 7;
       mesh.position.set(Math.cos(angle) * radius, Math.sin(angle * 0.6) * 1.5, Math.sin(angle) * radius);
-      mesh.userData.wireframe = wireframe;
       mesh.userData.glowShell = glowShell;
       objectGroup.add(mesh);
       return mesh;
@@ -673,8 +729,10 @@
       if (!rafRunning) return;
       idleT += 0.01;
       objects.forEach((m, i) => {
-        m.rotation.x += 0.003 + i * 0.0004;
-        m.rotation.y += 0.004;
+        const sway = m.userData.swayOffset;
+        m.rotation.y = Math.sin(idleT * 0.5 + sway) * 0.18;
+        m.rotation.x = Math.cos(idleT * 0.4 + sway) * 0.06;
+        m.position.y = m.userData.baseY + Math.sin(idleT * 0.8 + sway) * 0.25;
       });
       starsFar.rotation.y += 0.00015;
       starsNear.rotation.y += 0.00035;
@@ -707,6 +765,25 @@
       renderer.setSize(w, h);
     });
 
+    const raycaster = new THREE.Raycaster();
+    const pointerNDC = new THREE.Vector2();
+    function getIntersectedCard(clientX, clientY){
+      const rect = services3dCanvas.getBoundingClientRect();
+      pointerNDC.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+      pointerNDC.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+      raycaster.setFromCamera(pointerNDC, camera);
+      const hits = raycaster.intersectObjects(objects, false);
+      return hits.length ? hits[0].object : null;
+    }
+    services3dCanvas.addEventListener('click', (e) => {
+      const hit = getIntersectedCard(e.clientX, e.clientY);
+      if (hit && hit.userData.slug) window.location.href = '/' + hit.userData.slug + '/';
+    });
+    services3dCanvas.addEventListener('mousemove', (e) => {
+      const hit = getIntersectedCard(e.clientX, e.clientY);
+      services3dCanvas.style.cursor = hit ? 'pointer' : '';
+    });
+
     const services3dLabelEl = document.getElementById('services3dLabel');
     const services3dTagEl = document.getElementById('services3dTag');
     const services3dTitleEl = document.getElementById('services3dTitle');
@@ -730,8 +807,7 @@
         const isActive = idx === i;
         const targetScale = isActive ? 2.0 : 0.32;
         gsap.to(m.scale, { x: targetScale, y: targetScale, z: targetScale, duration: 0.7, ease: 'power2.out' });
-        gsap.to(m.material, { emissiveIntensity: isActive ? 1.1 : 0.06, duration: 0.7 });
-        gsap.to(m.userData.wireframe.material, { opacity: isActive ? 0.5 : 0.06, duration: 0.7 });
+        gsap.to(m.material, { opacity: isActive ? 1 : 0.5, duration: 0.7 });
         gsap.to(m.userData.glowShell.material, { opacity: isActive ? 0.22 : 0.03, duration: 0.7 });
       });
 
