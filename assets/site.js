@@ -658,28 +658,47 @@
 
     function makeCardTexture(svc){
       const canvas = document.createElement('canvas');
-      canvas.width = 640; canvas.height = 400;
+      canvas.width = 780; canvas.height = 540;
       const ctx = canvas.getContext('2d');
+      const PAD = 70;
 
-      roundRectPath(ctx, 6, 6, canvas.width - 12, canvas.height - 12, 30);
+      // Layer 1: soft warm orange ambient glow behind the card
+      ctx.save();
+      ctx.shadowColor = 'rgba(255,107,26,0.55)';
+      ctx.shadowBlur = 55;
+      ctx.shadowOffsetY = 0;
+      roundRectPath(ctx, PAD, PAD, 628, 388, 30);
+      ctx.fillStyle = 'rgba(255,107,26,0.001)';
+      ctx.fill();
+      ctx.restore();
+
+      // Layer 2: grounding black depth shadow, tighter and offset down
+      ctx.save();
+      ctx.shadowColor = 'rgba(0,0,0,0.65)';
+      ctx.shadowBlur = 34;
+      ctx.shadowOffsetY = 16;
+      roundRectPath(ctx, PAD, PAD, 628, 388, 30);
       ctx.fillStyle = 'rgba(22,21,19,0.97)';
       ctx.fill();
+      ctx.restore();
+
       ctx.strokeStyle = 'rgba(255,255,255,0.1)';
       ctx.lineWidth = 2;
+      roundRectPath(ctx, PAD, PAD, 628, 388, 30);
       ctx.stroke();
 
-      roundRectPath(ctx, 56, 56, 96, 96, 20);
+      roundRectPath(ctx, PAD + 50, PAD + 50, 96, 96, 20);
       ctx.fillStyle = 'rgba(255,255,255,0.05)';
       ctx.fill();
-      drawIcon(ctx, svc.icon, 104, 104, 30);
+      drawIcon(ctx, svc.icon, PAD + 98, PAD + 98, 30);
 
       ctx.fillStyle = '#ffffff';
       ctx.font = '700 46px Arial, sans-serif';
-      ctx.fillText(svc.title, 56, 245);
+      ctx.fillText(svc.title, PAD + 50, PAD + 239);
 
       ctx.fillStyle = 'rgba(230,225,215,0.55)';
       ctx.font = '600 21px monospace';
-      ctx.fillText(svc.tag.toUpperCase(), 56, 288);
+      ctx.fillText(svc.tag.toUpperCase(), PAD + 50, PAD + 282);
 
       const texture = new THREE.CanvasTexture(canvas);
       texture.needsUpdate = true;
@@ -690,22 +709,11 @@
     const objectGroup = new THREE.Group();
     const objects = SERVICE_DATA.map((svc, i) => {
       const texture = makeCardTexture(svc);
-      const geo = new THREE.PlaneGeometry(3.6, 2.25);
+      const geo = new THREE.PlaneGeometry(4.39, 3.04);
       const mat = new THREE.MeshBasicMaterial({ map: texture, transparent: true, opacity: 0.5 });
       const mesh = new THREE.Mesh(geo, mat);
       mesh.userData.slug = svc.slug;
       mesh.userData.index = i;
-
-      const glowMat = new THREE.MeshBasicMaterial({
-        color: 0xff6b1a,
-        transparent: true,
-        opacity: 0.03,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false
-      });
-      const glowShell = new THREE.Mesh(new THREE.PlaneGeometry(4.4, 2.9), glowMat);
-      glowShell.position.z = -0.05;
-      mesh.add(glowShell);
 
       mesh.scale.setScalar(0.32);
       mesh.userData.swayOffset = Math.random() * Math.PI * 2;
@@ -714,7 +722,6 @@
       mesh.userData.baseY = Math.sin(angle * 0.6) * 1.5;
       const radius = 7;
       mesh.position.set(Math.cos(angle) * radius, Math.sin(angle * 0.6) * 1.5, Math.sin(angle) * radius);
-      mesh.userData.glowShell = glowShell;
       objectGroup.add(mesh);
       return mesh;
     });
@@ -808,7 +815,6 @@
         const targetScale = isActive ? 2.0 : 0.32;
         gsap.to(m.scale, { x: targetScale, y: targetScale, z: targetScale, duration: 0.7, ease: 'power2.out' });
         gsap.to(m.material, { opacity: isActive ? 1 : 0.5, duration: 0.7 });
-        gsap.to(m.userData.glowShell.material, { opacity: isActive ? 0.22 : 0.03, duration: 0.7 });
       });
 
       const targetAngle = (i / SERVICE_DATA.length) * Math.PI * 2;
