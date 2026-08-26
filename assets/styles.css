@@ -661,13 +661,9 @@
   .services-3d-stage{
     position:relative;
     height:100vh;
-    max-height:820px;
-    margin:0 auto;
-    max-width:1240px;
-    border-radius:var(--neu-radius);
+    width:100%;
     overflow:hidden;
     background:radial-gradient(ellipse at center, #12100d 0%, #0A0A0A 70%);
-    box-shadow:var(--neu-raised);
   }
   .services-3d-stage canvas{
     position:absolute; inset:0; width:100%; height:100%; display:block;

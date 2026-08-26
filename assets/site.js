@@ -635,7 +635,7 @@
       const mesh = new THREE.Mesh(geo, mat);
 
       const wireGeo = new THREE.WireframeGeometry(geo);
-      const wireMat = new THREE.LineBasicMaterial({ color: 0xffb88a, transparent: true, opacity: 0.35 });
+      const wireMat = new THREE.LineBasicMaterial({ color: 0xffb88a, transparent: true, opacity: 0.06 });
       const wireframe = new THREE.LineSegments(wireGeo, wireMat);
       wireframe.scale.setScalar(1.015);
       mesh.add(wireframe);
@@ -643,13 +643,16 @@
       const glowMat = new THREE.MeshBasicMaterial({
         color: 0xff6b1a,
         transparent: true,
-        opacity: 0.16,
+        opacity: 0.03,
         side: THREE.BackSide,
         blending: THREE.AdditiveBlending
       });
       const glowShell = new THREE.Mesh(geo, glowMat);
       glowShell.scale.setScalar(1.35);
       mesh.add(glowShell);
+
+      mesh.scale.setScalar(0.32);
+      mesh.material.emissiveIntensity = 0.06;
 
       const angle = (i / SERVICE_DATA.length) * Math.PI * 2;
       const radius = 7;
@@ -723,9 +726,12 @@
       services3dDots.forEach(d => d.classList.toggle('active', Number(d.dataset.i) === i));
 
       objects.forEach((m, idx) => {
-        const targetScale = idx === i ? 1.6 : 0.85;
-        gsap.to(m.scale, { x: targetScale, y: targetScale, z: targetScale, duration: 0.6, ease: 'power2.out' });
-        gsap.to(m.material, { emissiveIntensity: idx === i ? 0.9 : 0.25, duration: 0.6 });
+        const isActive = idx === i;
+        const targetScale = isActive ? 2.0 : 0.32;
+        gsap.to(m.scale, { x: targetScale, y: targetScale, z: targetScale, duration: 0.7, ease: 'power2.out' });
+        gsap.to(m.material, { emissiveIntensity: isActive ? 1.1 : 0.06, duration: 0.7 });
+        gsap.to(m.userData.wireframe.material, { opacity: isActive ? 0.5 : 0.06, duration: 0.7 });
+        gsap.to(m.userData.glowShell.material, { opacity: isActive ? 0.22 : 0.03, duration: 0.7 });
       });
 
       const targetAngle = (i / SERVICE_DATA.length) * Math.PI * 2;
