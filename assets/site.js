@@ -536,10 +536,11 @@
   }
 
   /* ---- Services 3D showcase ---- */
-  const hasThree = typeof THREE !== 'undefined';
   const services3dCanvas = document.getElementById('services3dCanvas');
   const services3dStage = document.querySelector('.services-3d-stage');
-  if (hasThree && hasGsap && services3dCanvas && services3dStage && cursorCapable && !reduceMotion && services3dStage.clientWidth > 0 && services3dStage.clientHeight > 0){
+  const services3dCapable = services3dCanvas && services3dStage && hasGsap && cursorCapable && !reduceMotion && services3dStage.clientWidth > 0 && services3dStage.clientHeight > 0;
+
+  function initServices3D(){
    try {
     const SERVICE_DATA = [
       { title: 'SEO', tag: 'Organic Growth Engine', icon: 'seo', slug: 'seo' },
@@ -847,6 +848,18 @@
     console.warn('3D services showcase failed to initialize, hiding section:', err);
     if (services3dStage.closest('.services-3d')) services3dStage.closest('.services-3d').style.display = 'none';
    }
+  }
+
+  if (services3dCapable){
+    if (typeof THREE !== 'undefined'){
+      initServices3D();
+    } else {
+      const threeScript = document.createElement('script');
+      threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+      threeScript.onload = initServices3D;
+      threeScript.onerror = () => console.warn('Failed to load Three.js for 3D services showcase');
+      document.head.appendChild(threeScript);
+    }
   }
 
   /* ---- Creative hero photo parallax ---- */
