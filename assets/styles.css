@@ -827,6 +827,15 @@
     display:flex; align-items:flex-end;
     box-shadow:var(--neu-raised);
   }
+  .service-hero-photo.is-fullscreen{
+    border-radius:0;
+    box-shadow:none;
+    min-height:100vh;
+    width:100%;
+  }
+  .service-hero-photo.is-fullscreen .wrap{
+    width:100%;
+  }
   .service-hero-img{
     position:absolute; inset:0; width:100%; height:100%;
     object-fit:cover; object-position:center 20%;
