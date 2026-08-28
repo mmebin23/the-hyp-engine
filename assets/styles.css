@@ -804,7 +804,7 @@
   .service-hero-photo.is-fullscreen{
     border-radius:0;
     box-shadow:none;
-    min-height:100vh;
+    min-height:calc(100vh - 144px);
     width:100%;
   }
   .service-hero-photo.is-fullscreen .wrap{
@@ -1138,6 +1138,7 @@
     body{ background-attachment:scroll; }
     .menu-toggle{ display:flex; }
     .nav{ height:66px; }
+    .service-hero-photo.is-fullscreen{ min-height:calc(100vh - 132px); }
     nav.links{
       display:flex; flex-direction:column; gap:10px;
       position:fixed; top:66px; left:0; right:0;
