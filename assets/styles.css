@@ -462,6 +462,7 @@
     position:relative; z-index:2;
     display:grid; grid-template-columns:minmax(0, 1.15fr); gap:40px; align-items:center;
   }
+  .wrap.hero-inner{ padding-left:12px; }
   .hero h1, .section-head h2, .faq h2, .cta h2,
   .stage h3, .gauge-center .num,
   .manifesto-head h2, .process h2, .results h2, .deliverables h2, .ai-edge-copy h2{
