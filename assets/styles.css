@@ -1023,6 +1023,69 @@
   }
   .panel.more h3{ color:var(--off-dim); font-weight:500; font-size:14px; }
 
+  /* ================= SERVICE POPUP ================= */
+  .service-modal{
+    position:fixed; inset:0; z-index:200;
+    display:flex; align-items:center; justify-content:center;
+    padding:24px;
+    opacity:0; pointer-events:none;
+    transition:opacity .25s ease;
+  }
+  .service-modal.is-open{ opacity:1; pointer-events:auto; }
+  .service-modal-backdrop{
+    position:absolute; inset:0;
+    background:rgba(10,10,15,.7);
+    backdrop-filter:blur(6px);
+  }
+  .service-modal-panel{
+    position:relative; z-index:1;
+    width:100%; max-width:480px;
+    background:rgba(29,31,41,.85);
+    backdrop-filter:blur(var(--glass-blur));
+    border:1px solid var(--glass-border);
+    border-radius:12px;
+    padding:40px 36px;
+    box-shadow:0 20px 60px rgba(0,0,0,.5), inset 0 1px 1px rgba(255,255,255,.08);
+    transform:translateY(16px) scale(.98);
+    transition:transform .3s ease;
+  }
+  .service-modal.is-open .service-modal-panel{ transform:translateY(0) scale(1); }
+  .service-modal-close{
+    position:absolute; top:16px; right:16px;
+    width:32px; height:32px; border-radius:8px;
+    background:rgba(255,255,255,.06); border:1px solid var(--glass-border);
+    color:var(--off); font-size:20px; line-height:1;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:background .2s ease;
+  }
+  .service-modal-close:hover{ background:rgba(255,255,255,.12); }
+  .service-modal-tag{
+    font-family:var(--mono); font-size:11px; color:var(--signal);
+    letter-spacing:.08em; text-transform:uppercase; margin-bottom:10px;
+  }
+  .service-modal-title{
+    font-family:var(--display); font-size:28px; text-transform:uppercase;
+    margin:0 0 14px; color:var(--off);
+  }
+  .service-modal-desc{
+    font-size:15px; line-height:1.6; color:var(--off-dim); margin-bottom:20px;
+  }
+  .service-modal-points{
+    list-style:none; padding:0; margin:0 0 28px;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .service-modal-points li{
+    font-size:14px; color:var(--off-dim); padding-left:20px; position:relative;
+  }
+  .service-modal-points li::before{
+    content:''; position:absolute; left:0; top:8px;
+    width:6px; height:6px; border-radius:50%; background:var(--signal);
+  }
+  @media (max-width:560px){
+    .service-modal-panel{ padding:32px 24px; }
+  }
+
   /* ================= RESULTS DISCLAIMER ================= */
   .calc-disclaimer{ font-family:var(--mono); font-size:11px; color:var(--off-dim); opacity:.7; max-width:640px; margin:24px 0 32px; line-height:1.6; }
 

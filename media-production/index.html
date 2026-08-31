@@ -25,6 +25,7 @@
 <meta name="twitter:image" content="https://www.thehypengine.com/assets/logo.png">
 
 <link rel="icon" href="/assets/favicon.png" type="image/png">
+<link rel="preload" as="image" href="/assets/media-production-hero.webp" imagesrcset="/assets/media-production-hero-mobile.webp 800w, /assets/media-production-hero.webp 1800w" imagesizes="100vw" type="image/webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -158,7 +159,7 @@
 <main id="top" style="padding-top:24px;">
   <section class="hero" style="padding:0;">
     <div class="service-hero-photo is-fullscreen">
-      <picture><source srcset="/assets/media-production-hero-mobile.webp 800w, /assets/media-production-hero.webp 1800w" sizes="100vw" type="image/webp"><img src="/assets/media-production-hero.jpg" srcset="/assets/media-production-hero-mobile.jpg 800w, /assets/media-production-hero.jpg 1800w" sizes="100vw" alt="Media Production panel with film reel, camera lens, and color grading waveform details" class="service-hero-img" style="object-position:center 35%;"></picture>
+      <picture><source srcset="/assets/media-production-hero-mobile.webp 800w, /assets/media-production-hero.webp 1800w" sizes="100vw" type="image/webp"><img fetchpriority="high" src="/assets/media-production-hero.jpg" srcset="/assets/media-production-hero-mobile.jpg 800w, /assets/media-production-hero.jpg 1800w" sizes="100vw" alt="Media Production panel with film reel, camera lens, and color grading waveform details" class="service-hero-img" style="object-position:center 35%;"></picture>
       <div class="service-hero-scrim"></div>
       <div class="wrap">
         <div class="service-hero-content">

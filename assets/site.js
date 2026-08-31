@@ -88,6 +88,99 @@
   }
 
 
+  /* ---- Service popup modal ---- */
+  const serviceModal = document.getElementById('serviceModal');
+  if (serviceModal){
+    const SERVICE_MODAL_DATA = {
+      'seo': {
+        url: '/seo/', tag: 'Organic Growth Engine', title: 'SEO',
+        desc: "Traffic that doesn't convert is a vanity metric with extra steps. We build for intent, not volume - and tell you honestly when SEO isn't the fastest lever for your situation.",
+        points: ['Technical SEO foundations done right', 'Keyword strategy tied to buyer intent, not just volume', 'Reports that map to revenue, not just rankings']
+      },
+      'paid-media': {
+        url: '/paid-media/', tag: 'Google, Meta, TikTok & more', title: 'Paid Media',
+        desc: "We run wherever your buyers actually are, and we watch the numbers daily - not once a month when the invoice is due.",
+        points: ['Google, Meta & TikTok campaign management', 'Daily optimization, not monthly reviews', 'Full attribution - not vanity clicks']
+      },
+      'web-dev': {
+        url: '/web-dev/', tag: 'Sites Built To Convert', title: 'Web Design & Dev',
+        desc: "We design for the person about to leave the page, not the person judging the portfolio.",
+        points: ['Conversion-focused UX, not decoration', 'Fast, modern build - no bloated page builders', 'Built to actually convert traffic you\'re already paying for']
+      },
+      'creative': {
+        url: '/creative/', tag: 'Identity, Design & Content', title: 'Creative & Branding',
+        desc: "Not a logo. Not a font pairing. The actual reason someone picks you over the other four tabs open in their browser.",
+        points: ['Brand identity & visual systems', 'Content that matches your actual voice', 'Built to scale consistently across channels']
+      },
+      'media-production': {
+        url: '/media-production/', tag: 'AI Video & Content', title: 'Media Production',
+        desc: "AI-native production - every frame generated, not filmed. Cinematic quality without the shoot days, crews, or reshoot delays.",
+        points: ['AI-generated video & stills', 'Turnaround in days, not weeks', 'Cut for the platform it\'s actually going on']
+      },
+      'social': {
+        url: '/social/', tag: 'Content & Community', title: 'Social Media',
+        desc: "A content calendar with no goal behind it is just noise on a schedule.",
+        points: ['Strategy before content, not the other way around', 'Community management, not just posting', 'Platform-native content, not one video resized everywhere']
+      },
+      'cro': {
+        url: '/cro/', tag: 'Optimization · Automation · Conversion', title: 'CRO & Automation',
+        desc: "The cheapest growth channel is usually the one you already have - you're just losing people somewhere in it.",
+        points: ['Funnel & conversion audits', 'Automation that reduces manual busywork', 'A/B testing that\'s actually conclusive']
+      }
+    };
+
+    const modalTag = document.getElementById('serviceModalTag');
+    const modalTitle = document.getElementById('serviceModalTitle');
+    const modalDesc = document.getElementById('serviceModalDesc');
+    const modalPoints = document.getElementById('serviceModalPoints');
+    const modalCta = document.getElementById('serviceModalCta');
+    const modalClose = document.getElementById('serviceModalClose');
+    const modalBackdrop = document.getElementById('serviceModalBackdrop');
+
+    function openServiceModal(key, pushUrl){
+      const data = SERVICE_MODAL_DATA[key];
+      if (!data) return;
+      modalTag.textContent = data.tag;
+      modalTitle.textContent = data.title;
+      modalDesc.textContent = data.desc;
+      modalPoints.innerHTML = data.points.map(p => `<li>${p}</li>`).join('');
+      modalCta.href = data.url;
+      serviceModal.classList.add('is-open');
+      serviceModal.setAttribute('aria-hidden', 'false');
+      if (pushUrl) history.pushState({ serviceModal: key }, '', data.url);
+    }
+
+    function closeServiceModal(pushUrl){
+      serviceModal.classList.remove('is-open');
+      serviceModal.setAttribute('aria-hidden', 'true');
+      if (pushUrl && location.pathname !== '/') history.pushState({}, '', '/');
+    }
+
+    document.querySelectorAll('.panel-clickable[data-service]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const key = link.getAttribute('data-service');
+        if (SERVICE_MODAL_DATA[key]){
+          e.preventDefault();
+          openServiceModal(key, true);
+        }
+      });
+    });
+
+    modalClose.addEventListener('click', () => closeServiceModal(true));
+    modalBackdrop.addEventListener('click', () => closeServiceModal(true));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && serviceModal.classList.contains('is-open')) closeServiceModal(true);
+    });
+
+    window.addEventListener('popstate', (e) => {
+      if (e.state && e.state.serviceModal){
+        openServiceModal(e.state.serviceModal, false);
+      } else {
+        closeServiceModal(false);
+      }
+    });
+  }
+
   /* ---- Hero REC timecode: live elapsed-time counter ---- */
   const heroTimecodeEl = document.getElementById('heroTimecode');
   if (heroTimecodeEl && !reduceMotion){
