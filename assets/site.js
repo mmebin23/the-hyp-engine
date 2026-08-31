@@ -334,16 +334,29 @@
   const backToTop = document.getElementById('backToTop');
   const heroEl = document.querySelector('.hero');
 
-  function onScroll(){
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-    if (progressFill) progressFill.style.width = pct + '%';
+  let cachedDocHeight = 0;
+  let cachedHeroBottom = 400;
+  function recalcScrollMetrics(){
+    cachedDocHeight = document.documentElement.scrollHeight - window.innerHeight;
+    cachedHeroBottom = heroEl ? heroEl.offsetTop + heroEl.offsetHeight : 400;
+  }
+  recalcScrollMetrics();
+  window.addEventListener('resize', recalcScrollMetrics, { passive: true });
 
-    const heroBottom = heroEl ? heroEl.offsetTop + heroEl.offsetHeight : 400;
-    const pastHero = scrollTop > heroBottom;
-    if (floatCta) floatCta.classList.toggle('visible', pastHero);
-    if (backToTop) backToTop.classList.toggle('visible', scrollTop > 600);
+  let scrollTicking = false;
+  function onScroll(){
+    if (scrollTicking) return;
+    scrollTicking = true;
+    requestAnimationFrame(() => {
+      const scrollTop = window.scrollY;
+      const pct = cachedDocHeight > 0 ? (scrollTop / cachedDocHeight) * 100 : 0;
+      if (progressFill) progressFill.style.width = pct + '%';
+
+      const pastHero = scrollTop > cachedHeroBottom;
+      if (floatCta) floatCta.classList.toggle('visible', pastHero);
+      if (backToTop) backToTop.classList.toggle('visible', scrollTop > 600);
+      scrollTicking = false;
+    });
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
