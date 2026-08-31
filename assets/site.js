@@ -92,8 +92,10 @@
   const heroTimecodeEl = document.getElementById('heroTimecode');
   if (heroTimecodeEl && !reduceMotion){
     const tcStart = performance.now();
+    let tcRunning = false;
     function pad(n, len){ return String(Math.floor(n)).padStart(len, '0'); }
     function updateTimecode(){
+      if (!tcRunning) return;
       const elapsedMs = performance.now() - tcStart;
       const totalSeconds = elapsedMs / 1000;
       const hh = pad((totalSeconds / 3600) % 24, 2);
@@ -103,7 +105,23 @@
       heroTimecodeEl.textContent = `${hh}:${mm}:${ss}:${ff}`;
       requestAnimationFrame(updateTimecode);
     }
-    requestAnimationFrame(updateTimecode);
+    const heroSectionEl = document.querySelector('.hero');
+    if (heroSectionEl && 'IntersectionObserver' in window){
+      const tcObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !tcRunning){
+            tcRunning = true;
+            requestAnimationFrame(updateTimecode);
+          } else if (!entry.isIntersecting){
+            tcRunning = false;
+          }
+        });
+      }, { threshold: 0.05 });
+      tcObserver.observe(heroSectionEl);
+    } else {
+      tcRunning = true;
+      requestAnimationFrame(updateTimecode);
+    }
   } else if (heroTimecodeEl){
     heroTimecodeEl.textContent = '00:00:00:00';
   }
