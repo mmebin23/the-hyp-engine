@@ -580,6 +580,16 @@
     transition:opacity 1s ease, filter 1s ease, transform 1.1s ease;
     pointer-events:none;
   }
+  .hero-slide-1{
+    background-image:url('/assets/homepage-hero.jpg');
+    background-image:image-set(url('/assets/homepage-hero.webp') type('image/webp'), url('/assets/homepage-hero.jpg') type('image/jpeg'));
+  }
+  @media (max-width:800px){
+    .hero-slide-1{
+      background-image:url('/assets/homepage-hero-mobile.jpg');
+      background-image:image-set(url('/assets/homepage-hero-mobile.webp') type('image/webp'), url('/assets/homepage-hero-mobile.jpg') type('image/jpeg'));
+    }
+  }
   .hero-slide.is-active{
     opacity:1; filter:blur(0px); transform:scale(1);
     z-index:1;
