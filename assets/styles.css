@@ -1,38 +1,38 @@
   :root{
     --black: #0A0A0A;
-    --panel: #14131C;
-    --panel-2: #1C1A28;
-    --steel: #322E45;
-    --steel-dim: #201E2C;
-    --signal: #3E8EFF;
-    --signal-dim: #4B3FB8;
-    --rev: #FF8F4D;
-    --rev-dim: #C8420E;
-    --off: #F5F0E6;
-    --off-dim: #9B94AC;
-    --ink: #0A0A0B;
-    --display: 'Anton', sans-serif;
-    --body: 'Inter', -apple-system, BlinkMacSystemFont, 'General Sans', sans-serif;
+    --panel: #1D1F29;
+    --panel-2: #282934;
+    --steel: #434657;
+    --steel-dim: #33343F;
+    --signal: #B9C3FF;
+    --signal-dim: #0047FF;
+    --rev: #FFB77F;
+    --rev-dim: #FF8A00;
+    --off: #E2E1F0;
+    --off-dim: #C4C5DA;
+    --ink: #00228A;
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --mono: 'JetBrains Mono', monospace;
-    --wordmark: 'Jost', 'General Sans', sans-serif;
+    --wordmark: 'Space Grotesk', sans-serif;
 
     /* neumorphic surface tokens (dark variant) */
-    --neu-bg: #14131C;
-    --neu-radius: 26px;
-    --neu-radius-sm: 16px;
+    --neu-bg: #1D1F29;
+    --neu-radius: 12px;
+    --neu-radius-sm: 6px;
     --neu-light: rgba(255,255,255,.05);
     --neu-dark: rgba(0,0,0,.6);
-    --neu-raised: 6px 6px 14px var(--neu-dark), -5px -5px 12px var(--neu-light);
-    --neu-raised-sm: 4px 4px 8px var(--neu-dark), -3px -3px 7px var(--neu-light);
+    --neu-raised: 0 12px 40px rgba(0,71,255,.18), 0 2px 8px rgba(0,0,0,.5);
+    --neu-raised-sm: 0 8px 24px rgba(0,71,255,.14), 0 2px 6px rgba(0,0,0,.4);
     --neu-pressed: inset 4px 4px 9px var(--neu-dark), inset -3px -3px 7px var(--neu-light);
     --neu-pressed-lg: inset 6px 6px 14px var(--neu-dark), inset -5px -5px 12px var(--neu-light);
     --header-bg: rgba(10,10,10,.86);
     --grid-line-opacity: .5;
 
     /* glassmorphism tokens */
-    --glass-bg: rgba(255,255,255,.06);
+    --glass-bg: rgba(255,255,255,.15);
     --glass-border: rgba(255,255,255,.14);
-    --glass-blur: 18px;
+    --glass-blur: 20px;
   }
   html{ transition:background-color .4s ease; }
   body{ transition:background-color .4s ease, color .4s ease; }
@@ -374,24 +374,19 @@
   .btn.ghost{ color:var(--off-dim); }
   .btn.ghost:hover{ color:var(--off); box-shadow:7px 7px 14px var(--neu-dark), -5px -5px 12px var(--neu-light); }
   .btn.solid{
-    background:linear-gradient(145deg, #6BAAFF, #3E8EFF);
-    color:#FFFFFF; font-weight:700;
-    box-shadow:5px 5px 11px rgba(30,80,180,.45),
-               -4px -4px 10px rgba(150,200,255,.5),
-               inset 0 1px 1px rgba(255,255,255,.25);
+    background:linear-gradient(180deg, #E2E2E2, #FFFFFF);
+    color:#0A0A0A; font-weight:700;
+    box-shadow:0 4px 14px rgba(0,0,0,.35), inset 0 1px 1px rgba(255,255,255,.6);
     transition:color .25s, transform .2s ease, box-shadow .2s ease, background .25s ease;
   }
   .btn.solid:hover{
-    color:#FFFFFF; transform:translateY(-2px);
-    background:linear-gradient(145deg, #e35712, #c8420e);
-    box-shadow:6px 6px 14px rgba(30,80,180,.5),
-               -5px -5px 12px rgba(150,200,255,.55),
-               inset 0 1px 1px rgba(255,255,255,.3);
+    color:#0A0A0A; transform:translateY(-2px);
+    background:linear-gradient(180deg, #EDEDED, #FFFFFF);
+    box-shadow:0 0 28px 4px rgba(0,71,255,.45), 0 6px 18px rgba(0,0,0,.4), inset 0 1px 1px rgba(255,255,255,.7);
   }
   .btn.solid:active{
     transform:translateY(0);
-    box-shadow:inset 4px 4px 9px rgba(30,80,180,.55),
-               inset -3px -3px 7px rgba(150,200,255,.4);
+    box-shadow:0 0 16px 2px rgba(0,71,255,.35), inset 0 2px 4px rgba(0,0,0,.15);
   }
 
   /* ================= TICKER ================= */
