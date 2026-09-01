@@ -1,36 +1,38 @@
 # The Hyp Engine
 
-> Media agency that builds and runs websites, brand identity, creative, and media campaigns for growth-stage businesses - built around revenue, not vanity metrics.
+> AI-native media agency that produces media, content, and paid campaigns - plus websites, brand identity, and creative - for growth-stage businesses built around revenue, not vanity metrics.
 
-The Hyp Engine is a media agency for D2C, SaaS, app, and B2B brands. One team handles the website, the brand, the content and creative, and the paid/organic media that drives traffic - instead of clients juggling separate freelancers and agencies.
+The Hyp Engine is an AI-native media agency for D2C, SaaS, app, and B2B brands. Primary focus: media production (AI-generated video and content), content, and paid media. One team also handles the website, the brand, and organic/CRO work that drives and converts traffic - instead of clients juggling separate freelancers and agencies. AI is used to produce faster and generate content at scale; the strategy and judgment stay human.
 
 ## Services
 
-- [SEO](https://www.thehypengine.com/seo/) - organic search growth, technical audits, content built around buyer intent
-- [Paid Media](https://www.thehypengine.com/paid-media/) - Google, Meta, TikTok, and other paid channels
-- [Web Design & Development](https://www.thehypengine.com/web-dev/) - websites built to convert
-- [Creative & Branding](https://www.thehypengine.com/creative/) - identity, design, and content systems
-- [Media Production](https://www.thehypengine.com/media-production/) - video and photography
-- [Social Media](https://www.thehypengine.com/social/) - content and community management
-- [CRO & Automation](https://www.thehypengine.com/cro/) - conversion rate optimization and marketing automation
-- AI-powered marketing (used across strategy, targeting, and creative production)
+- [Media Production](https://www.thehypengine.com/media-production/) - AI-native video production, AI-generated video and stills, ads, social cuts, case study content, product video, brand video, no shoot days or crews, turnaround in days not weeks
+- [Content](https://www.thehypengine.com/media-production/) - AI-generated content at scale, content built for the platform it's going on, content calendars tied to strategy not just posting volume
+- [Paid Media](https://www.thehypengine.com/paid-media/) - Google Ads, Meta Ads, TikTok Ads, paid social, paid search, performance marketing, daily campaign optimization, ROAS and CPA management, full-funnel attribution
+- [SEO](https://www.thehypengine.com/seo/) - organic search growth, technical SEO audits, keyword strategy tied to buyer intent, on-page optimization, link building, content built for search visibility
+- [Web Design & Development](https://www.thehypengine.com/web-dev/) - websites built to convert, UX/UI design, frontend and backend development, landing pages, conversion-focused web design
+- [Creative & Branding](https://www.thehypengine.com/creative/) - brand identity, visual identity systems, brand strategy, narrative design, logo and identity design, content systems
+- [Social Media](https://www.thehypengine.com/social/) - social media management, content strategy, community management, platform-native content for Instagram, TikTok, LinkedIn, Facebook, YouTube, Twitter/X
+- [CRO & Automation](https://www.thehypengine.com/cro/) - conversion rate optimization, funnel audits, marketing automation, A/B testing, landing page optimization
 
 ## Key facts
 
+- Positioning: AI-native media agency - AI used for production and scale, human strategy and creative direction throughout.
 - Engagement model: month to month, no lock-in contracts.
-- Clients can start with a single service (e.g. just the website) and expand later.
+- Clients can start with a single service (e.g. just media production or paid media) and expand later.
 - Clients own their ad accounts, website code, creative files, and domain at all times.
 - Entry point: a free marketing audit, available via the site's "Start The Audit" flow.
+- Founder: Mebin Zachariah, 7+ years industry experience.
 - Contact: contact@thehypengine.com
 - Instagram: https://www.instagram.com/thehypengine
 
 ## Pages
 
-- [The Hyp Engine](https://www.thehypengine.com/): homepage - services overview, process, results, FAQ, and contact.
-- [SEO](https://www.thehypengine.com/seo/): dedicated SEO service page with FAQ.
-- [Paid Media](https://www.thehypengine.com/paid-media/): dedicated paid media service page with FAQ.
-- [Web Design & Development](https://www.thehypengine.com/web-dev/): dedicated web design/dev service page with FAQ.
-- [Creative & Branding](https://www.thehypengine.com/creative/): dedicated branding service page with FAQ.
-- [Media Production](https://www.thehypengine.com/media-production/): dedicated video/photo service page with FAQ.
-- [Social Media](https://www.thehypengine.com/social/): dedicated social media service page with FAQ.
-- [CRO & Automation](https://www.thehypengine.com/cro/): dedicated CRO/automation service page with FAQ.
+- [The Hyp Engine](https://www.thehypengine.com/): homepage - services overview (with a quick-view popup per service), founder story, process, results, FAQ, and contact.
+- [Media Production](https://www.thehypengine.com/media-production/): AI-native video and content production service page with FAQ - keywords: AI video, AI-generated video, AI content production, video ads, social video, product video, brand film, video production agency.
+- [Paid Media](https://www.thehypengine.com/paid-media/): paid media / performance marketing service page with FAQ - keywords: Google Ads agency, Meta Ads agency, TikTok Ads, PPC agency, paid social, paid search, performance marketing agency.
+- [SEO](https://www.thehypengine.com/seo/): SEO service page with FAQ - keywords: SEO agency, technical SEO, keyword research, link building, organic search growth.
+- [Web Design & Development](https://www.thehypengine.com/web-dev/): web design/dev service page with FAQ - keywords: website design agency, web development, UX design, conversion-focused web design, landing page design.
+- [Creative & Branding](https://www.thehypengine.com/creative/): branding service page with FAQ - keywords: branding agency, brand identity design, logo design, visual identity, brand strategy.
+- [Social Media](https://www.thehypengine.com/social/): social media service page with FAQ - keywords: social media management, social media agency, content strategy, community management.
+- [CRO & Automation](https://www.thehypengine.com/cro/): CRO/automation service page with FAQ - keywords: conversion rate optimization agency, CRO, marketing automation, funnel optimization, A/B testing.
