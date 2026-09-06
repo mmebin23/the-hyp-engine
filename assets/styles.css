@@ -11,10 +11,10 @@
     --off: #E2E1F0;
     --off-dim: #C4C5DA;
     --ink: #00228A;
-    --display: 'Playfair Display', serif;
+    --display: 'Unna', serif;
     --body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --mono: 'JetBrains Mono', monospace;
-    --wordmark: 'Playfair Display', serif;
+    --wordmark: 'Unna', serif;
 
     /* neumorphic surface tokens (dark variant) */
     --neu-bg: #1D1F29;
