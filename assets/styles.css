@@ -416,6 +416,9 @@
   .hero{
     position:relative;
     padding:96px 0 120px;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
     overflow:hidden;
     background:linear-gradient(135deg, var(--panel) 0%, var(--neu-bg) 60%);
     transition:background-color .4s ease;
@@ -457,6 +460,7 @@
     position:relative; z-index:2;
     display:grid; grid-template-columns:minmax(0, 1.15fr); gap:40px; align-items:center;
   }
+  .wrap.hero-inner{ padding-left:12px; }
   .hero h1, .section-head h2, .faq h2, .cta h2,
   .stage h3, .gauge-center .num,
   .manifesto-head h2, .process h2, .results h2, .deliverables h2, .ai-edge-copy h2{
