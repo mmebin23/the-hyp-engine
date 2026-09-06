@@ -11,10 +11,10 @@
     --off: #E2E1F0;
     --off-dim: #C4C5DA;
     --ink: #00228A;
-    --display: 'Space Grotesk', sans-serif;
+    --display: 'Playfair Display', serif;
     --body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --mono: 'JetBrains Mono', monospace;
-    --wordmark: 'Space Grotesk', sans-serif;
+    --wordmark: 'Playfair Display', serif;
 
     /* neumorphic surface tokens (dark variant) */
     --neu-bg: #1D1F29;
@@ -468,7 +468,6 @@
     font-size:clamp(52px, 7.2vw, 108px);
     line-height:.92;
     letter-spacing:-.01em;
-    text-transform:uppercase;
     margin:20px 0 26px;
   }
   .hero h1 .accent{
@@ -579,7 +578,7 @@
   .manifesto{ padding:128px 0; position:relative; overflow:hidden; }
   .manifesto-head{ max-width:680px; margin-bottom:56px; position:relative; z-index:2; }
   .manifesto-head h2{
-    font-family:var(--display); font-size:clamp(32px,4vw,48px); text-transform:uppercase; line-height:1.05; margin-top:16px;
+    font-family:var(--display); font-size:clamp(32px,4vw,48px); line-height:1.05; margin-top:16px;
   }
   .manifesto-grid{
     display:grid; grid-template-columns:repeat(2,1fr); gap:22px;
@@ -681,7 +680,7 @@
     margin-bottom:18px;
   }
   .founder-copy h2{
-    font-family:var(--display); font-size:clamp(30px,3.6vw,44px); text-transform:uppercase;
+    font-family:var(--display); font-size:clamp(30px,3.6vw,44px);
     margin:14px 0 24px;
   }
   .founder-signature{
@@ -704,7 +703,7 @@
     padding:56px;
   }
   .ai-edge-copy h2{
-    font-family:var(--display); font-size:clamp(30px,3.6vw,46px); text-transform:uppercase;
+    font-family:var(--display); font-size:clamp(30px,3.6vw,46px);
     line-height:1.02; margin:16px 0 24px;
   }
   .ai-edge-lede{ color:var(--off-dim); font-size:15.5px; line-height:1.7; margin-bottom:20px; max-width:560px; }
@@ -786,7 +785,7 @@
     margin-bottom:48px; flex-wrap:wrap;
     position:relative; z-index:2;
   }
-  .section-head h2{ font-family:var(--display); font-size:clamp(32px,4vw,48px); text-transform:uppercase; margin-top:16px; }
+  .section-head h2{ font-family:var(--display); font-size:clamp(32px,4vw,48px); margin-top:16px; }
   .section-head .sub{ color:var(--off-dim); max-width:360px; font-size:14.5px; line-height:1.6; }
 
   .panel-grid{
@@ -1013,7 +1012,7 @@
     letter-spacing:.08em; text-transform:uppercase; margin-bottom:10px;
   }
   .service-modal-title{
-    font-family:var(--display); font-size:28px; text-transform:uppercase;
+    font-family:var(--display); font-size:28px;
     margin:0 0 14px; color:var(--off);
   }
   .service-modal-desc{
@@ -1069,7 +1068,7 @@
     box-shadow:0 0 18px rgba(255,75,31,.7);
   }
   .stage:hover .tick::before{ background:var(--ink); }
-  .stage h3{ font-family:var(--display); font-size:24px; text-transform:uppercase; margin-bottom:12px; letter-spacing:.01em; }
+  .stage h3{ font-family:var(--display); font-size:24px; margin-bottom:12px; letter-spacing:.01em; }
   .stage p{ color:var(--off-dim); font-size:14.5px; line-height:1.65; max-width:320px; }
 
   /* ================= RESULTS ================= */
@@ -1108,7 +1107,7 @@
   .deliverables-grid .manifesto-card{ padding:28px 26px; }
 
   .faq{ padding:128px 0; position:relative; }
-  .faq h2{ font-family:var(--display); font-size:clamp(32px,4vw,48px); text-transform:uppercase; margin-top:16px; margin-bottom:48px; }
+  .faq h2{ font-family:var(--display); font-size:clamp(32px,4vw,48px); margin-top:16px; margin-bottom:48px; }
   .faq-list{ display:flex; flex-direction:column; gap:14px; }
   .faq-item{
     background:var(--neu-bg);
@@ -1148,7 +1147,7 @@
     pointer-events:none;
   }
   .cta h2{
-    font-family:var(--display); font-size:clamp(38px,6vw,84px); text-transform:uppercase; line-height:.98;
+    font-family:var(--display); font-size:clamp(38px,6vw,84px); line-height:.98;
     position:relative; z-index:2;
     color:#F5F3EE;
   }
