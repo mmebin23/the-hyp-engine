@@ -417,6 +417,7 @@
     position:relative;
     padding:96px 0 120px;
     min-height:100vh;
+    min-height:100dvh;
     display:flex;
     align-items:center;
     overflow:hidden;
@@ -494,28 +495,6 @@
     color:var(--off); font-weight:600;
   }
   .hero-ctas{ display:flex; gap:16px; flex-wrap:wrap; align-items:center; }
-
-  .channel-pills{
-    display:flex; flex-wrap:wrap; gap:10px;
-    list-style:none; margin-top:32px;
-  }
-  .hero-fit{
-    font-family:var(--mono); font-size:12px; color:var(--off-dim);
-    margin-top:22px; letter-spacing:.01em;
-  }
-  .channel-pills li{
-    font-family:var(--mono); font-size:11px; letter-spacing:.05em; text-transform:uppercase;
-    color:var(--off-dim);
-    background:var(--neu-bg);
-    border-radius:10px;
-    box-shadow:var(--neu-raised-sm);
-    padding:8px 14px;
-    transition:color .2s, transform .2s, box-shadow .2s;
-  }
-  .channel-pills li:hover{
-    color:var(--signal); transform:translateY(-3px) scale(1.05);
-    box-shadow:6px 6px 12px var(--neu-dark), -4px -4px 10px var(--neu-light), 0 0 14px rgba(255,75,31,.2);
-  }
 
   .hero-video-scrim{
     position:absolute; inset:0; z-index:1; pointer-events:none;
@@ -1346,12 +1325,10 @@
     .hero-badge{ font-size:11px; padding:8px 14px; }
     .hero h1{ font-size:clamp(38px, 11vw, 60px); }
     .hero .lede{ font-size:15.5px; }
-    .channel-pills{ gap:8px; margin-top:26px; }
-    .channel-pills li{ font-size:11px; }
     .hero-ctas{ gap:12px; }
     .hero-ctas .btn{ flex:1 1 auto; justify-content:center; text-align:center; }
     .panel, .manifesto-card, .faq-item{
-      box-shadow:5px 5px 12px var(--neu-dark), -4px -4px 10px var(--neu-light);
+      box-shadow:0 8px 24px rgba(0,0,0,.35), inset 0 1px 1px rgba(255,255,255,.08);
     }
   }
 
