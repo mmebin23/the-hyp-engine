@@ -172,31 +172,6 @@
     .spot-hover::before{ display:none; }
   }
 
-  .hero-rec-bar{
-    display:flex; align-items:center; gap:10px;
-    flex-wrap:wrap;
-    font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase;
-    color:rgba(255,255,255,.55);
-    margin-bottom:18px;
-  }
-  .hero-rec-dot{
-    width:7px; height:7px; border-radius:50%;
-    background:var(--signal);
-    box-shadow:0 0 6px var(--signal);
-    animation:hero-rec-pulse 1.4s ease-in-out infinite;
-  }
-  @keyframes hero-rec-pulse{
-    0%, 100%{ opacity:1; }
-    50%{ opacity:.3; }
-  }
-  .hero-rec-label{ color:var(--signal); font-weight:700; }
-  .hero-timecode{ color:rgba(255,255,255,.75); font-variant-numeric:tabular-nums; }
-  .hero-rec-divider{ color:rgba(255,255,255,.3); }
-  .hero-rec-tag{ color:rgba(255,255,255,.4); }
-  @media (prefers-reduced-motion: reduce){
-    .hero-rec-dot{ animation:none; }
-  }
-
   .hero-badge{
     display:inline-flex; align-items:center; gap:10px;
     flex-wrap:wrap; row-gap:6px;
@@ -515,33 +490,6 @@
   }
   .hero-ctas{ display:flex; gap:16px; flex-wrap:wrap; align-items:center; }
 
-  .hero-marquee{
-    margin-top:36px;
-    overflow:hidden;
-    border-top:1.5px solid rgba(11,15,20,.12);
-    border-bottom:1.5px solid rgba(11,15,20,.12);
-    padding:12px 0;
-    max-width:600px;
-  }
-  .hero-marquee-track{
-    display:inline-flex;
-    white-space:nowrap;
-    animation:hero-marquee-scroll 22s linear infinite;
-  }
-  .hero-marquee-track span{
-    font-family:var(--mono); font-size:13px; letter-spacing:.1em; text-transform:uppercase;
-    color:var(--off); font-weight:600;
-    padding:0 18px;
-    display:inline-flex; align-items:center; gap:18px;
-  }
-  .hero-marquee-track span::after{ content:"\00b7"; color:var(--signal); }
-  @keyframes hero-marquee-scroll{
-    from{ transform:translateX(0); }
-    to{ transform:translateX(-50%); }
-  }
-  @media (prefers-reduced-motion: reduce){
-    .hero-marquee-track{ animation:none; }
-  }
   .channel-pills{
     display:flex; flex-wrap:wrap; gap:10px;
     list-style:none; margin-top:32px;
@@ -1394,8 +1342,6 @@
     .hero h1{ font-size:clamp(38px, 11vw, 60px); }
     .hero .lede{ font-size:15.5px; }
     .channel-pills{ gap:8px; margin-top:26px; }
-    .hero-marquee{ margin-top:26px; max-width:100%; }
-    .hero-marquee-track span{ font-size:11px; padding:0 12px; gap:12px; }
     .channel-pills li{ font-size:11px; }
     .hero-ctas{ gap:12px; }
     .hero-ctas .btn{ flex:1 1 auto; justify-content:center; text-align:center; }
