@@ -14,7 +14,7 @@
     --display: 'Unna', serif;
     --body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --mono: 'JetBrains Mono', monospace;
-    --wordmark: 'Unna', serif;
+    --wordmark: 'Inter', sans-serif;
 
     /* neumorphic surface tokens (dark variant) */
     --neu-bg: #1D1F29;
