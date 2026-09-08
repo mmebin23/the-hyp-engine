@@ -1,8 +1,8 @@
 # The Hyp Engine
 
-> AI-native media agency that produces media, content, and paid campaigns - plus websites, brand identity, and creative - for growth-stage businesses built around revenue, not vanity metrics.
+> AI-native media agency that produces media, content, and paid campaigns - plus websites, brand identity, and creative - for growth-stage businesses in the UAE and worldwide, built around revenue, not vanity metrics.
 
-The Hyp Engine is an AI-native media agency for D2C, SaaS, app, and B2B brands. Primary focus: media production (AI-generated video and content), content, and paid media. One team also handles the website, the brand, and organic/CRO work that drives and converts traffic - instead of clients juggling separate freelancers and agencies. AI is used to produce faster and generate content at scale; the strategy and judgment stay human.
+The Hyp Engine is an AI-native media agency for D2C, SaaS, app, and B2B brands, serving clients in the United Arab Emirates and globally. Primary focus: media production (AI-generated video and content), content, and paid media. One team also handles the website, the brand, and organic/CRO work that drives and converts traffic - instead of clients juggling separate freelancers and agencies. AI is used to produce faster and generate content at scale; the strategy and judgment stay human.
 
 ## Services
 
