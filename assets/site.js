@@ -545,7 +545,7 @@
   const progressFill = document.getElementById('progressFill');
   const floatCta = document.getElementById('floatCta');
   const backToTop = document.getElementById('backToTop');
-  const heroEl = document.querySelector('.hero');
+  const heroEl = document.querySelector('.hero') || document.querySelector('.scrub-hero-track');
 
   let cachedDocHeight = 0;
   let cachedHeroBottom = 400;
