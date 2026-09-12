@@ -433,14 +433,14 @@
     position:relative;
     height:560vh;
     min-height:3200px;
-    --scrub-fg:#ffffff;
-    --scrub-fg-soft:rgba(255,255,255,.78);
-    --scrub-fg-faint:rgba(255,255,255,.55);
+    --scrub-fg:#0a0908;
+    --scrub-fg-soft:rgba(10,9,8,.68);
+    --scrub-fg-faint:rgba(10,9,8,.5);
     --scrub-shade:#0A0A0A;
-    --scrub-rule:rgba(255,255,255,.2);
+    --scrub-rule:rgba(10,9,8,.2);
     --scrub-ease:cubic-bezier(.22,.61,.36,1);
-    --scrub-pill-bg:#ffffff;
-    --scrub-pill-fg:#0a0908;
+    --scrub-pill-bg:#0a0908;
+    --scrub-pill-fg:#ffffff;
   }
   .scrub-hero-sticky{
     position:fixed;
@@ -463,13 +463,11 @@
   .scrub-stage{ position:absolute; inset:0; z-index:0; overflow:hidden; background:var(--scrub-shade); }
   .scrub-stage video{
     position:absolute; top:50%; left:50%; width:100%; height:100%;
-    transform:translate(-50%,-50%) scale(1.02); object-fit:cover; filter:contrast(1.02) brightness(.68); will-change:transform;
+    transform:translate(-50%,-50%) scale(1.02); object-fit:cover; filter:contrast(1.02); will-change:transform;
   }
   .scrub-veil{
     position:absolute; inset:0; pointer-events:none;
-    background:
-      linear-gradient(to bottom, rgba(0,0,0,.38) 0%, rgba(0,0,0,0) 22%, rgba(0,0,0,0) 78%, rgba(0,0,0,.42) 100%),
-      rgba(0,0,0,.32);
+    background:linear-gradient(to bottom, rgba(0,0,0,.18) 0%, rgba(0,0,0,0) 15%, rgba(0,0,0,0) 85%, rgba(0,0,0,.2) 100%);
   }
   .scrub-grain{
     position:absolute; inset:-50%; opacity:.13; mix-blend-mode:multiply; pointer-events:none;
@@ -485,6 +483,10 @@
     align-items:center; justify-content:center; text-align:center;
     padding:60px clamp(20px, 5vw, 60px);
     opacity:0; will-change:opacity,transform;
+  }
+  .scrub-panel-inner{
+    max-width:340px;
+    display:flex; flex-direction:column; align-items:center;
   }
   .scrub-eyebrow{
     display:flex; align-items:center; justify-content:center; flex-wrap:wrap;
