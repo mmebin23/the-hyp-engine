@@ -159,26 +159,39 @@
 
 <main id="top">
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-slider" id="heroSlider" aria-hidden="true">
-      <div class="hero-slide is-active hero-slide-1" style="background-position:center 30%;"></div>
-    </div>
-    <div class="hero-video-scrim" aria-hidden="true"></div>
-    <div class="hero-glow-blob hero-glow-blob-1" aria-hidden="true"></div>
-    <div class="hero-glow-blob hero-glow-blob-2" aria-hidden="true"></div>
-    <div class="wrap hero-inner">
-      <div>
-        <div class="hero-badge">
-          <span class="hero-badge-dot"></span>
-          <span class="hero-badge-main">AI-Native Media Agency</span>
-        </div>
-        <h1>For Brands That<br>Refuse To<br><span class="accent">Blend In.</span></h1>
-        <p class="lede">We build the whole engine - your site, your brand, your AI-generated video and content, and the media that drives traffic to it - then report back in revenue, not vanity metrics.</p>
-        <div class="hero-ctas">
-          <a href="#contact" class="btn solid">Get A Free Audit</a>
-        </div>
+  <!-- HERO: SCROLL-SCRUBBED VIDEO INTRO -->
+  <section class="scrub-hero-track" id="scrubHeroTrack">
+    <div class="scrub-hero-sticky">
+      <div class="scrub-boot" id="scrubBoot">
+        <div class="scrub-bar"><i id="scrubBootBar"></i></div>
+        <p id="scrubBootPct">LOADING 0%</p>
       </div>
+      <div class="scrub-stage">
+        <video id="scrubClip" muted playsinline preload="auto" disablepictureinpicture></video>
+        <div class="scrub-veil"></div>
+        <div class="scrub-grain"></div>
+      </div>
+      <i class="scrub-meter" id="scrubMeter"></i>
+      <main class="scrub-panels">
+        <section class="scrub-panel" data-scrub-panel>
+          <div class="scrub-eyebrow">AI-Native Media Agency <span>&middot;</span> The Hyp Engine</div>
+          <h1 class="scrub-h1">Built for revenue.<br>Not for show.</h1>
+          <p class="scrub-sub">One team, one system - the site, the brand, the content, and the media that drives traffic to it.</p>
+          <div class="scrub-cta"><a class="scrub-pill" href="#services">See the work</a></div>
+        </section>
+        <section class="scrub-panel" data-scrub-panel>
+          <div class="scrub-eyebrow">How we work</div>
+          <h1 class="scrub-h1">Fast, never sloppy.</h1>
+          <p class="scrub-sub">We ship changes in days, not quarters. The algorithm doesn't wait for a review, so neither do we.</p>
+          <div class="scrub-cta"><a class="scrub-pill" href="#founder">Meet the team</a></div>
+        </section>
+        <section class="scrub-panel" data-scrub-panel>
+          <div class="scrub-eyebrow">The result</div>
+          <h1 class="scrub-h1">Reported in revenue,<br>not impressions.</h1>
+          <p class="scrub-sub">If a channel stalls, we kill it that week - even when that means a smaller invoice for us.</p>
+          <div class="scrub-cta"><a class="scrub-pill" href="#contact">Start a brief</a></div>
+        </section>
+      </main>
     </div>
   </section>
 

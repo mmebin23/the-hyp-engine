@@ -1,5 +1,164 @@
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* ---- Scrub hero: scroll-scrubbed video intro (vanilla JS, no GSAP/Lenis dependency) ---- */
+  (function scrubHero(){
+    const track = document.getElementById('scrubHeroTrack');
+    const clip = document.getElementById('scrubClip');
+    if (!track || !clip || reduceMotion) return;
+
+    const boot = document.getElementById('scrubBoot');
+    const bootBar = document.getElementById('scrubBootBar');
+    const bootPct = document.getElementById('scrubBootPct');
+    const meter = document.getElementById('scrubMeter');
+    const panels = [].slice.call(document.querySelectorAll('[data-scrub-panel]'));
+
+    const VIDEO_URL = '/assets/hero-scrub.mp4';
+
+    const CUES = [
+      [0.00, 0.00, 0.15, 0.23],
+      [0.35, 0.43, 0.57, 0.65],
+      [0.77, 0.85, 1.10, 1.20]
+    ];
+    const DRIFT = 22;
+
+    function clamp(v, a, b){ return Math.min(b, Math.max(a, v)); }
+    function smooth(t){ return t * t * (3 - 2 * t); }
+    function ramp(p, a, b){
+      if (b <= a) return p >= b ? 1 : 0;
+      return smooth(clamp((p - a) / (b - a), 0, 1));
+    }
+
+    let progress = 0, seekTo = 0, seekAt = 0, duration = 0, ready = false;
+    let started = false, attached = false;
+
+    function readScroll(){
+      const rect = track.getBoundingClientRect();
+      const trackHeight = track.offsetHeight;
+      const viewportH = window.innerHeight;
+      const scrolled = -rect.top;
+      const maxScroll = trackHeight - viewportH;
+      progress = maxScroll > 0 ? clamp(scrolled / maxScroll, 0, 1) : 0;
+      if (duration) seekTo = progress * duration;
+    }
+
+    function paint(){
+      if (meter) meter.style.transform = 'scaleX(' + progress + ')';
+      panels.forEach((el, i) => {
+        const c = CUES[i];
+        const enter = ramp(progress, c[0], c[1]);
+        const leave = ramp(progress, c[2], c[3]);
+        const o = enter * (1 - leave);
+        const y = (1 - enter) * DRIFT - leave * DRIFT;
+        el.style.opacity = o;
+        el.style.transform = 'translate3d(0,' + y + 'px,0)';
+        el.style.pointerEvents = o > 0.6 ? 'auto' : 'none';
+      });
+    }
+
+    function frame(){
+      if (ready && duration){
+        const gap = seekTo - seekAt;
+        if (Math.abs(gap) > 0.0008){
+          seekAt += gap * 0.115;
+          if (clip.readyState >= 2 && !clip.seeking){
+            try { clip.currentTime = seekAt; } catch (e) {}
+          }
+        }
+      }
+      paint();
+      requestAnimationFrame(frame);
+    }
+
+    function setProgress(f){
+      if (bootBar) bootBar.style.transform = 'scaleX(' + f + ')';
+      if (bootPct) bootPct.textContent = 'LOADING ' + Math.round(f * 100) + '%';
+    }
+
+    function start(){
+      if (started) return;
+      started = true;
+      ready = true;
+      if (boot) boot.classList.add('done');
+      readScroll();
+      seekAt = seekTo;
+    }
+
+    function attach(src){
+      if (attached) return;
+      attached = true;
+      clip.addEventListener('loadedmetadata', () => {
+        duration = clip.duration || 0;
+        clip.pause();
+        readScroll();
+        seekAt = seekTo;
+        try { clip.currentTime = seekAt; } catch (e) {}
+      });
+      clip.addEventListener('loadeddata', start);
+      clip.addEventListener('canplaythrough', start);
+      clip.addEventListener('error', start);
+      clip.src = src;
+      clip.load();
+      setTimeout(start, 12000);
+    }
+
+    function preload(){
+      const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+      const bail = setTimeout(() => {
+        if (!attached){
+          if (controller) controller.abort();
+          setProgress(1);
+          attach(VIDEO_URL);
+        }
+      }, 15000);
+
+      fetch(VIDEO_URL, controller ? { signal: controller.signal } : {})
+        .then(res => {
+          if (!res.ok || !res.body) throw new Error('bad response');
+          const total = parseInt(res.headers.get('content-length') || '0', 10);
+          let got = 0;
+          const chunks = [];
+          const reader = res.body.getReader();
+          function pump(){
+            return reader.read().then(({ done, value }) => {
+              if (done) return new Blob(chunks, { type: 'video/mp4' });
+              chunks.push(value);
+              got += value.length;
+              setProgress(total ? got / total : Math.min(got / 11e6, 0.95));
+              return pump();
+            });
+          }
+          return pump();
+        })
+        .then(blob => {
+          clearTimeout(bail);
+          setProgress(1);
+          attach(URL.createObjectURL(blob));
+        })
+        .catch(() => {
+          clearTimeout(bail);
+          setProgress(1);
+          attach(VIDEO_URL);
+        });
+    }
+
+    function unlock(){
+      const p = clip.play();
+      if (p && p.then) p.then(() => clip.pause()).catch(() => {});
+      else clip.pause();
+    }
+    ['touchstart', 'pointerdown', 'wheel', 'keydown'].forEach(ev => {
+      window.addEventListener(ev, unlock, { once: true, passive: true });
+    });
+
+    window.addEventListener('scroll', readScroll, { passive: true });
+    window.addEventListener('resize', readScroll);
+
+    readScroll();
+    paint();
+    preload();
+    requestAnimationFrame(frame);
+  })();
+
   /* ---- Lenis smooth scroll + GSAP ScrollTrigger sync ---- */
   let lenis = null;
   const hasGsap = typeof gsap !== 'undefined';
