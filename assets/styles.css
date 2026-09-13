@@ -246,11 +246,11 @@
   }
   .logo-text{ white-space:nowrap; flex-shrink:0; }
   .logo-text .lw-the{
-    font-weight:500; color:var(--off-dim); font-size:.55em; letter-spacing:.25em;
-    margin-right:4px;
+    font-weight:500; color:var(--off-dim); font-size:.5em; letter-spacing:.3em;
+    margin-right:6px;
   }
-  .logo-text .lw-hyp{ font-weight:700; color:var(--off); }
-  .logo-text .lw-engine{ font-weight:400; color:var(--off-dim); }
+  .logo-text .lw-hyp{ font-weight:700; color:var(--off); font-size:1.1em; letter-spacing:.01em; }
+  .logo-text .lw-engine{ font-weight:300; color:var(--off); font-size:.95em; letter-spacing:.16em; margin-left:5px; }
   .logo .dot{
     width:9px; height:9px; border-radius:50%;
     background:var(--signal);
@@ -573,9 +573,6 @@
     display:flex; align-items:flex-end; justify-content:space-between; gap:24px;
     padding:32px; flex-wrap:wrap;
   }
-  .featured-card{ border-radius:20px; padding:28px; max-width:420px; }
-  .featured-card-label{ display:block; font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,.6); margin-bottom:12px; }
-  .featured-card-body{ font-family:var(--body); font-size:15px; line-height:1.55; color:#fff; margin:0; }
   .featured-cta{
     display:inline-flex; align-items:center; border-radius:999px; padding:14px 28px;
     font-family:var(--body); font-size:14px; font-weight:500; color:#fff; text-decoration:none;
@@ -589,19 +586,10 @@
     font-family:var(--display); font-size:clamp(36px,5.6vw,72px); color:var(--off); margin:0 0 64px;
   }
   .philosophy-heading em{ font-style:italic; color:var(--off-dim); }
-  .philosophy-grid{ display:grid; grid-template-columns:1fr auto 1fr; gap:48px; align-items:start; }
-  .philosophy-divider{ width:1px; background:rgba(255,255,255,.1); align-self:stretch; }
-  .philosophy-block-label{ display:block; font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--off-dim); margin-bottom:16px; }
-  .philosophy-block-body{ font-family:var(--body); font-size:16px; line-height:1.65; color:var(--off-dim); margin:0; }
-  @media (max-width:800px){
-    .philosophy-grid{ grid-template-columns:1fr; gap:32px; }
-    .philosophy-divider{ width:100%; height:1px; }
-  }
   @media (max-width:640px){
     .about-section{ padding:120px 0 60px; }
     .featured-section{ padding:20px 0 70px; }
     .featured-overlay{ flex-direction:column; align-items:stretch; }
-    .featured-card{ max-width:100%; }
     .philosophy-section{ padding:70px 0 90px; }
   }
 
@@ -615,7 +603,6 @@
     margin-bottom:48px; position:relative; z-index:1;
   }
   .services-tiles-title{ font-family:var(--display); font-size:clamp(30px,4vw,48px); color:var(--off); margin:0; }
-  .services-tiles-label{ font-family:var(--mono); font-size:13px; color:var(--off-dim); letter-spacing:.05em; }
   .services-tiles-grid{
     display:grid; grid-template-columns:repeat(3, 1fr); gap:24px;
     position:relative; z-index:1;
@@ -627,25 +614,9 @@
     transition:transform .4s ease;
   }
   .services-tile:hover{ transform:translateY(-4px); }
-  .services-tile-media{
-    aspect-ratio:16/10; overflow:hidden; position:relative;
-  }
-  .services-tile-media::after{
-    content:''; position:absolute; inset:0;
-    background:linear-gradient(to top, rgba(0,0,0,.5), transparent 60%);
-  }
-  .services-tile-media img{
-    width:100%; height:100%; object-fit:cover;
-    transition:transform .7s ease;
-  }
-  .services-tile:hover .services-tile-media img{ transform:scale(1.06); }
-  .services-tile-body{ padding:24px; position:relative; }
-  .services-tile-tag{
-    font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--off-dim);
-    display:block; margin-bottom:14px;
-  }
+  .services-tile-body{ padding:28px 24px; position:relative; }
   .services-tile-arrow{
-    position:absolute; top:24px; right:24px;
+    position:absolute; top:26px; right:24px;
     width:34px; height:34px; border-radius:50%;
     display:flex; align-items:center; justify-content:center;
     color:#fff; font-size:15px;
@@ -653,10 +624,7 @@
   }
   .services-tile:hover .services-tile-arrow{ transform:rotate(45deg); }
   .services-tile-title{
-    font-family:var(--display); font-size:clamp(18px,1.8vw,22px); color:var(--off); margin:0 0 10px;
-  }
-  .services-tile-desc{
-    font-family:var(--body); font-size:13.5px; line-height:1.55; color:var(--off-dim); margin:0;
+    font-family:var(--display); font-size:clamp(18px,1.8vw,22px); color:var(--off); margin:0; padding-right:44px;
   }
   @media (max-width:960px){
     .services-tiles-grid{ grid-template-columns:repeat(2, 1fr); }
@@ -664,7 +632,6 @@
   @media (max-width:640px){
     .services-tiles{ padding:90px 0; }
     .services-tiles-grid{ grid-template-columns:1fr; }
-    .services-tiles-label{ display:none; }
   }
 
   .glass-panel{
