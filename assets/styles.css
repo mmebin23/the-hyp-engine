@@ -503,7 +503,7 @@
   .scrub-panel{
     position:absolute; inset:0; display:flex; flex-direction:column;
     align-items:flex-start; justify-content:center; text-align:left;
-    padding:60px clamp(24px, 6vw, 80px);
+    padding:60px clamp(24px, 6vw, 80px) 200px;
     opacity:0; will-change:opacity,transform;
   }
   .scrub-panel-inner{
@@ -607,6 +607,10 @@
   }
   @media (max-width:640px){
     .scrub-services a{ font-size:17px; padding:5px 0; }
+    .scrub-panel{ padding:48px clamp(20px,5vw,60px) 130px; }
+  }
+  @media (max-height:760px){
+    .scrub-panel{ padding-bottom:130px; }
   }
 
   .glass-panel{
