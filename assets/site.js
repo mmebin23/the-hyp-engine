@@ -667,12 +667,12 @@
         const dy = dotY - lastMoveY;
         lastMoveX = dotX; lastMoveY = dotY;
         const speed = Math.sqrt(dx * dx + dy * dy);
-        const stretch = Math.min(speed / 45, 0.55);
+        const stretch = Math.min(speed / 34, 0.9);
         if (stretch > 0.04){
           const angle = Math.atan2(dy, dx) * (180 / Math.PI);
           setRingRotation(angle);
           setRingScaleX(1 + stretch);
-          setRingScaleY(1 - stretch * 0.35);
+          setRingScaleY(1 - stretch * 0.45);
         }
         clearTimeout(stretchIdleTimer);
         stretchIdleTimer = setTimeout(() => {
@@ -686,7 +686,7 @@
 
     document.addEventListener('mouseleave', () => cursorEl.classList.remove('active'));
 
-    const hoverTargets = 'a, button, .panel, .manifesto-card, .faq-q, input[type="range"]';
+    const hoverTargets = 'a, button, .scrub-services a, .scrub-pill, .featured-cta';
     document.querySelectorAll(hoverTargets).forEach(target => {
       target.addEventListener('mouseenter', () => cursorEl.classList.add('hover'));
       target.addEventListener('mouseleave', () => cursorEl.classList.remove('hover'));

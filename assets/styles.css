@@ -80,37 +80,31 @@
   .custom-cursor.active{ opacity:1; }
   .cursor-dot{
     position:fixed; top:0; left:0;
-    width:7px; height:7px; margin:-3.5px 0 0 -3.5px;
-    border-radius:42% 58% 63% 37% / 41% 44% 56% 59%;
-    background:#C8420E;
-    box-shadow:0 0 8px rgba(200,66,14,.6);
-    animation:cursor-blob-morph 3.4s ease-in-out infinite;
+    width:4px; height:4px; margin:-2px 0 0 -2px;
+    border-radius:50%;
+    background:#fff;
+    box-shadow:0 0 6px rgba(185,195,255,.9), 0 0 14px rgba(185,195,255,.45);
+    transition:opacity .2s ease;
   }
   .cursor-ring{
     position:fixed; top:0; left:0;
-    width:34px; height:34px; margin:-17px 0 0 -17px;
-    border-radius:59% 41% 44% 56% / 37% 63% 41% 59%;
-    background:rgba(255,255,255,.4);
-    border:1.5px solid rgba(255,255,255,.75);
-    box-shadow:0 2px 12px rgba(20,20,40,.12), inset 0 1px 1px rgba(255,255,255,.55);
-    opacity:.85;
-    animation:cursor-blob-morph 4.2s ease-in-out infinite reverse;
-    transition:width .25s ease, height .25s ease, margin .25s ease, opacity .25s ease, border-color .25s ease, background .25s ease;
-  }
-  @keyframes cursor-blob-morph{
-    0%, 100%{ border-radius:42% 58% 63% 37% / 41% 44% 56% 59%; }
-    33%{ border-radius:63% 37% 41% 59% / 58% 42% 59% 41%; }
-    66%{ border-radius:37% 63% 58% 42% / 44% 56% 37% 63%; }
+    width:30px; height:30px; margin:-15px 0 0 -15px;
+    border-radius:50%;
+    background:transparent;
+    border:1px solid rgba(185,195,255,.75);
+    box-shadow:0 0 10px rgba(185,195,255,.25), inset 0 0 8px rgba(185,195,255,.12);
+    opacity:.9;
+    transition:width .25s ease, height .25s ease, margin .25s ease, opacity .25s ease, border-color .25s ease, box-shadow .25s ease;
   }
   .custom-cursor.hover .cursor-ring{
-    width:56px; height:56px; margin:-28px 0 0 -28px;
-    background:rgba(255,255,255,.32);
-    border-color:rgba(255,255,255,.85);
+    width:52px; height:52px; margin:-26px 0 0 -26px;
+    border-color:rgba(255,183,127,.9);
+    box-shadow:0 0 16px rgba(255,183,127,.35), inset 0 0 10px rgba(255,183,127,.15);
     opacity:1;
   }
   .custom-cursor.hover .cursor-dot{ opacity:0; }
   @media (prefers-reduced-motion: reduce){
-    .cursor-dot, .cursor-ring{ animation:none; border-radius:50%; }
+    .cursor-ring{ transition:none; }
   }
   @media (hover:none), (pointer:coarse){
     .custom-cursor{ display:none; }
