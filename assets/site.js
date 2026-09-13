@@ -10,23 +10,10 @@
     const bootBar = document.getElementById('scrubBootBar');
     const bootPct = document.getElementById('scrubBootPct');
     const meter = document.getElementById('scrubMeter');
-    const panels = [].slice.call(document.querySelectorAll('[data-scrub-panel]'));
 
     const VIDEO_URL = '/assets/hero-scrub.mp4';
 
-    const CUES = [
-      [0.00, 0.00, 0.15, 0.23],
-      [0.35, 0.43, 0.57, 0.65],
-      [0.77, 0.85, 1.10, 1.20]
-    ];
-    const DRIFT = 22;
-
     function clamp(v, a, b){ return Math.min(b, Math.max(a, v)); }
-    function smooth(t){ return t * t * (3 - 2 * t); }
-    function ramp(p, a, b){
-      if (b <= a) return p >= b ? 1 : 0;
-      return smooth(clamp((p - a) / (b - a), 0, 1));
-    }
 
     let progress = 0, seekTo = 0, seekAt = 0, duration = 0, ready = false;
     let started = false, attached = false;
@@ -43,16 +30,6 @@
 
     function paint(){
       if (meter) meter.style.transform = 'scaleX(' + progress + ')';
-      panels.forEach((el, i) => {
-        const c = CUES[i];
-        const enter = ramp(progress, c[0], c[1]);
-        const leave = ramp(progress, c[2], c[3]);
-        const o = enter * (1 - leave);
-        const y = (1 - enter) * DRIFT - leave * DRIFT;
-        el.style.opacity = o;
-        el.style.transform = 'translate3d(0,' + y + 'px,0)';
-        el.style.pointerEvents = o > 0.6 ? 'auto' : 'none';
-      });
     }
 
     function frame(){
