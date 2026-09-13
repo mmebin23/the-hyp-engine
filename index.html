@@ -197,53 +197,121 @@
     </div>
   </section>
 
-  <!-- SERVICES: TYPOGRAPHIC LIST -->
-  <section class="services-list" id="services">
+  <!-- ABOUT -->
+  <section class="about-section">
     <div class="wrap">
-      <p class="eyebrow">What We Do</p>
-      <h2 class="services-list-head">Everything under one roof.</h2>
-      <div class="services-list-items">
-        <a href="/media-production/" class="services-list-item">
-          <span class="services-list-num">01</span>
-          <span class="services-list-name">Media Production</span>
-          <span class="services-list-tag">AI Video &amp; Content</span>
-          <span class="services-list-arrow">&rarr;</span>
+      <p class="about-label">About Us</p>
+      <h2 class="about-heading">Built by people who've <em>actually run the accounts</em>,<br>not just talked about them.</h2>
+    </div>
+  </section>
+
+  <!-- FEATURED -->
+  <section class="featured-section">
+    <div class="wrap">
+      <div class="featured-media">
+        <picture>
+          <source srcset="/assets/homepage-hero-mobile.webp 800w, /assets/homepage-hero.webp 1800w" sizes="100vw" type="image/webp">
+          <img src="/assets/homepage-hero.jpg" srcset="/assets/homepage-hero-mobile.jpg 800w, /assets/homepage-hero.jpg 1800w" sizes="100vw" alt="The Hyp Engine" loading="lazy">
+        </picture>
+        <div class="featured-overlay">
+          <div class="featured-card liquid-glass">
+            <span class="featured-card-label">Our Approach</span>
+            <p class="featured-card-body">If a channel stalls, we kill it that week - even when that means a smaller invoice for us. We'd rather lose the line item than waste your money.</p>
+          </div>
+          <a href="#services" class="featured-cta liquid-glass">Explore more</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY -->
+  <section class="philosophy-section">
+    <div class="wrap">
+      <h2 class="philosophy-heading">Human <em>x</em> AI.</h2>
+      <div class="philosophy-grid">
+        <div class="philosophy-block">
+          <span class="philosophy-block-label">The Old Way</span>
+          <p class="philosophy-block-body">Most agencies split into departments that don't talk to each other. SEO doesn't know what paid media is doing. By the time anyone notices a channel is underperforming, the invoice is already paid.</p>
+        </div>
+        <div class="philosophy-divider"></div>
+        <div class="philosophy-block">
+          <span class="philosophy-block-label">The Hyp Engine Way</span>
+          <p class="philosophy-block-body">AI catches the drop-off and fatigue signals across every account. A person who's actually run ad accounts decides what gets scaled or killed. Technology amplifies the work - it doesn't replace the judgment behind it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES: LIQUID-GLASS TILES -->
+  <section class="services-tiles" id="services">
+    <div class="wrap">
+      <div class="services-tiles-head">
+        <h2 class="services-tiles-title">What we do</h2>
+        <p class="services-tiles-label">Our Services</p>
+      </div>
+      <div class="services-tiles-grid">
+        <a href="/media-production/" class="services-tile liquid-glass">
+          <div class="services-tile-media"><img src="/assets/media-production-hero.jpg" alt="Media Production" loading="lazy"></div>
+          <div class="services-tile-body">
+            <span class="services-tile-tag">AI Video &amp; Content</span>
+            <span class="services-tile-arrow liquid-glass">&#8599;</span>
+            <h3 class="services-tile-title">Media Production</h3>
+            <p class="services-tile-desc">AI-native production - every frame generated, not filmed. Cinematic quality without shoot days or crews.</p>
+          </div>
         </a>
-        <a href="/paid-media/" class="services-list-item">
-          <span class="services-list-num">02</span>
-          <span class="services-list-name">Paid Media</span>
-          <span class="services-list-tag">Google, Meta, TikTok</span>
-          <span class="services-list-arrow">&rarr;</span>
+        <a href="/paid-media/" class="services-tile liquid-glass">
+          <div class="services-tile-media"><img src="/assets/paid-media-hero.jpg" alt="Paid Media" loading="lazy"></div>
+          <div class="services-tile-body">
+            <span class="services-tile-tag">Google, Meta, TikTok</span>
+            <span class="services-tile-arrow liquid-glass">&#8599;</span>
+            <h3 class="services-tile-title">Paid Media</h3>
+            <p class="services-tile-desc">We run wherever your buyers actually are, and we watch the numbers daily - not once a month.</p>
+          </div>
         </a>
-        <a href="/seo/" class="services-list-item">
-          <span class="services-list-num">03</span>
-          <span class="services-list-name">SEO</span>
-          <span class="services-list-tag">Organic Growth Engine</span>
-          <span class="services-list-arrow">&rarr;</span>
+        <a href="/seo/" class="services-tile liquid-glass">
+          <div class="services-tile-media"><img src="/assets/seo-hero.jpg" alt="SEO" loading="lazy"></div>
+          <div class="services-tile-body">
+            <span class="services-tile-tag">Organic Growth Engine</span>
+            <span class="services-tile-arrow liquid-glass">&#8599;</span>
+            <h3 class="services-tile-title">SEO</h3>
+            <p class="services-tile-desc">Traffic that doesn't convert is a vanity metric with extra steps. We build for intent, not volume.</p>
+          </div>
         </a>
-        <a href="/web-dev/" class="services-list-item">
-          <span class="services-list-num">04</span>
-          <span class="services-list-name">Web Design &amp; Dev</span>
-          <span class="services-list-tag">Sites Built To Convert</span>
-          <span class="services-list-arrow">&rarr;</span>
+        <a href="/web-dev/" class="services-tile liquid-glass">
+          <div class="services-tile-media"><img src="/assets/web-dev-hero.jpg" alt="Web Design & Dev" loading="lazy"></div>
+          <div class="services-tile-body">
+            <span class="services-tile-tag">Sites Built To Convert</span>
+            <span class="services-tile-arrow liquid-glass">&#8599;</span>
+            <h3 class="services-tile-title">Web Design &amp; Dev</h3>
+            <p class="services-tile-desc">We design for the person about to leave the page, not the person judging the portfolio.</p>
+          </div>
         </a>
-        <a href="/creative/" class="services-list-item">
-          <span class="services-list-num">05</span>
-          <span class="services-list-name">Creative &amp; Branding</span>
-          <span class="services-list-tag">Identity, Design &amp; Content</span>
-          <span class="services-list-arrow">&rarr;</span>
+        <a href="/creative/" class="services-tile liquid-glass">
+          <div class="services-tile-media"><img src="/assets/creative-hero.jpg" alt="Creative & Branding" loading="lazy"></div>
+          <div class="services-tile-body">
+            <span class="services-tile-tag">Identity, Design &amp; Content</span>
+            <span class="services-tile-arrow liquid-glass">&#8599;</span>
+            <h3 class="services-tile-title">Creative &amp; Branding</h3>
+            <p class="services-tile-desc">Not a logo. Not a font pairing. The actual reason someone picks you over the next tab.</p>
+          </div>
         </a>
-        <a href="/social/" class="services-list-item">
-          <span class="services-list-num">06</span>
-          <span class="services-list-name">Social Media</span>
-          <span class="services-list-tag">Content &amp; Community</span>
-          <span class="services-list-arrow">&rarr;</span>
+        <a href="/social/" class="services-tile liquid-glass">
+          <div class="services-tile-media"><img src="/assets/social-hero.jpg" alt="Social Media" loading="lazy"></div>
+          <div class="services-tile-body">
+            <span class="services-tile-tag">Content &amp; Community</span>
+            <span class="services-tile-arrow liquid-glass">&#8599;</span>
+            <h3 class="services-tile-title">Social Media</h3>
+            <p class="services-tile-desc">A content calendar with no goal behind it is just noise on a schedule.</p>
+          </div>
         </a>
-        <a href="/cro/" class="services-list-item">
-          <span class="services-list-num">07</span>
-          <span class="services-list-name">CRO &amp; Automation</span>
-          <span class="services-list-tag">Funnels That Compound</span>
-          <span class="services-list-arrow">&rarr;</span>
+        <a href="/cro/" class="services-tile liquid-glass">
+          <div class="services-tile-media"><img src="/assets/cro-hero.jpg" alt="CRO & Automation" loading="lazy"></div>
+          <div class="services-tile-body">
+            <span class="services-tile-tag">Funnels That Compound</span>
+            <span class="services-tile-arrow liquid-glass">&#8599;</span>
+            <h3 class="services-tile-title">CRO &amp; Automation</h3>
+            <p class="services-tile-desc">The cheapest growth channel is usually the one you already have.</p>
+          </div>
         </a>
       </div>
     </div>
