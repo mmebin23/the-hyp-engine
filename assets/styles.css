@@ -459,8 +459,8 @@
   /* ================= SCRUB HERO (scroll-scrubbed video intro) ================= */
   .scrub-hero-track{
     position:relative;
-    height:560vh;
-    min-height:3200px;
+    height:720vh;
+    min-height:4200px;
     --scrub-fg:#ffffff;
     --scrub-fg-soft:rgba(255,255,255,.78);
     --scrub-fg-faint:rgba(255,255,255,.55);
@@ -594,45 +594,25 @@
     .philosophy-section{ padding:70px 0 90px; }
   }
 
-  .services-tiles{ padding:140px 0; position:relative; background:#0A0A0A; overflow:hidden; }
-  .services-tiles::before{
-    content:''; position:absolute; inset:0; pointer-events:none;
-    background:radial-gradient(ellipse at center, rgba(255,255,255,.02) 0%, transparent 60%);
+  .scrub-services{
+    list-style:none; margin:clamp(18px,2.2vw,28px) 0 0; padding:0;
+    display:flex; flex-direction:column; gap:2px;
   }
-  .services-tiles-head{
-    display:flex; align-items:flex-end; justify-content:space-between; gap:16px;
-    margin-bottom:48px; position:relative; z-index:1;
+  .scrub-services li{ margin:0; }
+  .scrub-services a{
+    display:block; padding:7px 0;
+    font-family:var(--display); font-size:clamp(19px,2vw,26px);
+    line-height:1.15; letter-spacing:-.01em;
+    color:var(--scrub-fg); text-decoration:none;
+    opacity:.72; transition:opacity .25s ease, transform .25s ease;
   }
-  .services-tiles-title{ font-family:var(--display); font-size:clamp(30px,4vw,48px); color:var(--off); margin:0; }
-  .services-tiles-grid{
-    display:grid; grid-template-columns:repeat(3, 1fr); gap:24px;
-    position:relative; z-index:1;
-  }
-  .services-tile{
-    border-radius:24px;
-    text-decoration:none;
-    display:block;
-    transition:transform .4s ease;
-  }
-  .services-tile:hover{ transform:translateY(-4px); }
-  .services-tile-body{ padding:28px 24px; position:relative; }
-  .services-tile-arrow{
-    position:absolute; top:26px; right:24px;
-    width:34px; height:34px; border-radius:50%;
-    display:flex; align-items:center; justify-content:center;
-    color:#fff; font-size:15px;
-    transition:transform .3s ease;
-  }
-  .services-tile:hover .services-tile-arrow{ transform:rotate(45deg); }
-  .services-tile-title{
-    font-family:var(--display); font-size:clamp(18px,1.8vw,22px); color:var(--off); margin:0; padding-right:44px;
-  }
-  @media (max-width:960px){
-    .services-tiles-grid{ grid-template-columns:repeat(2, 1fr); }
+  .scrub-services a:hover{ opacity:1; transform:translateX(6px); }
+  .scrub-anchor{
+    position:absolute; left:0; width:1px; height:1px;
+    top:85%; pointer-events:none;
   }
   @media (max-width:640px){
-    .services-tiles{ padding:90px 0; }
-    .services-tiles-grid{ grid-template-columns:1fr; }
+    .scrub-services a{ font-size:17px; padding:5px 0; }
   }
 
   .glass-panel{
