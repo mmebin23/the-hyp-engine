@@ -449,7 +449,7 @@
 
   /* ---- Click spark burst ---- */
   if (!reduceMotion && hoverCapableNow){
-    const SPARK_COLORS = ['#FF6B1A', '#C8420E'];
+    const SPARK_COLORS = ['#7FD4FF', '#00A8E8'];
     document.addEventListener('click', (e) => {
       const count = 6;
       for (let i = 0; i < count; i++){
@@ -645,16 +645,11 @@
   if (cursorEl && cursorCapable && !reduceMotion){
     document.body.classList.add('custom-cursor-active');
     let dotX = window.innerWidth / 2, dotY = window.innerHeight / 2;
-    let lastMoveX = dotX, lastMoveY = dotY;
-    let stretchIdleTimer = null;
 
     const setDot = hasGsap ? gsap.quickTo(cursorDot, 'x', { duration: 0, ease: 'none' }) : null;
     const setDotY = hasGsap ? gsap.quickTo(cursorDot, 'y', { duration: 0, ease: 'none' }) : null;
     const setRingX = hasGsap ? gsap.quickTo(cursorRing, 'x', { duration: 0.15, ease: 'power3.out' }) : null;
     const setRingY = hasGsap ? gsap.quickTo(cursorRing, 'y', { duration: 0.15, ease: 'power3.out' }) : null;
-    const setRingRotation = hasGsap ? gsap.quickTo(cursorRing, 'rotation', { duration: 0.2, ease: 'power3.out' }) : null;
-    const setRingScaleX = hasGsap ? gsap.quickTo(cursorRing, 'scaleX', { duration: 0.2, ease: 'power3.out' }) : null;
-    const setRingScaleY = hasGsap ? gsap.quickTo(cursorRing, 'scaleY', { duration: 0.2, ease: 'power3.out' }) : null;
 
     window.addEventListener('mousemove', (e) => {
       cursorEl.classList.add('active');
@@ -662,22 +657,6 @@
       if (hasGsap){
         setDot(dotX); setDotY(dotY);
         setRingX(dotX); setRingY(dotY);
-
-        const dx = dotX - lastMoveX;
-        const dy = dotY - lastMoveY;
-        lastMoveX = dotX; lastMoveY = dotY;
-        const speed = Math.sqrt(dx * dx + dy * dy);
-        const stretch = Math.min(speed / 34, 0.9);
-        if (stretch > 0.04){
-          const angle = Math.atan2(dy, dx) * (180 / Math.PI);
-          setRingRotation(angle);
-          setRingScaleX(1 + stretch);
-          setRingScaleY(1 - stretch * 0.45);
-        }
-        clearTimeout(stretchIdleTimer);
-        stretchIdleTimer = setTimeout(() => {
-          setRingScaleX(1); setRingScaleY(1);
-        }, 90);
       } else {
         cursorDot.style.transform = 'translate(' + dotX + 'px,' + dotY + 'px)';
         cursorRing.style.transform = 'translate(' + dotX + 'px,' + dotY + 'px)';
@@ -693,7 +672,8 @@
     });
   }
 
-  /* ---- Liquid tendril trail: dark gooey trail with spikes and drips ---- */
+  /* ---- Sparkle trail: small four-point glints that spawn on movement,
+         drift, twinkle and fade ---- */
   if (cursorCapable && !reduceMotion){
     const trailCanvas = document.createElement('canvas');
     trailCanvas.className = 'ink-trail-canvas';
@@ -712,91 +692,87 @@
     resizeInkCanvas();
     window.addEventListener('resize', resizeInkCanvas);
 
-    let inkPoints = [];
-    let drips = [];
-    const INK_MAX_AGE = 480;
-    const DRIP_MAX_AGE = 500;
-
-    let inkTrailRunning = false;
+    let sparks = [];
+    const SPARK_MAX_AGE = 900;
+    const SPARK_CAP = 140;
+    let sparkRunning = false;
+    let lastSpawnX = 0, lastSpawnY = 0;
 
     function startInkTrailLoop(){
-      if (inkTrailRunning) return;
-      inkTrailRunning = true;
-      requestAnimationFrame(drawInkTrail);
+      if (sparkRunning) return;
+      sparkRunning = true;
+      requestAnimationFrame(drawSparkles);
     }
 
     window.addEventListener('mousemove', (e) => {
-      inkPoints.push({ x: e.clientX, y: e.clientY, t: performance.now() });
-      if (Math.random() < 0.12){
-        drips.push({
-          x: e.clientX + (Math.random() * 10 - 5),
-          y: e.clientY,
+      const dx = e.clientX - lastSpawnX;
+      const dy = e.clientY - lastSpawnY;
+      const moved = Math.sqrt(dx * dx + dy * dy);
+      lastSpawnX = e.clientX;
+      lastSpawnY = e.clientY;
+
+      // faster movement spawns a few more glints, but never a flood
+      const count = moved > 40 ? 3 : moved > 14 ? 2 : 1;
+      for (let i = 0; i < count; i++){
+        sparks.push({
+          x: e.clientX + (Math.random() * 18 - 9),
+          y: e.clientY + (Math.random() * 18 - 9),
+          vx: (Math.random() - 0.5) * 0.45,
+          vy: (Math.random() - 0.5) * 0.45 - 0.12,
+          size: 1.6 + Math.random() * 2.6,
+          phase: Math.random() * Math.PI * 2,
+          warm: Math.random() < 0.25,
           t: performance.now()
         });
       }
+      if (sparks.length > SPARK_CAP) sparks.splice(0, sparks.length - SPARK_CAP);
       startInkTrailLoop();
     }, { passive: true });
 
-    function drawInkTrail(){
+    function drawSpark(s, alpha, r){
+      // four-point glint: two crossed tapered strokes plus a bright centre
+      ctx.strokeStyle = s.warm
+        ? 'rgba(127,212,255,' + alpha + ')'
+        : 'rgba(200,214,255,' + alpha + ')';
+      ctx.lineWidth = Math.max(0.5, r * 0.32);
+      ctx.beginPath();
+      ctx.moveTo(s.x - r, s.y); ctx.lineTo(s.x + r, s.y);
+      ctx.moveTo(s.x, s.y - r); ctx.lineTo(s.x, s.y + r);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, Math.max(0.4, r * 0.26), 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(245,250,255,' + Math.min(1, alpha * 1.3) + ')';
+      ctx.fill();
+    }
+
+    function drawSparkles(){
       const now = performance.now();
-      inkPoints = inkPoints.filter(p => now - p.t < INK_MAX_AGE);
-      drips = drips.filter(d => now - d.t < DRIP_MAX_AGE);
+      sparks = sparks.filter(s => now - s.t < SPARK_MAX_AGE);
       ctx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
       ctx.lineCap = 'round';
 
-      for (let i = 1; i < inkPoints.length; i++){
-        const p0 = inkPoints[i - 1];
-        const p1 = inkPoints[i];
-        const age = now - p1.t;
-        const lifeRatio = 1 - age / INK_MAX_AGE;
-        if (lifeRatio <= 0) continue;
+      for (const s of sparks){
+        const age = now - s.t;
+        const life = 1 - age / SPARK_MAX_AGE;
+        if (life <= 0) continue;
 
-        const dx = p1.x - p0.x, dy = p1.y - p0.y;
-        const len = Math.sqrt(dx * dx + dy * dy) || 1;
-        const nx = -dy / len, ny = dx / len;
-        const jag = Math.sin(now / 85 + i * 1.4) * 5 * lifeRatio;
+        s.x += s.vx;
+        s.y += s.vy;
 
-        ctx.beginPath();
-        ctx.moveTo(p0.x + nx * jag, p0.y + ny * jag);
-        ctx.lineTo(p1.x + nx * jag, p1.y + ny * jag);
-        ctx.strokeStyle = 'rgba(200,66,14,' + (lifeRatio * 0.6) + ')';
-        ctx.lineWidth = Math.max(1.5, lifeRatio * 8);
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.moveTo(p0.x + nx * (jag + 2), p0.y + ny * (jag + 2));
-        ctx.lineTo(p1.x + nx * (jag + 2), p1.y + ny * (jag + 2));
-        ctx.strokeStyle = 'rgba(255,255,255,' + (lifeRatio * 0.4) + ')';
-        ctx.lineWidth = Math.max(0.6, lifeRatio * 1.6);
-        ctx.stroke();
-
-        if (i % 4 === 0 && lifeRatio > 0.45){
-          const spikeLen = 15 * lifeRatio;
-          const spikeDir = i % 8 === 0 ? 1 : -1;
-          ctx.beginPath();
-          ctx.moveTo(p1.x, p1.y);
-          ctx.lineTo(p1.x + nx * spikeLen * spikeDir, p1.y + ny * spikeLen * spikeDir);
-          ctx.strokeStyle = 'rgba(255,140,70,' + (lifeRatio * 0.45) + ')';
-          ctx.lineWidth = Math.max(0.6, lifeRatio * 2.2);
-          ctx.stroke();
-        }
+        // twinkle, then fade out over the tail of the life
+        const twinkle = 0.55 + 0.45 * Math.sin(now / 110 + s.phase);
+        const alpha = life * life * twinkle * 0.85;
+        const r = s.size * (0.45 + life * 0.55);
+        drawSpark(s, alpha, r);
       }
 
-      drips.forEach(d => {
-        const ratio = 1 - (now - d.t) / DRIP_MAX_AGE;
-        if (ratio <= 0) return;
-        const fallY = d.y + (1 - ratio) * 28;
-        ctx.beginPath();
-        ctx.arc(d.x, fallY, Math.max(0.8, ratio * 2.6), 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(200,66,14,' + (ratio * 0.5) + ')';
-        ctx.fill();
-      });
       ctx.globalAlpha = 1;
-      if (inkPoints.length === 0 && drips.length === 0){
-        inkTrailRunning = false;
+      if (sparks.length === 0){
+        sparkRunning = false;
         return;
       }
-      requestAnimationFrame(drawInkTrail);
+      requestAnimationFrame(drawSparkles);
     }
   }
 
