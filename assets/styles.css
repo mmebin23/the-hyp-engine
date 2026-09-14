@@ -612,6 +612,12 @@
   @media (max-height:760px){
     .scrub-panel{ padding-bottom:200px; }
   }
+  /* On portrait phones the 2.31:1 clip would lose ~80% of its width to a cover
+     crop, so show the whole frame instead - the letterbox blends into the
+     black stage background. */
+  @media (max-width:860px){
+    .scrub-stage video{ object-fit:contain; object-position:center; transform:translate(-50%,-50%); }
+  }
 
   .glass-panel{
     background:var(--glass-bg);
