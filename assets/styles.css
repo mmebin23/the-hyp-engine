@@ -98,8 +98,8 @@
   }
   .custom-cursor.hover .cursor-ring{
     width:52px; height:52px; margin:-26px 0 0 -26px;
-    border-color:rgba(255,183,127,.9);
-    box-shadow:0 0 16px rgba(255,183,127,.35), inset 0 0 10px rgba(255,183,127,.15);
+    border-color:rgba(127,212,255,.9);
+    box-shadow:0 0 16px rgba(127,212,255,.35), inset 0 0 10px rgba(127,212,255,.15);
     opacity:1;
   }
   .custom-cursor.hover .cursor-dot{ opacity:0; }
@@ -593,9 +593,17 @@
     font-family:var(--display); font-size:clamp(19px,2vw,26px);
     line-height:1.15; letter-spacing:-.01em;
     color:var(--scrub-fg); text-decoration:none;
-    opacity:.72; transition:opacity .25s ease, transform .25s ease;
+    opacity:.72; transition:opacity .25s ease, transform .25s ease, color .25s ease, text-shadow .25s ease;
   }
   .scrub-services a:hover{ opacity:1; transform:translateX(6px); }
+  /* each service lights up in its own colour, kept within the cool palette */
+  .scrub-services li:nth-child(1) a:hover{ color:#3FE0FF; text-shadow:0 0 18px rgba(63,224,255,.45); }
+  .scrub-services li:nth-child(2) a:hover{ color:#8FA4FF; text-shadow:0 0 18px rgba(143,164,255,.45); }
+  .scrub-services li:nth-child(3) a:hover{ color:#5CF2E8; text-shadow:0 0 18px rgba(92,242,232,.45); }
+  .scrub-services li:nth-child(4) a:hover{ color:#7B8CFF; text-shadow:0 0 18px rgba(123,140,255,.45); }
+  .scrub-services li:nth-child(5) a:hover{ color:#B98CFF; text-shadow:0 0 18px rgba(185,140,255,.45); }
+  .scrub-services li:nth-child(6) a:hover{ color:#3FFFC8; text-shadow:0 0 18px rgba(63,255,200,.45); }
+  .scrub-services li:nth-child(7) a:hover{ color:#00C2FF; text-shadow:0 0 18px rgba(0,194,255,.5); }
   .scrub-anchor{
     position:absolute; left:0; width:1px; height:1px;
     top:85%; pointer-events:none;

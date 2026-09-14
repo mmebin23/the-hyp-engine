@@ -94,6 +94,62 @@
       if (bootPct) bootPct.textContent = 'LOADING ' + Math.round(f * 100) + '%';
     }
 
+    // Panel 2 is fully readable between 0.32 and 0.43 of the track; rest at its
+    // midpoint so the first scroll lands on "Fast, never sloppy."
+    const SNAP_TARGET = 0.375;
+    let snapArmed = false, snapAnim = null;
+
+    function cancelSnap(){
+      if (snapAnim){ cancelAnimationFrame(snapAnim); snapAnim = null; }
+    }
+
+    function snapToPanelTwo(){
+      const max = track.offsetHeight - window.innerHeight;
+      if (max <= 0) return;
+      // only if the reader is still near the top - never yank them backwards
+      const scrolled = -track.getBoundingClientRect().top;
+      if (scrolled > max * 0.18) return;
+
+      const target = track.offsetTop + max * SNAP_TARGET;
+
+      if (typeof lenis !== 'undefined' && lenis && typeof lenis.scrollTo === 'function'){
+        lenis.scrollTo(target, { duration: 1.1 });
+        return;
+      }
+
+      const from = window.pageYOffset;
+      const dist = target - from;
+      const dur = 900;
+      const t0 = performance.now();
+      cancelSnap();
+      const step = (now) => {
+        const p = Math.min(1, (now - t0) / dur);
+        const eased = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        window.scrollTo(0, from + dist * eased);
+        if (p < 1) snapAnim = requestAnimationFrame(step);
+        else snapAnim = null;
+      };
+      snapAnim = requestAnimationFrame(step);
+    }
+
+    function armFirstScrollSnap(){
+      if (snapArmed || reduceMotion) return;
+      snapArmed = true;
+      let fired = false;
+      const onFirst = () => {
+        if (fired) return;
+        fired = true;
+        ['wheel','touchstart','keydown'].forEach(ev => window.removeEventListener(ev, onFirst));
+        // let the gesture settle, then settle onto the panel
+        setTimeout(snapToPanelTwo, 90);
+        // any further input during the animation hands control straight back
+        ['wheel','touchstart','keydown'].forEach(ev =>
+          window.addEventListener(ev, cancelSnap, { once: true, passive: true }));
+      };
+      ['wheel','touchstart','keydown'].forEach(ev =>
+        window.addEventListener(ev, onFirst, { passive: true }));
+    }
+
     function start(){
       if (started) return;
       started = true;
@@ -101,6 +157,7 @@
       if (boot) boot.classList.add('done');
       readScroll();
       seekAt = seekTo;
+      armFirstScrollSnap();
     }
 
     function attach(src){
