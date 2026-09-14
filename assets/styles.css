@@ -553,6 +553,11 @@
   }
   .about-heading em{ font-style:italic; color:var(--off-dim); }
 
+  .section-sub{
+    font-family:var(--body); font-size:clamp(14.5px,1.15vw,17px); line-height:1.6;
+    color:var(--off-dim); max-width:52ch; margin:22px 0 0;
+  }
+
   /* ================= FEATURED ================= */
   .featured-section{ padding:40px 0 100px; background:#0A0A0A; }
   .featured-media{ position:relative; border-radius:24px; overflow:hidden; aspect-ratio:16/9; }
