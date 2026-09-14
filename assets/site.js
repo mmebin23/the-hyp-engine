@@ -12,7 +12,11 @@
     const meter = document.getElementById('scrubMeter');
     const panels = [].slice.call(document.querySelectorAll('[data-scrub-panel]'));
 
-    const VIDEO_URL = '/assets/hero-scrub.mp4';
+    // Phones letterbox the clip, so they get a smaller encode - roughly half
+    // the bytes for the same on-screen quality.
+    const VIDEO_URL = window.innerWidth <= 860
+      ? '/assets/hero-scrub-sm.mp4'
+      : '/assets/hero-scrub.mp4';
 
     const CUES = [
       [0.00, 0.00, 0.11, 0.17],
@@ -60,7 +64,7 @@
       if (ready && duration){
         const gap = seekTo - seekAt;
         if (Math.abs(gap) > 0.0008){
-          seekAt += gap * 0.115;
+          seekAt += gap * 0.17;
           if (clip.readyState >= 2 && !clip.seeking){
             try { clip.currentTime = seekAt; } catch (e) {}
           }
