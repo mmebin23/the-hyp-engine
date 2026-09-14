@@ -60,15 +60,30 @@
       });
     }
 
+    // Half a frame at 24fps - below this a seek would not change what is shown.
+    const SEEK_EPSILON = 1 / 48;
+    let committed = -1;
+
+    function commitSeek(){
+      if (!ready || !duration) return;
+      if (clip.readyState < 1 || clip.seeking) return;
+      if (Math.abs(seekAt - committed) < SEEK_EPSILON) return;
+      committed = seekAt;
+      try { clip.currentTime = seekAt; } catch (e) {}
+    }
+
+    // As soon as one seek finishes, commit whatever the target moved on to.
+    clip.addEventListener('seeked', commitSeek);
+
     function frame(){
+      // Read scroll every frame rather than relying on scroll events, which can
+      // be throttled or swallowed by smooth-scrolling.
+      readScroll();
       if (ready && duration){
         const gap = seekTo - seekAt;
-        if (Math.abs(gap) > 0.0008){
-          seekAt += gap * 0.17;
-          if (clip.readyState >= 2 && !clip.seeking){
-            try { clip.currentTime = seekAt; } catch (e) {}
-          }
-        }
+        if (Math.abs(gap) > 0.0008) seekAt += gap * 0.17;
+        else seekAt = seekTo;
+        commitSeek();
       }
       paint();
       requestAnimationFrame(frame);

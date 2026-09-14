@@ -607,11 +607,10 @@
   @media (max-height:760px){
     .scrub-panel{ padding-top:110px; padding-bottom:48px; }
   }
-  /* On portrait phones the 2.31:1 clip would lose ~80% of its width to a cover
-     crop, so show the whole frame instead - the letterbox blends into the
-     black stage background. */
+  /* Phones load a dedicated portrait crop of the clip, so it can fill the
+     screen instead of sitting in a letterboxed band. */
   @media (max-width:860px){
-    .scrub-stage video{ object-fit:contain; object-position:center; transform:translate(-50%,-50%); }
+    .scrub-stage video{ object-fit:cover; object-position:center; }
   }
 
   .glass-panel{
