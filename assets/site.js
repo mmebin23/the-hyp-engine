@@ -768,7 +768,7 @@
 
   /* ---- Magnetic buttons ---- */
   if (hasGsap && cursorCapable && !reduceMotion){
-    document.querySelectorAll('.btn').forEach(btn => {
+    document.querySelectorAll('.btn, .scrub-pill, .featured-cta').forEach(btn => {
       const moveX = gsap.quickTo(btn, 'x', { duration: 0.4, ease: 'power3.out' });
       const moveY = gsap.quickTo(btn, 'y', { duration: 0.4, ease: 'power3.out' });
       btn.addEventListener('mousemove', (e) => {
