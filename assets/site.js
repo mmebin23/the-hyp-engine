@@ -1052,7 +1052,7 @@
     });
 
     const auditTriggers = document.querySelectorAll(
-      '.desktop-cta, .mobile-cta, #floatCta, .hero-ctas .btn.solid, .cta .btn, .ai-edge-copy .btn.solid'
+      '.desktop-cta, .mobile-cta, #floatCta, .hero-ctas .btn.solid, .cta .btn, .ai-edge-copy .btn.solid, [data-audit]'
     );
     auditTriggers.forEach(btn => {
       btn.addEventListener('click', (e) => {
