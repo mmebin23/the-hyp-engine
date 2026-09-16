@@ -1611,7 +1611,7 @@
   .audit-field{ display:block; margin-bottom:18px; }
   .audit-field span{ display:block; font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--off-dim); margin-bottom:10px; }
   .audit-field span em{ font-style:normal; opacity:.6; text-transform:none; letter-spacing:0; }
-  .audit-field input, .audit-field textarea{
+  .audit-field input, .audit-field textarea, .audit-field select{
     width:100%; font-family:var(--body); font-size:15px; color:var(--off);
     background:var(--neu-bg);
     border:none; border-radius:var(--neu-radius-sm);
@@ -1619,12 +1619,12 @@
     padding:14px 16px; resize:vertical;
     transition:box-shadow .2s ease;
   }
-  .audit-field input:focus, .audit-field textarea:focus{
+  .audit-field input:focus, .audit-field textarea:focus, .audit-field select:focus{
     outline:none;
     box-shadow:inset 3px 3px 7px var(--neu-dark), inset -2px -2px 5px var(--neu-light), 0 0 0 2px rgba(0,168,232,.35);
   }
   .audit-field input::placeholder, .audit-field textarea::placeholder{ color:var(--off-dim); opacity:.55; }
-  .audit-field input.invalid, .audit-field textarea.invalid{
+  .audit-field input.invalid, .audit-field textarea.invalid, .audit-field select.invalid{
     box-shadow:inset 3px 3px 7px var(--neu-dark), inset -2px -2px 5px var(--neu-light), 0 0 0 2px rgba(0,168,232,.7);
     animation:audit-field-shake .3s ease;
   }
@@ -1634,9 +1634,9 @@
     75%{ transform:translateX(4px); }
   }
   @media (prefers-reduced-motion: reduce){
-    .audit-field input.invalid, .audit-field textarea.invalid{ animation:none; }
+    .audit-field input.invalid, .audit-field textarea.invalid, .audit-field select.invalid{ animation:none; }
   }
-  .audit-field.error input, .audit-field.error textarea{
+  .audit-field.error input, .audit-field.error textarea, .audit-field.error select{
     box-shadow:inset 3px 3px 7px var(--neu-dark), inset -2px -2px 5px var(--neu-light), 0 0 0 2px rgba(0,168,232,.7);
   }
 

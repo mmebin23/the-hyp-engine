@@ -975,6 +975,7 @@
         budget: budget || '(not specified)',
         email: get('email'),
         phone: get('phone') || '(not provided)',
+        referral: get('referral') || '(not specified)',
         notes: get('notes') || '(none)',
         _subject: 'Free Audit Request - ' + (get('company') || get('name') || 'New Lead')
       };
