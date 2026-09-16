@@ -499,8 +499,9 @@
     position:absolute; inset:0; display:flex; flex-direction:column;
     align-items:flex-start; justify-content:center; text-align:left;
     padding:150px clamp(24px, 6vw, 80px) 60px;
-    opacity:0; will-change:opacity,transform;
+    will-change:opacity,transform;
   }
+  .js .scrub-panel{ opacity:0; }
   .scrub-panel-inner{
     max-width:420px;
     display:flex; flex-direction:column; align-items:flex-start;
