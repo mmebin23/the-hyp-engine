@@ -633,6 +633,9 @@
      screen instead of sitting in a letterboxed band. */
   @media (max-width:860px){
     .scrub-stage video{ object-fit:cover; object-position:center; }
+    /* 720vh is roughly seven screens of scrolling on a phone before any
+       content - shorten the run without losing the panel sequence */
+    .scrub-hero-track{ height:420vh; min-height:0; }
   }
 
   .glass-panel{
@@ -1528,7 +1531,7 @@
     .process-track{ row-gap:36px; }
     .foot-bottom{ flex-direction:column; align-items:flex-start; }
     .float-cta{ right:16px; bottom:16px; padding:12px 16px; font-size:12.5px; }
-    .back-to-top{ right:16px; bottom:70px; width:36px; height:36px; }
+    .back-to-top{ right:16px; bottom:70px; width:44px; height:44px; }
     .hero-badge{ font-size:11px; padding:8px 14px; }
     .hero h1{ font-size:clamp(38px, 11vw, 60px); }
     .hero .lede{ font-size:15.5px; }
