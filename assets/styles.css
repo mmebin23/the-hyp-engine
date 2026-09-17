@@ -620,7 +620,9 @@
   .scrub-services li:nth-child(7) a:hover{ color:#00C2FF; text-shadow:0 0 18px rgba(0,194,255,.5); }
   .scrub-anchor{
     position:absolute; left:0; width:1px; height:1px;
-    top:85%; pointer-events:none;
+    /* tuned so #services lands mid-panel-4, not at the very end of the track;
+       the percentage is relative to track height, which differs on mobile */
+    top:82%; pointer-events:none;
   }
   @media (max-width:640px){
     .scrub-services a{ font-size:17px; padding:5px 0; }
@@ -636,6 +638,7 @@
     /* 720vh is roughly seven screens of scrolling on a phone before any
        content - shorten the run without losing the panel sequence */
     .scrub-hero-track{ height:420vh; min-height:0; }
+    .scrub-anchor{ top:72%; }
   }
 
   .glass-panel{
