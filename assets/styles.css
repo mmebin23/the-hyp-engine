@@ -554,9 +554,33 @@
   }
 
   /* ================= SERVICES LIST (typographic, no tiles) ================= */
+  /* ================= SECTION DIVIDER GLOW ================= */
+  .section-divider{
+    width:100%; height:1px; position:relative; overflow:visible; margin:0;
+    background:linear-gradient(90deg, transparent 0%, rgba(185,195,255,.18) 30%, rgba(127,212,255,.35) 50%, rgba(185,195,255,.18) 70%, transparent 100%);
+  }
+  .section-divider::before{
+    content:''; position:absolute; top:-6px; left:50%; transform:translateX(-50%);
+    width:140px; height:13px;
+    background:radial-gradient(ellipse, rgba(127,212,255,.45) 0%, transparent 70%);
+  }
+
   /* ================= ABOUT ================= */
   .about-section{ padding:160px 0 80px; background:#0A0A0A; position:relative; }
-  .about-label{ font-family:var(--mono); font-size:13px; color:var(--off-dim); letter-spacing:.1em; text-transform:uppercase; margin-bottom:24px; }
+  .about-section::before{
+    content:''; position:absolute; inset:0; pointer-events:none;
+    background-image: radial-gradient(rgba(185,195,255,.045) 1px, transparent 1px);
+    background-size:28px 28px;
+    mask-image:linear-gradient(to bottom, transparent 0%, rgba(0,0,0,.7) 20%, rgba(0,0,0,.7) 80%, transparent 100%);
+  }
+  .about-label{
+    font-family:var(--mono); font-size:12px; color:var(--signal); letter-spacing:.14em; text-transform:uppercase;
+    margin-bottom:20px; display:flex; align-items:center; gap:10px;
+  }
+  .about-label::before{
+    content:''; display:inline-block; width:24px; height:1px;
+    background:var(--signal); opacity:.7;
+  }
   .about-heading{
     font-family:var(--display); font-size:clamp(30px,4.6vw,58px); line-height:1.15; color:var(--off); max-width:18ch; margin:0;
   }
@@ -585,11 +609,20 @@
   .featured-cta:hover{ transform:scale(1.05); }
 
   /* ================= PHILOSOPHY ================= */
-  .philosophy-section{ padding:100px 0 140px; background:#0A0A0A; }
-  .philosophy-heading{
-    font-family:var(--display); font-size:clamp(36px,5.6vw,72px); color:var(--off); margin:0 0 64px;
+  .philosophy-section{ padding:100px 0 140px; background:#0A0A0A; position:relative; overflow:hidden; }
+  .philosophy-section::after{
+    content:''; position:absolute; bottom:0; left:0; right:0; height:320px; pointer-events:none;
+    background:radial-gradient(ellipse 80% 60% at 20% 100%, rgba(185,195,255,.06) 0%, transparent 70%);
   }
-  .philosophy-heading em{ font-style:italic; color:var(--off-dim); }
+  .philosophy-heading{
+    font-family:var(--display); font-size:clamp(36px,5.6vw,72px); color:var(--off); margin:0 0 32px;
+  }
+  .philosophy-heading em{ font-style:italic; color:var(--signal); }
+  .philosophy-rule{
+    width:48px; height:2px; margin:0 0 32px;
+    background:linear-gradient(90deg, var(--signal), rgba(127,212,255,.4));
+    border-radius:2px;
+  }
   @media (max-width:640px){
     .about-section{ padding:120px 0 60px; }
     .featured-section{ padding:20px 0 70px; }
@@ -819,14 +852,18 @@
   /* ================= AI EDGE ================= */
   .ai-edge{ padding:128px 0; position:relative; overflow:hidden; }
 
-  .founder{ padding:128px 0; position:relative; overflow:hidden; }
+  .founder{ padding:128px 0; position:relative; overflow:hidden; background:#0A0A0A; }
+  .founder::before{
+    content:''; position:absolute; top:0; left:0; right:0; bottom:0; pointer-events:none;
+    background:radial-gradient(ellipse 60% 50% at 85% 50%, rgba(185,195,255,.05) 0%, transparent 65%);
+  }
   .founder-inner{
     display:grid; grid-template-columns:.6fr 1.4fr; gap:56px; align-items:start;
   }
   .founder-photo-wrap{
     position:relative;
     aspect-ratio:1;
-    max-width:280px;
+    max-width:200px;
   }
   .founder-photo-glow{
     position:absolute; inset:-18px;
@@ -890,7 +927,7 @@
   }
   @media (max-width:860px){
     .founder-inner{ grid-template-columns:1fr; gap:36px; }
-    .founder-photo-wrap{ max-width:280px; margin:0; }
+    .founder-photo-wrap{ max-width:180px; margin:0; }
   }
 
   .ai-edge-inner{
